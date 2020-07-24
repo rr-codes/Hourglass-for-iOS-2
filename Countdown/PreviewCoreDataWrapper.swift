@@ -17,12 +17,38 @@ struct PreviewCoreDataWrapper<Content: View>: View {
     let eventA = (
         name: "My Birthday",
         start: Date(),
-        end: Date(timeIntervalSinceNow: 86400),
+        end: Date(timeIntervalSinceNow: 86400 - 60),
+        emoji: "😍",
+        image: mockImageA
+    )
+    
+    let eventB = (
+        name: "New Year's Day",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: 86400 * 42),
         emoji: "🎉",
         image: mockImageA
     )
     
-    DataProvider.shared.addEvent(to: managedObjectContext, configuration: eventA)
+    let eventC = (
+        name: "Christmas",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: 86400 * 300),
+        emoji: "🎄",
+        image: mockImageA
+    )
+    
+    let eventD = (
+        name: "My Anniversary",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: -60 * 70),
+        emoji: "💍",
+        image: mockImageA
+    )
+    
+    for event in [eventA, eventB, eventC, eventD] {
+        DataProvider.shared.addEvent(to: managedObjectContext, configuration: event)
+    }
     
     return self.content(managedObjectContext)
   }

@@ -62,6 +62,14 @@ extension Event {
         let image = self.image as! UnsplashImage
         return try! Color(hex: image.color)
     }
+    
+    var isOver: Bool {
+        end! <= Date()
+    }
+    
+    var isUpcoming: Bool {
+        !isOver
+    }
 }
 
 // MARK: ValueTransformer
