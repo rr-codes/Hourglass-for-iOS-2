@@ -3,17 +3,29 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07CED62524CA0EA40074BB95 /* PreviewCoreDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */; };
+		07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
+		07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
+		07DDD7E924C9ECE9003C9421 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* DataProvider.swift */; };
+		07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7EB24CA04BB003C9421 /* MockImages.swift */; };
 		07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */; };
 		07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4251D24C9CA8F00C434C4 /* ContentView.swift */; };
 		07E4252024C9CA9000C434C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07E4251F24C9CA9000C434C4 /* Assets.xcassets */; };
 		07E4252324C9CA9000C434C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07E4252224C9CA9000C434C4 /* Preview Assets.xcassets */; };
+		07F4EA1A24CA159300CD1BA8 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 07F4EA1924CA159300CD1BA8 /* URLImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCoreDataWrapper.swift; sourceTree = "<group>"; };
+		07DDD7E424C9E510003C9421 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashResult.swift; sourceTree = "<group>"; };
+		07DDD7E824C9ECE9003C9421 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Countdown.entitlements; sourceTree = "<group>"; };
+		07DDD7EB24CA04BB003C9421 /* MockImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImages.swift; sourceTree = "<group>"; };
 		07E4251824C9CA8F00C434C4 /* Countdown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Countdown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownApp.swift; sourceTree = "<group>"; };
 		07E4251D24C9CA8F00C434C4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07F4EA1A24CA159300CD1BA8 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -36,6 +49,10 @@
 		07E4250F24C9CA8E00C434C4 = {
 			isa = PBXGroup;
 			children = (
+				07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */,
+				07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */,
+				07DDD7E824C9ECE9003C9421 /* DataProvider.swift */,
+				07DDD7EB24CA04BB003C9421 /* MockImages.swift */,
 				07E4251A24C9CA8F00C434C4 /* Countdown */,
 				07E4251924C9CA8F00C434C4 /* Products */,
 			);
@@ -52,7 +69,9 @@
 		07E4251A24C9CA8F00C434C4 /* Countdown */ = {
 			isa = PBXGroup;
 			children = (
+				07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */,
 				07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */,
+				07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */,
 				07E4251D24C9CA8F00C434C4 /* ContentView.swift */,
 				07E4251F24C9CA9000C434C4 /* Assets.xcassets */,
 				07E4252424C9CA9000C434C4 /* Info.plist */,
@@ -85,6 +104,9 @@
 			dependencies = (
 			);
 			name = Countdown;
+			packageProductDependencies = (
+				07F4EA1924CA159300CD1BA8 /* URLImage */,
+			);
 			productName = Countdown;
 			productReference = 07E4251824C9CA8F00C434C4 /* Countdown.app */;
 			productType = "com.apple.product-type.application";
@@ -112,6 +134,9 @@
 				Base,
 			);
 			mainGroup = 07E4250F24C9CA8E00C434C4;
+			packageReferences = (
+				07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */,
+			);
 			productRefGroup = 07E4251924C9CA8F00C434C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,8 +163,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
 				07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */,
+				07DDD7E924C9ECE9003C9421 /* DataProvider.swift in Sources */,
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
+				07CED62524CA0EA40074BB95 /* PreviewCoreDataWrapper.swift in Sources */,
+				07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */,
+				07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +297,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
@@ -277,7 +308,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown;
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -289,6 +320,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
@@ -299,7 +331,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown;
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -328,6 +360,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.19;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		07F4EA1924CA159300CD1BA8 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				07DDD7E424C9E510003C9421 /* Model.xcdatamodel */,
+			);
+			currentVersion = 07DDD7E424C9E510003C9421 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 07E4251024C9CA8E00C434C4 /* Project object */;
 }

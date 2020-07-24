@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct CountdownApp: App {
+    static let container = DataProvider.shared.container
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environment(\.managedObjectContext, Self.container.viewContext)
         }
     }
 }
