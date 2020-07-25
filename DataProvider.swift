@@ -25,7 +25,9 @@ class DataProvider {
     
     public static func allEventsFetchRequest() -> NSFetchRequest<Event> {
         let request: NSFetchRequest<Event> = Event.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Event.end, ascending: true)]
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Event.end, ascending: true)
+        ]
         return request
     }
     
@@ -49,15 +51,8 @@ class DataProvider {
     }
     
     func addEvent(to context: NSManagedObjectContext, configuration: (name: String, start: Date, end: Date, emoji: String, image: UnsplashImage)) {
-        let event = Event(context: context)
         let (name, start, end, emoji, image) = configuration
-        
-        event.id = UUID()
-        event.name = name
-        event.start = start
-        event.end = end
-        event.emoji = emoji
-        event.image = image
+        _ = Event(emoji: emoji, end: end, image: image, name: name, start: start, insertInto: context)
     }
     
     func removeEvent(from context: NSManagedObjectContext, event: Event) {

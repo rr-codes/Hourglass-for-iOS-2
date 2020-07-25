@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    let imageURL: URL?
+    let imageURL: URL
     let imageColor: Color
     let date: Date
     let emoji: String
@@ -28,9 +28,7 @@ struct CardView: View {
             ZStack(alignment: .bottomTrailing) {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .overlay(
-                       // AsyncImage(color: imageColor, url: imageURL!)
-                        
-                        Image("sample2").resizable()
+                        AsyncImage(color: imageColor, url: imageURL)
                     )
                     .frame(height: 225)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -56,8 +54,8 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView(
-            imageURL: nil,
-            imageColor: .blue,
+            imageURL: MockImages.birthday.url(for: .regular),
+            imageColor: MockImages.birthday.overallColor,
             date: .init(timeIntervalSinceNow: 86400 - 60),
             emoji: "😍",
             name: "My Birthday"

@@ -13,7 +13,11 @@ struct CountdownApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView().environment(\.managedObjectContext, Self.container.viewContext)
+            PreviewCoreDataWrapper { context in
+                ContentView()
+                    .environment(\.managedObjectContext, context)
+            }
+//            ContentView().environment(\.managedObjectContext, Self.container.viewContext)
         }
     }
 }

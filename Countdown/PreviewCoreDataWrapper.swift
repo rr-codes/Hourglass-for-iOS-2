@@ -19,7 +19,7 @@ struct PreviewCoreDataWrapper<Content: View>: View {
         start: Date(),
         end: Date(timeIntervalSinceNow: 86400 - 60),
         emoji: "😍",
-        image: mockImageA
+        image: MockImages.birthday
     )
     
     let eventB = (
@@ -27,7 +27,7 @@ struct PreviewCoreDataWrapper<Content: View>: View {
         start: Date(),
         end: Date(timeIntervalSinceNow: 86400 * 42),
         emoji: "🎉",
-        image: mockImageA
+        image: MockImages.fireworks
     )
     
     let eventC = (
@@ -35,7 +35,7 @@ struct PreviewCoreDataWrapper<Content: View>: View {
         start: Date(),
         end: Date(timeIntervalSinceNow: 86400 * 300),
         emoji: "🎄",
-        image: mockImageA
+        image: MockImages.christmas
     )
     
     let eventD = (
@@ -43,7 +43,7 @@ struct PreviewCoreDataWrapper<Content: View>: View {
         start: Date(),
         end: Date(timeIntervalSinceNow: -60 * 70),
         emoji: "💍",
-        image: mockImageA
+        image: MockImages.anniversary
     )
     
     for event in [eventA, eventB, eventC, eventD] {

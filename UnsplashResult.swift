@@ -8,6 +8,14 @@
 import Foundation
 import SwiftUI
 
+extension Bundle {
+    func apiKey(named keyName: String) -> String {
+        let path = self.path(forResource: "ApiKeys", ofType: "plist")
+        let plist = NSDictionary(contentsOfFile: path!)
+        return plist!.object(forKey: keyName) as! String
+    }
+}
+
 extension Color {
     enum ParseError: Error {
         case invalidHexCode
@@ -43,32 +51,50 @@ public class UnsplashImage: NSObject, Identifiable, Codable {
         case full, regular, small
     }
     
+    private let urls: [String : URL]
+    private let color: String
+
     public let id: String
-    public let color: String
-    public let urls: [String : URL]
     public let user: UnsplashUser
+    
+    public var overallColor: Color {
+        return try! Color(hex: color)
+    }
+    
+    func url(for size: UnsplashImage.Size) -> URL {
+        return self.urls[size.rawValue]!
+    }
 }
 
 public struct UnsplashResult: Codable {
+    public enum FetchError: Error {
+        case dataUnavailable
+    }
+    
     public let results: [UnsplashImage]
-}
-
-extension Event {
-    func imageURL(size: UnsplashImage.Size) -> URL {
-        return (image as! UnsplashImage).urls[size.rawValue]!
-    }
     
-    var imageColor: Color {
-        let image = self.image as! UnsplashImage
-        return try! Color(hex: image.color)
-    }
-    
-    var isOver: Bool {
-        end! <= Date()
-    }
-    
-    var isUpcoming: Bool {
-        !isOver
+    public func fetch(query: String, _ completion: @escaping (Result<UnsplashResult, Error>) -> Void) {
+        let clientID = Bundle.main.apiKey(named: "API_KEY")
+        let endpoint = "https://api.unsplash.com/search/photos"
+        
+        let url = URL(string: "\(endpoint)?query=\(query)")
+        var request = URLRequest(url: url!)
+        request.addValue("v1", forHTTPHeaderField: "Accept-Version")
+        request.setValue("Client-ID \(clientID)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? FetchError.dataUnavailable))
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(Self.self, from: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
     }
 }
 

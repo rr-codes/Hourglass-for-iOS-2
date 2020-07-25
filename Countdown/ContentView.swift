@@ -14,22 +14,12 @@ let previewImages: [String : String] = [
     "Christmas" : "christmas"
 ]
 
-struct ModifyEventView: View {
-    var event: Event?
-    @Binding var isPresented: Bool
-    var onDismiss: ((name: String, start: Date, end: Date, emoji: String, image: UnsplashImage)?) -> Void
-    
-    var body: some View {
-        EmptyView()
-    }
-}
-
 struct AsyncImage: View {
     let color: Color
     let url: URL
     
     var body: some View {
-        URLImage(url, incremental: true, placeholder: { _ in color }) { (proxy) in
+        URLImage(url, incremental: true, placeholder: { _ in Rectangle().fill(color) }) { (proxy) in
             proxy.image.resizable().aspectRatio(contentMode: .fill)
         }
     }
@@ -40,8 +30,7 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
     let data: Data
     let namespace: Namespace.ID
     
-    let onEdit: (Event) -> Void
-    let onDelete: (Event) -> Void
+    let menuItems: (Event) -> EventMenuItems
     
     var body: some View {
         Spacer().frame(height: 20)
@@ -51,32 +40,42 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
         VStack(spacing: 0) {
             ForEach(data) { event in
                 ListCellView(
-                    imageURL: nil,
-                    imageName: previewImages[event.name!] ?? "sample",
-                    imageColor: .white,
-                    date: event.end!,
-                    emoji: event.emoji!,
-                    name: event.name!
+                    imageURL: event.image.url(for: .regular),
+                    imageColor: event.image.overallColor,
+                    date: event.end,
+                    emoji: event.emoji,
+                    name: event.name
                 )
                 .matchedGeometryEffect(id: event.id, in: namespace)
                 .background(Color.white)
                 .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .contextMenu {
-                    Button {
-                        onEdit(event)
-                    } label: {
-                        Text("Edit Event")
-                        Image(systemName: "slider.horizontal.3")
-                    }
-                    
-                    Button {
-                        onDelete(event)
-                    } label: {
-                        Text("Delete Event")
-                        Image(systemName: "trash")
-                    }
+                    menuItems(event)
                 }
             }
+        }
+    }
+}
+
+struct EventMenuItems: View {
+    let onEdit: () -> Void
+    let onPin: () -> Void
+    let onDelete: () -> Void
+    
+    var body: some View {
+        Button(action: onEdit) {
+            Text("Edit Event")
+            Image(systemName: "slider.horizontal.3")
+        }
+        
+        Button(action: onPin) {
+            Text("Pin Event")
+            Image(systemName: "pin")
+        }
+        
+        Button(action: onDelete) {
+            Text("Delete Event")
+            Image(systemName: "trash")
         }
     }
 }
@@ -85,6 +84,8 @@ struct ContentView: View {
     @FetchRequest(
         fetchRequest: DataProvider.allEventsFetchRequest()
     ) var events: FetchedResults<Event>
+    
+    @AppStorage("pinnedEvent") var pinnedEventID: String?
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     
@@ -96,21 +97,21 @@ struct ContentView: View {
     @State var selectedEvent: Event?
     @State var showEventView: Bool = false
     
-    var upcomingEvents: ArraySlice<Event> {
-        events.filter(\.isUpcoming).dropFirst()
+    var pinnedEvent: Event? {
+        return events.first { $0.id.uuidString == pinnedEventID }
+            ?? events.first { !$0.isOver }
+            ?? events.first
     }
     
-    var pastEvents: [Event] {
-        events.filter(\.isOver)
-    }
-    
-    func editEvent(_ event: Event) {
-        self.modifiableEvent = event
-        self.showModifyView = true
-    }
-    
-    func deleteEvent(_ event: Event) {
-        DataProvider.shared.removeEvent(from: context, event: event)
+    func eventMenuItems(_ event: Event) -> EventMenuItems {
+        EventMenuItems {
+            self.modifiableEvent = event
+            self.showModifyView = true
+        } onPin: {
+            UserDefaults.standard.set(event.id.uuidString, forKey: "pinnedEvent")
+        } onDelete: {
+            DataProvider.shared.removeEvent(from: context, event: event)
+        }
     }
     
     var body: some View {
@@ -130,36 +131,39 @@ struct ContentView: View {
             } else {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        if let first = events.first(where: \.isUpcoming)! {
+                        if let first = pinnedEvent {
                             CardView(
-                                imageURL: first.imageURL(size: .regular),
-                                imageColor: first.imageColor,
-                                date: first.end!,
-                                emoji: first.emoji!,
-                                name: first.name!
+                                imageURL: first.image.url(for: .regular),
+                                imageColor: first.image.overallColor,
+                                date: first.end,
+                                emoji: first.emoji,
+                                name: first.name
                             )
                             .padding(.horizontal, 20)
                             .matchedGeometryEffect(id: first.id, in: namespace)
                             .padding(.bottom, 10)
+                            .background(Color.white)
+                            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .contextMenu {
+                                eventMenuItems(first)
+                            }
                         }
                         
-                        if events.contains(where: \.isUpcoming) {
+                        if events.contains(where: { !$0.isOver }) {
                             EventSection(
                                 name: "Upcoming",
-                                data: upcomingEvents,
+                                data: events.filter { !$0.isOver && $0 != pinnedEvent},
                                 namespace: namespace,
-                                onEdit: editEvent,
-                                onDelete: deleteEvent
+                                menuItems: eventMenuItems
                             )
                         }
                         
                         if events.contains(where: \.isOver) {
                             EventSection(
                                 name: "Past",
-                                data: pastEvents,
+                                data: events.filter(\.isOver),
                                 namespace: namespace,
-                                onEdit: editEvent,
-                                onDelete: deleteEvent
+                                menuItems: eventMenuItems
                             )
                         }
                     }
