@@ -14,6 +14,8 @@
 		0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */; };
 		0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4424CADA7E0089D7D2 /* EventView.swift */; };
 		0703CB4924CAE9480089D7D2 /* EmojiTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */; };
+		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
+		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07BE6B6624CBC7D400C3F5F6 /* ModifyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BE6B6524CBC7D400C3F5F6 /* ModifyEventView.swift */; };
 		07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */; };
 		07CED62524CA0EA40074BB95 /* PreviewCoreDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */; };
@@ -26,6 +28,7 @@
 		07E4252024C9CA9000C434C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07E4251F24C9CA9000C434C4 /* Assets.xcassets */; };
 		07E4252324C9CA9000C434C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07E4252224C9CA9000C434C4 /* Preview Assets.xcassets */; };
 		07F4EA1A24CA159300CD1BA8 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 07F4EA1924CA159300CD1BA8 /* URLImage */; };
+		07FFC86624CC155400C672FB /* defaultImages.json in Resources */ = {isa = PBXBuildFile; fileRef = 07FFC86524CC155400C672FB /* defaultImages.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,8 @@
 		0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		0703CB4424CADA7E0089D7D2 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextFieldView.swift; sourceTree = "<group>"; };
+		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		07BE6B6524CBC7D400C3F5F6 /* ModifyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyEventView.swift; sourceTree = "<group>"; };
 		07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCoreDataWrapper.swift; sourceTree = "<group>"; };
@@ -50,6 +55,7 @@
 		07E4251F24C9CA9000C434C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07E4252224C9CA9000C434C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		07E4252424C9CA9000C434C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07FFC86524CC155400C672FB /* defaultImages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultImages.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,12 +73,6 @@
 		07E4250F24C9CA8E00C434C4 = {
 			isa = PBXGroup;
 			children = (
-				0700F40524CBBA6300028EA9 /* Event+CoreDataClass.swift */,
-				07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */,
-				07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */,
-				07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */,
-				07DDD7E824C9ECE9003C9421 /* DataProvider.swift */,
-				07DDD7EB24CA04BB003C9421 /* MockImages.swift */,
 				07E4251A24C9CA8F00C434C4 /* Countdown */,
 				07E4251924C9CA8F00C434C4 /* Products */,
 			);
@@ -89,17 +89,16 @@
 		07E4251A24C9CA8F00C434C4 /* Countdown */ = {
 			isa = PBXGroup;
 			children = (
+				07FFC86324CC055700C672FB /* Model */,
 				07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */,
 				07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */,
 				07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */,
-				07E4251D24C9CA8F00C434C4 /* ContentView.swift */,
+				07FFC86424CC057B00C672FB /* Home View */,
 				07BE6B6524CBC7D400C3F5F6 /* ModifyEventView.swift */,
-				0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */,
+				07AB883024CCF54100837FA8 /* AddEventView.swift */,
 				0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */,
-				0703CB4024CAA54A0089D7D2 /* ListCellView.swift */,
+				07AB882E24CCEEF000837FA8 /* StringExtensions.swift */,
 				0703CB4424CADA7E0089D7D2 /* EventView.swift */,
-				0703CB3E24CA747F0089D7D2 /* CardView.swift */,
-				0703CB3C24CA60E70089D7D2 /* EmojiView.swift */,
 				07E4251F24C9CA9000C434C4 /* Assets.xcassets */,
 				07E4252424C9CA9000C434C4 /* Info.plist */,
 				07E4252124C9CA9000C434C4 /* Preview Content */,
@@ -113,6 +112,32 @@
 				07E4252224C9CA9000C434C4 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		07FFC86324CC055700C672FB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0700F40524CBBA6300028EA9 /* Event+CoreDataClass.swift */,
+				07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */,
+				07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */,
+				07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */,
+				07FFC86524CC155400C672FB /* defaultImages.json */,
+				07DDD7E824C9ECE9003C9421 /* DataProvider.swift */,
+				07DDD7EB24CA04BB003C9421 /* MockImages.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		07FFC86424CC057B00C672FB /* Home View */ = {
+			isa = PBXGroup;
+			children = (
+				07E4251D24C9CA8F00C434C4 /* ContentView.swift */,
+				0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */,
+				0703CB4024CAA54A0089D7D2 /* ListCellView.swift */,
+				0703CB3E24CA747F0089D7D2 /* CardView.swift */,
+				0703CB3C24CA60E70089D7D2 /* EmojiView.swift */,
+			);
+			path = "Home View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07E4252324C9CA9000C434C4 /* Preview Assets.xcassets in Resources */,
+				07FFC86624CC155400C672FB /* defaultImages.json in Resources */,
 				07E4252024C9CA9000C434C4 /* Assets.xcassets in Resources */,
 				07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */,
 			);
@@ -199,7 +225,9 @@
 				0703CB4124CAA54A0089D7D2 /* ListCellView.swift in Sources */,
 				07DDD7E924C9ECE9003C9421 /* DataProvider.swift in Sources */,
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
+				07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */,
 				0700F40724CBBA6300028EA9 /* Event+CoreDataClass.swift in Sources */,
+				07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */,
 				07CED62524CA0EA40074BB95 /* PreviewCoreDataWrapper.swift in Sources */,
 				07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */,
 				0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */,

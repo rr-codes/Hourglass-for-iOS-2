@@ -7,16 +7,19 @@
 
 import SwiftUI
 
-struct EmojiTextField: UIViewRepresentable {
+/// Allows a user to pick an emoji character using the Emoji keyboard.
+/// - Note: This does not prevent the user from manually switching to other keyboards and inputting a non-Emoji character
+struct EmojiPicker: UIViewRepresentable {
     @Binding var emoji: String
     
-    func makeUIView(context: UIViewRepresentableContext<EmojiTextField>) -> EmojiUITextField {
+    func makeUIView(context: UIViewRepresentableContext<EmojiPicker>) -> EmojiUITextField {
         let textField = EmojiUITextField(frame: .zero)
         textField.text = emoji
         textField.delegate = context.coordinator
         textField.autocorrectionType = .no
         textField.returnKeyType = .done
         textField.textAlignment = .center
+        textField.tintColor = .clear
         return textField
     }
     
@@ -29,9 +32,9 @@ struct EmojiTextField: UIViewRepresentable {
 }
 
 internal class EmojiTextFieldCoordinator: NSObject, UITextFieldDelegate {
-    var emojiTextField: EmojiTextField
+    var emojiTextField: EmojiPicker
     
-    init(_ textField: EmojiTextField) {
+    init(_ textField: EmojiPicker) {
         self.emojiTextField = textField
     }
     
@@ -64,12 +67,16 @@ internal class EmojiUITextField: UITextField {
             $0.primaryLanguage == "emoji"
         }
     }
+    
+    override func selectionRects(for range: UITextRange) -> [UITextSelectionRect] {
+        return []
+    }
 }
 
 struct EmojiTextFieldView_Previews: PreviewProvider {
     @State static var emoji: String = "🎉"
     
     static var previews: some View {
-        EmojiTextField(emoji: $emoji)
+        EmojiPicker(emoji: $emoji)
     }
 }

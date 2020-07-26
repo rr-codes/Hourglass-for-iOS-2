@@ -73,7 +73,7 @@ public struct UnsplashResult: Codable {
     
     public let results: [UnsplashImage]
     
-    public func fetch(query: String, _ completion: @escaping (Result<UnsplashResult, Error>) -> Void) {
+    public static func fetch(query: String, _ completion: @escaping (Result<UnsplashResult, Error>) -> Void) {
         let clientID = Bundle.main.apiKey(named: "API_KEY")
         let endpoint = "https://api.unsplash.com/search/photos"
         

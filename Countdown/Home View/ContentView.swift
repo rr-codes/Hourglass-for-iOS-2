@@ -122,6 +122,11 @@ struct ContentView: View {
                 Image(systemName: "plus.circle.fill")
                     .imageScale(.large)
                     .scaleEffect(1.2)
+                    .onTapGesture {
+                        withAnimation {
+                            self.showModifyView = true
+                        }
+                    }
             }
             .background(Color.white)
             .padding(.horizontal, 20)
@@ -177,6 +182,11 @@ struct ContentView: View {
                 ? AnyView(PlaceholderView())
                 : AnyView(EmptyView())
         )
+        .sheet(isPresented: $showModifyView) {
+            ModifyEventView(isEditing: false) { (data) in
+                
+            }
+        }
         
         //        URLImage(events.first!.imageURL(size: .regular), incremental: true)
         //            .sheet(isPresented: $showModifyView) {

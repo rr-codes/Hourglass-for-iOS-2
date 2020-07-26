@@ -7,50 +7,7 @@
 
 import SwiftUI
 
-struct StylizedTextField: View {
-    @Binding var text: String
-    
-    let title: String
-    let placeholderText: String
-    
-    @State private var opacity: Double = 0.3
-    
-    var body: some View {
-        Text(title)
-            .bold()
-            .padding(.bottom, 10)
-        
-        TextField(placeholderText, text: $text) { isEditing in
-            opacity = isEditing ? 1.0 : 0.3
-        } onCommit: {
-            opacity = 0.3
-        }
-        .font(Font.body.weight(.medium))
-        .padding(.bottom, 2)
-        
-        Rectangle()
-            .height(1.5)
-            .opacity(opacity)
-    }
-}
 
-struct StylizedTextField2: View {
-    @State var text: String
-    
-    var body: some View {
-        Text("")
-            .bold()
-            .padding(.bottom, 10)
-        
-        Text(text)
-        .font(Font.body.weight(.medium))
-        .padding(.bottom, 2)
-        
-        Rectangle()
-            .height(1.5)
-            .opacity(1)
-    }
-}
 
 struct ModifyEventView: View {
     typealias Data = (name: String, start: Date, end: Date, emoji: String, image: UnsplashImage)
@@ -65,6 +22,8 @@ struct ModifyEventView: View {
     
     @State var isDisabled: Bool = true
     @State var showCalendar: Bool = false
+    
+    @State var images: [UnsplashImage] = []
         
     var onDismiss: (Data?) -> Void
     
@@ -75,6 +34,32 @@ struct ModifyEventView: View {
         return df
     }
     
+    func loadDefaultImages() -> [UnsplashImage] {
+        let path = Bundle.main.path(forResource: "defaultImages", ofType: "json")
+        let json = try! String(contentsOfFile: path!)
+        let result = try! JSONDecoder().decode(UnsplashResult.self, from: json.data(using: .utf8)!)
+        return result.results
+    }
+    
+    func imageView(_ image: UnsplashImage) -> some View {
+        AsyncImage(color: image.overallColor, url: image.url(for: .small))
+            .frame(width: 80, height: 80)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .strokeBorder(lineWidth: 3.0)
+                    .foregroundColor(self.image == image ? .blue : .clear)
+            )
+            .scaleEffect(self.image == image ? 0.98 : 1.0)
+            .onTapGesture {
+                withAnimation(.linear(duration: 0.05)) {
+                    self.image = image
+                }
+            }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -82,8 +67,23 @@ struct ModifyEventView: View {
                     HStack {
                         Text("Event Name")
                         
-                        TextField("New Year's Day", text: $name)
-                            .multilineTextAlignment(.trailing)
+                        TextField("New Year's Day", text: $name) {
+                            let query = name
+                                .filter(by: [.noun, .placeName])
+                                .joined(separator: "%20")
+                            
+                            UnsplashResult.fetch(query: query) { result in
+                                switch result {
+                                case .success(let result):
+                                    self.images.insert(contentsOf: result.results, at: 0)
+                                    self.image = self.images.first!
+                                    
+                                case .failure(let error):
+                                    fatalError(error.localizedDescription)
+                                }
+                            }
+                        }
+                        .multilineTextAlignment(.trailing)
                     }
                     
                     HStack {
@@ -118,7 +118,7 @@ struct ModifyEventView: View {
                         
                         Spacer()
                         
-                        EmojiTextField(emoji: $emoji)
+                        EmojiPicker(emoji: $emoji)
                             .width(44)
                             .background(
                                 RoundedRectangle(cornerRadius: 5.0)
@@ -126,6 +126,18 @@ struct ModifyEventView: View {
                                     .opacity(0.1)
                             )
                     }
+                    
+
+                    VStack(alignment: .leading) {
+                        Text("Select a Background")
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(spacing: 16) {
+                                ForEach(images, content: imageView)
+                            }
+                        }
+                    }
+                    .padding(.vertical, 5)
                 }
             }
             .listStyle(GroupedListStyle())
@@ -145,6 +157,10 @@ struct ModifyEventView: View {
                 }
                 .disabled(isDisabled)
             )
+        }
+        .onAppear {
+            self.images = loadDefaultImages()
+            self.image = self.images.first!
         }
     }
     
