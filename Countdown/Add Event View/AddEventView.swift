@@ -7,6 +7,23 @@
 
 import SwiftUI
 
+
+struct CTAButtonStyle: ButtonStyle {
+    let color: Color
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(Font.body.weight(.semibold))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 13)
+            .background(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(color)
+            )
+    }
+}
+
 struct StylizedTextField: View {
     @Binding var text: String
     @Binding var emoji: String
@@ -130,14 +147,31 @@ struct ImagePicker: View {
 }
 
 struct AddEventView: View {
-    @State var name: String = ""
-    @State var emoji: String = "🎉"
-    @State var date: Date = Date()
-    @State var image: UnsplashImage? = nil
+    @State private var name: String = ""
+    @State private var emoji: String = "🎉"
+    @State private var date: Date = Date()
+    @State private var image: UnsplashImage? = nil
     
     @State var allImages: [UnsplashImage] = []
     
-    let onDismiss: ((name: String, emoji: String, date: Date, image: UnsplashImage)?) -> Void
+    let isEditing: Bool
+    let onDismiss: (Event.Properties?) -> Void
+    let start: Date?
+    
+    init(modifying data: Event.Properties? = nil, _ onDismiss: @escaping (Event.Properties?) -> Void) {
+        self.onDismiss = onDismiss
+        self.isEditing = data != nil
+        
+        if let data = data {
+            self.start = data.start
+            self.name = data.name
+            self.emoji = data.emoji
+            self.date = data.end
+            self.image = data.image
+        } else {
+            self.start = nil
+        }
+    }
     
     private func loadDefaultImages() {
         let path = Bundle.main.path(forResource: "defaultImages", ofType: "json")
@@ -166,7 +200,7 @@ struct AddEventView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Create Event").font(.title).bold()
+                Text(isEditing ? "Edit Event" : "Create Event").font(.title).bold()
                 Spacer()
                 Image(systemName: "xmark.circle.fill")
                     .imageScale(.large)
@@ -195,31 +229,29 @@ struct AddEventView: View {
                     Spacer().height(50)
 
                     Button {
-                        let data = (name: name, emoji: emoji, date: date, image: image!)
+                        let data = (name: name, start: start ?? Date(), end: date, emoji: emoji, image: image!)
+                        
                         onDismiss(data)
                     } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(Color.black)
-                            
-                            Text("Create Event")
-                                .font(Font.body.weight(.semibold))
-                                .foregroundColor(.white)
-                        }
-                        .height(46)
+                        Text(isEditing ? "Apply Changes" : "Create Event")
                     }
+                    .buttonStyle(CTAButtonStyle(color: .black))
+                    .disabled(name.isEmpty)
                 }
             }
         }
         .padding(.horizontal, 20)
         .onAppear {
             loadDefaultImages()
+            if isEditing && !name.isEmpty {
+                loadRelevantImages()
+            }
         }
     }
 }
 
 struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
-        AddEventView { _ in }
+        AddEventView { _ in}
     }
 }

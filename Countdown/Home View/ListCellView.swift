@@ -25,7 +25,7 @@ struct ListCellView: View {
     let name: String
     
     let size: CGFloat = 85
-    
+        
     var formatter: DateComponentsFormatter {
         let dcf = RelativeDateFormatter()
         dcf.allowedUnits = [.day, .hour, .minute, .second]

@@ -9,10 +9,18 @@ import SwiftUI
 
 /// Allows a user to pick an emoji character using the Emoji keyboard.
 /// - Note: This does not prevent the user from manually switching to other keyboards and inputting a non-Emoji character
-struct EmojiPicker: UIViewRepresentable {
+public struct EmojiPicker: View {
     @Binding var emoji: String
     
-    func makeUIView(context: UIViewRepresentableContext<EmojiPicker>) -> EmojiUITextField {
+    public var body: some View {
+        EmojiPickerImpl(emoji: $emoji)
+    }
+}
+
+fileprivate struct EmojiPickerImpl: UIViewRepresentable {
+    @Binding var emoji: String
+    
+    func makeUIView(context: UIViewRepresentableContext<EmojiPickerImpl>) -> EmojiUITextField {
         let textField = EmojiUITextField(frame: .zero)
         textField.text = emoji
         textField.delegate = context.coordinator
@@ -20,6 +28,7 @@ struct EmojiPicker: UIViewRepresentable {
         textField.returnKeyType = .done
         textField.textAlignment = .center
         textField.tintColor = .clear
+        
         return textField
     }
     
@@ -31,10 +40,10 @@ struct EmojiPicker: UIViewRepresentable {
     }
 }
 
-internal class EmojiTextFieldCoordinator: NSObject, UITextFieldDelegate {
-    var emojiTextField: EmojiPicker
+fileprivate class EmojiTextFieldCoordinator: NSObject, UITextFieldDelegate {
+    private var emojiTextField: EmojiPickerImpl
     
-    init(_ textField: EmojiPicker) {
+    init(_ textField: EmojiPickerImpl) {
         self.emojiTextField = textField
     }
     
@@ -42,22 +51,21 @@ internal class EmojiTextFieldCoordinator: NSObject, UITextFieldDelegate {
         self.emojiTextField.emoji = textField.text!
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        textField.text = string
+        
         if let text = textField.text, text.count == 1 {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            return true
+            self.emojiTextField.emoji = textField.text!
+            UIApplication.shared.sendAction(
+                #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+            )
         }
         
-        return false
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        textField.text = ""
         return true
     }
 }
 
-internal class EmojiUITextField: UITextField {
+fileprivate class EmojiUITextField: UITextField {
     override var textInputContextIdentifier: String? {
         return ""
     }
@@ -73,10 +81,18 @@ internal class EmojiUITextField: UITextField {
     }
 }
 
+struct EmojiPickerViewTest: View {
+    @State private var text = "<none>"
+    var body: some View {
+        VStack {
+            Text("Get: \(text)")
+            EmojiPicker(emoji: $text)
+        }
+    }
+}
+
 struct EmojiTextFieldView_Previews: PreviewProvider {
-    @State static var emoji: String = "🎉"
-    
     static var previews: some View {
-        EmojiPicker(emoji: $emoji)
+        EmojiPickerViewTest()
     }
 }

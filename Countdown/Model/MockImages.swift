@@ -7,6 +7,25 @@
 
 import Foundation
 
+private let greeceJSON = """
+{
+    "id": "_vA2q0-NroU",
+    "color": "#1B2028",
+    "urls": {
+        "full": "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE1MDY2Mn0",
+        "regular": "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0",
+        "small": "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0"
+    },
+    "user": {
+        "username": "jonathangallegos",
+        "links": {
+            "self": "https://api.unsplash.com/users/jonathangallegos",
+            "html": "https://unsplash.com/@jonathangallegos"
+        }
+    }
+}
+"""
+
 private let birthdayJSON = """
 {
     "id": "Hli3R6LKibo",
@@ -87,8 +106,9 @@ struct MockImages {
     private static let decoder = JSONDecoder()
     
     static let anniversary = try! decoder.decode(UnsplashImage.self, from: anniversaryJSON.data(using: .utf8)!)
-    static let birthday  = try! decoder.decode(UnsplashImage.self, from: birthdayJSON.data(using: .utf8)!)
-    static let christmas = try! decoder.decode(UnsplashImage.self, from: christmasJSON.data(using: .utf8)!)
-    static let fireworks = try! decoder.decode(UnsplashImage.self, from: fireworksJSON.data(using: .utf8)!)
+    static let birthday    = try! decoder.decode(UnsplashImage.self, from: birthdayJSON.data(using: .utf8)!)
+    static let christmas   = try! decoder.decode(UnsplashImage.self, from: christmasJSON.data(using: .utf8)!)
+    static let fireworks   = try! decoder.decode(UnsplashImage.self, from: fireworksJSON.data(using: .utf8)!)
+    static let greece      = try! decoder.decode(UnsplashImage.self, from: greeceJSON.data(using: .utf8)!)
 }
 

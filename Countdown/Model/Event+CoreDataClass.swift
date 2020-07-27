@@ -11,6 +11,8 @@ import CoreData
 
 @objc(Event)
 public class Event: NSManagedObject, Identifiable {
+    typealias Properties = (name: String, start: Date, end: Date, emoji: String, image: UnsplashImage)
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Event> {
         return NSFetchRequest<Event>(entityName: "Event")
     }
@@ -35,5 +37,9 @@ public class Event: NSManagedObject, Identifiable {
     
     var isOver: Bool {
         return end < Date()
+    }
+    
+    var properties: Properties {
+        (name, start, end, emoji, image)
     }
 }

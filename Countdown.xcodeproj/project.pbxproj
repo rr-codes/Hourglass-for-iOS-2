@@ -14,9 +14,21 @@
 		0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */; };
 		0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4424CADA7E0089D7D2 /* EventView.swift */; };
 		0703CB4924CAE9480089D7D2 /* EmojiTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */; };
+		071C05C324CEAC7F00E53EAC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C224CEAC7F00E53EAC /* NotificationManager.swift */; };
+		071C05C524CEB24400E53EAC /* Success-1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 071C05C424CEB24400E53EAC /* Success-1.caf */; };
+		071C05C724CEB29D00E53EAC /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
+		071C05CF24CEB3CC00E53EAC /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */; };
+		071C05D324CEB3CC00E53EAC /* EventProgressIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		071C05D924CEB44200E53EAC /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
+		071C05DA24CEB51600E53EAC /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* DataProvider.swift */; };
+		071C05DB24CEB51A00E53EAC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
+		071C05DC24CEB51D00E53EAC /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0700F40524CBBA6300028EA9 /* Event+CoreDataClass.swift */; };
+		071C05DD24CEB57E00E53EAC /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
+		071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C224CEAC7F00E53EAC /* NotificationManager.swift */; };
+		074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
-		07BE6B6624CBC7D400C3F5F6 /* ModifyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BE6B6524CBC7D400C3F5F6 /* ModifyEventView.swift */; };
+		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
 		07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */; };
 		07CED62524CA0EA40074BB95 /* PreviewCoreDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */; };
 		07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
@@ -31,6 +43,30 @@
 		07FFC86624CC155400C672FB /* defaultImages.json in Resources */ = {isa = PBXBuildFile; fileRef = 07FFC86524CC155400C672FB /* defaultImages.json */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		071C05D124CEB3CC00E53EAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07E4251024C9CA8E00C434C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 071C05CB24CEB3CC00E53EAC;
+			remoteInfo = EventProgressIntent;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		071C05D724CEB3CC00E53EAC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				071C05D324CEB3CC00E53EAC /* EventProgressIntent.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0700F40524CBBA6300028EA9 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0703CB3C24CA60E70089D7D2 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
@@ -39,9 +75,16 @@
 		0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		0703CB4424CADA7E0089D7D2 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextFieldView.swift; sourceTree = "<group>"; };
+		071C05C224CEAC7F00E53EAC /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		071C05C424CEB24400E53EAC /* Success-1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Success-1.caf"; sourceTree = "<group>"; };
+		071C05C624CEB29D00E53EAC /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EventProgressIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		071C05D024CEB3CC00E53EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EventProgressIntent.entitlements; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
-		07BE6B6524CBC7D400C3F5F6 /* ModifyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyEventView.swift; sourceTree = "<group>"; };
+		07AB883324CD584400837FA8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCoreDataWrapper.swift; sourceTree = "<group>"; };
 		07DDD7E424C9E510003C9421 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -59,6 +102,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		071C05C924CEB3CC00E53EAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07E4251524C9CA8F00C434C4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -70,10 +120,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		071C05CD24CEB3CC00E53EAC /* EventProgressIntent */ = {
+			isa = PBXGroup;
+			children = (
+				071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */,
+				071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */,
+				071C05D024CEB3CC00E53EAC /* Info.plist */,
+			);
+			path = EventProgressIntent;
+			sourceTree = "<group>";
+		};
+		07AB883224CD436600837FA8 /* Add Event View */ = {
+			isa = PBXGroup;
+			children = (
+				07AB883024CCF54100837FA8 /* AddEventView.swift */,
+				0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */,
+			);
+			path = "Add Event View";
+			sourceTree = "<group>";
+		};
 		07E4250F24C9CA8E00C434C4 = {
 			isa = PBXGroup;
 			children = (
+				071C05C624CEB29D00E53EAC /* Intents.intentdefinition */,
 				07E4251A24C9CA8F00C434C4 /* Countdown */,
+				071C05CD24CEB3CC00E53EAC /* EventProgressIntent */,
 				07E4251924C9CA8F00C434C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				07E4251824C9CA8F00C434C4 /* Countdown.app */,
+				071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,19 +161,20 @@
 		07E4251A24C9CA8F00C434C4 /* Countdown */ = {
 			isa = PBXGroup;
 			children = (
+				071C05C424CEB24400E53EAC /* Success-1.caf */,
 				07FFC86324CC055700C672FB /* Model */,
 				07CED62424CA0EA40074BB95 /* PreviewCoreDataWrapper.swift */,
 				07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */,
 				07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */,
 				07FFC86424CC057B00C672FB /* Home View */,
-				07BE6B6524CBC7D400C3F5F6 /* ModifyEventView.swift */,
-				07AB883024CCF54100837FA8 /* AddEventView.swift */,
-				0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */,
+				07AB883224CD436600837FA8 /* Add Event View */,
 				07AB882E24CCEEF000837FA8 /* StringExtensions.swift */,
 				0703CB4424CADA7E0089D7D2 /* EventView.swift */,
 				07E4251F24C9CA9000C434C4 /* Assets.xcassets */,
 				07E4252424C9CA9000C434C4 /* Info.plist */,
 				07E4252124C9CA9000C434C4 /* Preview Content */,
+				07AB883324CD584400837FA8 /* ConfettiView.swift */,
+				071C05C224CEAC7F00E53EAC /* NotificationManager.swift */,
 			);
 			path = Countdown;
 			sourceTree = "<group>";
@@ -143,6 +216,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		071C05CB24CEB3CC00E53EAC /* EventProgressIntent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 071C05D424CEB3CC00E53EAC /* Build configuration list for PBXNativeTarget "EventProgressIntent" */;
+			buildPhases = (
+				071C05C824CEB3CC00E53EAC /* Sources */,
+				071C05C924CEB3CC00E53EAC /* Frameworks */,
+				071C05CA24CEB3CC00E53EAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EventProgressIntent;
+			productName = EventProgressIntent;
+			productReference = 071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		07E4251724C9CA8F00C434C4 /* Countdown */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 07E4252724C9CA9000C434C4 /* Build configuration list for PBXNativeTarget "Countdown" */;
@@ -150,10 +240,12 @@
 				07E4251424C9CA8F00C434C4 /* Sources */,
 				07E4251524C9CA8F00C434C4 /* Frameworks */,
 				07E4251624C9CA8F00C434C4 /* Resources */,
+				071C05D724CEB3CC00E53EAC /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				071C05D224CEB3CC00E53EAC /* PBXTargetDependency */,
 			);
 			name = Countdown;
 			packageProductDependencies = (
@@ -172,6 +264,9 @@
 				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					071C05CB24CEB3CC00E53EAC = {
+						CreatedOnToolsVersion = 12.0;
+					};
 					07E4251724C9CA8F00C434C4 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -194,11 +289,19 @@
 			projectRoot = "";
 			targets = (
 				07E4251724C9CA8F00C434C4 /* Countdown */,
+				071C05CB24CEB3CC00E53EAC /* EventProgressIntent */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		071C05CA24CEB3CC00E53EAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07E4251624C9CA8F00C434C4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,12 +310,28 @@
 				07FFC86624CC155400C672FB /* defaultImages.json in Resources */,
 				07E4252024C9CA9000C434C4 /* Assets.xcassets in Resources */,
 				07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */,
+				071C05C524CEB24400E53EAC /* Success-1.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		071C05C824CEB3CC00E53EAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */,
+				071C05DA24CEB51600E53EAC /* DataProvider.swift in Sources */,
+				071C05D924CEB44200E53EAC /* Intents.intentdefinition in Sources */,
+				071C05DD24CEB57E00E53EAC /* UnsplashResult.swift in Sources */,
+				071C05DC24CEB51D00E53EAC /* Event+CoreDataClass.swift in Sources */,
+				071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */,
+				071C05CF24CEB3CC00E53EAC /* IntentHandler.swift in Sources */,
+				071C05DB24CEB51A00E53EAC /* Model.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07E4251424C9CA8F00C434C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,18 +339,20 @@
 				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
 				0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */,
 				0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */,
+				071C05C724CEB29D00E53EAC /* Intents.intentdefinition in Sources */,
 				0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */,
 				07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */,
 				0703CB4124CAA54A0089D7D2 /* ListCellView.swift in Sources */,
 				07DDD7E924C9ECE9003C9421 /* DataProvider.swift in Sources */,
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
+				07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */,
 				07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */,
 				0700F40724CBBA6300028EA9 /* Event+CoreDataClass.swift in Sources */,
 				07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */,
+				071C05C324CEAC7F00E53EAC /* NotificationManager.swift in Sources */,
 				07CED62524CA0EA40074BB95 /* PreviewCoreDataWrapper.swift in Sources */,
 				07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */,
 				0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */,
-				07BE6B6624CBC7D400C3F5F6 /* ModifyEventView.swift in Sources */,
 				07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */,
 				0703CB4924CAE9480089D7D2 /* EmojiTextFieldView.swift in Sources */,
 			);
@@ -239,7 +360,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		071C05D224CEB3CC00E53EAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 071C05CB24CEB3CC00E53EAC /* EventProgressIntent */;
+			targetProxy = 071C05D124CEB3CC00E53EAC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		071C05D524CEB3CC00E53EAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DS63W44KSD;
+				INFOPLIST_FILE = EventProgressIntent/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2.EventProgressIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		071C05D624CEB3CC00E53EAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DS63W44KSD;
+				INFOPLIST_FILE = EventProgressIntent/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2.EventProgressIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		07E4252524C9CA9000C434C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -359,6 +528,7 @@
 		07E4252824C9CA9000C434C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
@@ -382,6 +552,7 @@
 		07E4252924C9CA9000C434C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
@@ -405,6 +576,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		071C05D424CEB3CC00E53EAC /* Build configuration list for PBXNativeTarget "EventProgressIntent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				071C05D524CEB3CC00E53EAC /* Debug */,
+				071C05D624CEB3CC00E53EAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		07E4251324C9CA8E00C434C4 /* Build configuration list for PBXProject "Countdown" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

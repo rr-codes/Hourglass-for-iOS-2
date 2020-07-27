@@ -50,12 +50,24 @@ class DataProvider {
         return pc
     }
     
-    func addEvent(to context: NSManagedObjectContext, configuration: (name: String, start: Date, end: Date, emoji: String, image: UnsplashImage)) {
+    func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
         let (name, start, end, emoji, image) = configuration
-        _ = Event(emoji: emoji, end: end, image: image, name: name, start: start, insertInto: context)
+        let event = Event(emoji: emoji, end: end, image: image, name: name, start: start, insertInto: context)
+        
+        NotificationManager.shared.register(config: (name, emoji, end, event.id)) { (result) in
+            switch result {
+            case .success(let hasBeenRegistered):
+                print("has been registered: \(hasBeenRegistered)")
+                
+            case .failure(let error):
+                print("error: \(error)")
+            }
+        }
     }
     
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
         context.delete(event)
+        
+        NotificationManager.shared.unregister(id: event.id)
     }
 }
