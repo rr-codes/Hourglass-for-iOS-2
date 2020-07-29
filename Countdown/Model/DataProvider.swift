@@ -20,22 +20,16 @@ public extension URL {
 }
 
 
-class DataProvider {
+class DataProvider: ObservableObject {
     static let shared = DataProvider()
     
-    public static func allEventsFetchRequest() -> NSFetchRequest<Event> {
-        let request: NSFetchRequest<Event> = Event.fetchRequest()
-        request.sortDescriptors = [
-            NSSortDescriptor(keyPath: \Event.end, ascending: true)
-        ]
-        return request
+    var context: NSManagedObjectContext {
+        container.viewContext
     }
     
-    private init() {
-        UnsplashImageValueTransformer.register()
-    }
-    
-    var container: NSPersistentContainer {
+    lazy var defaults = UserDefaults(suiteName: "group.countdown2")
+
+    lazy var container: NSPersistentContainer = {
         let pc = NSPersistentContainer(name: "Model")
         let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "group.countdown2")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
@@ -48,26 +42,33 @@ class DataProvider {
         }
         
         return pc
+    }()
+    
+    private init() {
+        #if os(iOS)
+        UnsplashImageValueTransformer.register()
+        #endif
     }
     
-    func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
-        let (name, start, end, emoji, image) = configuration
-        let event = Event(emoji: emoji, end: end, image: image, name: name, start: start, insertInto: context)
-        
-        NotificationManager.shared.register(config: (name, emoji, end, event.id)) { (result) in
-            switch result {
-            case .success(let hasBeenRegistered):
-                print("has been registered: \(hasBeenRegistered)")
-                
-            case .failure(let error):
-                print("error: \(error)")
+    @discardableResult func save() -> Result<Bool, Error> {
+        let context = container.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+                return .success(true)
+            } catch {
+                return .failure(error)
             }
         }
+        
+        return .success(false)
     }
     
-    func removeEvent(from context: NSManagedObjectContext, event: Event) {
-        context.delete(event)
-        
-        NotificationManager.shared.unregister(id: event.id)
+    public static func allEventsFetchRequest() -> NSFetchRequest<Event> {
+        let request: NSFetchRequest<Event> = Event.fetchRequest()
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Event.end, ascending: true)
+        ]
+        return request
     }
 }

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct CTAButtonStyle: ButtonStyle {
     let color: Color
     
@@ -94,8 +93,8 @@ struct DateView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black.opacity(0.03))
 
-                DatePicker(selection: $date, displayedComponents: [.date, .hourAndMinute]) {
-                }
+                DatePicker("Select a Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                .labelsHidden()
                 .datePickerStyle(GraphicalDatePickerStyle())
             }
             .height(350)
@@ -105,7 +104,7 @@ struct DateView: View {
 }
 
 struct ImagePicker: View {
-    @Binding var allImages: [UnsplashImage]
+    var allImages: [UnsplashImage]
     @Binding var selectedImage: UnsplashImage?
     
     private let rows = [GridItem](repeating: GridItem(.flexible()), count: 2)
@@ -152,11 +151,18 @@ struct AddEventView: View {
     @State private var date: Date = Date()
     @State private var image: UnsplashImage? = nil
     
-    @State var allImages: [UnsplashImage] = []
+    @State var customImages: [UnsplashImage] = []
+    
+    let provider: UnsplashResultProvider = .shared
+    let defaultResult: UnsplashResult = UnsplashResultProvider.defaultResult
     
     let isEditing: Bool
     let onDismiss: (Event.Properties?) -> Void
     let start: Date?
+    
+    var allImages: [UnsplashImage] {
+        return self.customImages + self.defaultResult.results
+    }
     
     init(modifying data: Event.Properties? = nil, _ onDismiss: @escaping (Event.Properties?) -> Void) {
         self.onDismiss = onDismiss
@@ -173,23 +179,16 @@ struct AddEventView: View {
         }
     }
     
-    private func loadDefaultImages() {
-        let path = Bundle.main.path(forResource: "defaultImages", ofType: "json")
-        let json = try! String(contentsOfFile: path!)
-        let result = try! JSONDecoder().decode(UnsplashResult.self, from: json.data(using: .utf8)!)
-        
-        self.allImages = result.results
-    }
-    
-    private func loadRelevantImages() {
-        let query = name
-            .filter(by: [.noun, .placeName])
-            .joined(separator: "%20")
-        
-        UnsplashResult.fetch(query: query) { result in
+    private func loadRelevantImages(for query: String) {
+        var processed = query.filter(by: [.noun, .placeName]).joined(separator: " ")
+        if processed.isEmpty {
+            processed = query
+        }
+                
+        self.provider.fetch(query: processed) { result in
             switch result {
             case .success(let result):
-                self.allImages.insert(contentsOf: result.results, at: 0)
+                self.customImages = result.results
                 
             case .failure(let error):
                 fatalError(error.localizedDescription)
@@ -216,7 +215,9 @@ struct AddEventView: View {
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
-                    StylizedTextField(text: $name, emoji: $emoji, onCommit: loadRelevantImages)
+                    StylizedTextField(text: $name, emoji: $emoji, onCommit: {
+                                        self.loadRelevantImages(for: name)
+                    })
                     
                     Spacer().height(35)
                     
@@ -224,7 +225,7 @@ struct AddEventView: View {
 
                     Spacer().height(35)
                     
-                    ImagePicker(allImages: $allImages, selectedImage: $image)
+                    ImagePicker(allImages: allImages, selectedImage: $image)
                     
                     Spacer().height(50)
 
@@ -242,9 +243,8 @@ struct AddEventView: View {
         }
         .padding(.horizontal, 20)
         .onAppear {
-            loadDefaultImages()
             if isEditing && !name.isEmpty {
-                loadRelevantImages()
+                self.loadRelevantImages(for: name)
             }
         }
     }

@@ -12,14 +12,22 @@ class EventProgressIntentHandler: NSObject, EventProgressIntentHandling {
     func handle(intent: EventProgressIntent, completion: @escaping (EventProgressIntentResponse) -> Void) {
         let name = intent.name!
         
+        let predicate = NSComparisonPredicate(
+            leftExpression: .init(forKeyPath: \Event.name),
+            rightExpression: .init(forConstantValue: name),
+            modifier: .direct,
+            type: .like,
+            options: [.caseInsensitive, .diacriticInsensitive]
+        )
+        
         let container = DataProvider.shared.container
         let request: NSFetchRequest<Event> = Event.fetchRequest()
-        request.predicate = .init(format: "%K = %@", "name", name)
+        request.predicate = predicate
         request.fetchLimit = 1
         
         do {
             let event = try container.viewContext.fetch(request).first!
-            let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: event.end)
+            let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: Date(), to: event.end)
             completion(.success(date: components, name: name))
         } catch {
             print(String(describing: error))

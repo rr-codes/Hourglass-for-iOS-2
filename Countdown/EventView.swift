@@ -32,13 +32,13 @@ struct EventView: View {
     
     var gradientOverlay: LinearGradient {
         let gradient = Gradient(stops: [
-            .init(color: Color.white.opacity(0.4), location: 0),
-            .init(color: Color.white.opacity(0), location: 0.4)
+            .init(color: Color.black.opacity(0.8), location: 0),
+            .init(color: Color.black.opacity(0), location: 0.6)
         ])
         
         return .init(gradient: gradient, startPoint: .top, endPoint: .bottom)
     }
-        
+            
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
@@ -67,13 +67,13 @@ struct EventView: View {
                     
                     Text(name)
                         .font(.system(size: 24, weight: .semibold))
-                        .foregroundColor(Color.black.opacity(0.9))
+                        .foregroundColor(Color.white.opacity(0.9))
                     
                     Spacer().height(8)
                     
                     Text(formatter.string(from: date.timeIntervalSinceNow)!)
                         .font(Font.title2.weight(.semibold))
-                        .foregroundColor(Color(white: 0.4))
+                        .foregroundColor(Color(white: 0.9))
                         .onTapGesture {
                             self.numberOfDroppedUnits = (self.numberOfDroppedUnits + 1) % 4
                         }
@@ -101,7 +101,7 @@ struct EventView_Previews: PreviewProvider {
         EventView(
             id: UUID(),
             namespace: namespace,
-            image: MockImages.greece,
+            image: MockImages.birthday,
             name: "Travelling to Greece",
             date: .init(timeIntervalSinceNow: 86400 - 60),
             emoji: "🇬🇷"

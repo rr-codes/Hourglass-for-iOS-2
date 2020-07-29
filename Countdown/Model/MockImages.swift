@@ -112,3 +112,38 @@ struct MockImages {
     static let greece      = try! decoder.decode(UnsplashImage.self, from: greeceJSON.data(using: .utf8)!)
 }
 
+struct MockData {
+    static let eventA: Event.Properties = (
+        name: "My Birthday",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: 86400 - 60),
+        emoji: "😍",
+        image: MockImages.birthday
+    )
+
+    static let eventB: Event.Properties = (
+        name: "New Year's Day",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: 86400 * 42),
+        emoji: "🎉",
+        image: MockImages.fireworks
+    )
+
+    static let eventC: Event.Properties = (
+        name: "Christmas",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: 86400 * 300),
+        emoji: "🎄",
+        image: MockImages.christmas
+    )
+
+    static let eventD: Event.Properties = (
+        name: "My Anniversary",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: -60 * 70),
+        emoji: "💍",
+        image: MockImages.anniversary
+    )
+    
+    static let all: [Event.Properties] = [eventA, eventB, eventC, eventD]
+}

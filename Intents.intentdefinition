@@ -75,7 +75,7 @@
 					<key>INIntentParameterMetadata</key>
 					<dict>
 						<key>INIntentParameterMetadataCapitalization</key>
-						<string>Sentences</string>
+						<string>Words</string>
 						<key>INIntentParameterMetadataDefaultValueID</key>
 						<string>Wsleyb</string>
 					</dict>
@@ -140,7 +140,7 @@
 					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>3</integer>
+				<integer>5</integer>
 				<key>INIntentResponseOutput</key>
 				<string>date</string>
 				<key>INIntentResponseParameters</key>
@@ -159,7 +159,7 @@
 							<key>INIntentResponseParameterMetadataFormat</key>
 							<string>Relative</string>
 							<key>INIntentResponseParameterMetadataTemplateID</key>
-							<string>H7nduc</string>
+							<string>ntNAxw</string>
 							<key>INIntentResponseParameterMetadataTimeStyle</key>
 							<string>Full</string>
 							<key>INIntentResponseParameterMetadataType</key>
@@ -168,7 +168,7 @@
 						<key>INIntentResponseParameterName</key>
 						<string>date</string>
 						<key>INIntentResponseParameterTag</key>
-						<integer>2</integer>
+						<integer>5</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>DateComponents</string>
 					</dict>

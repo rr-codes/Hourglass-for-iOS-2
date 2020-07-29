@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import URLImage
+import CoreSpotlight
 
 struct AsyncImage: View {
     let color: Color
@@ -88,7 +89,7 @@ struct ContentView: View {
         fetchRequest: DataProvider.allEventsFetchRequest()
     ) var events: FetchedResults<Event>
     
-    @AppStorage("pinnedEvent") var pinnedEventID: String?
+    @AppStorage("pinnedEvent", store: DataProvider.shared.defaults) var pinnedEventID: String?
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     
@@ -103,8 +104,8 @@ struct ContentView: View {
     @State var now: Date = Date()
     @State var shouldEmitConfetti: Bool = false
     @State var confettiEmoji: String = "🎉"
-    
-    let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+        
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     // The pinned event, if any, or else the first upcoming event, if any, or else the first event, if any
     var pinnedEvent: Event? {
@@ -122,7 +123,7 @@ struct ContentView: View {
         } onPin: { isPinned in
             UserDefaults.standard.set(isPinned ? "" : id, forKey: "pinnedEvent")
         } onDelete: {
-            DataProvider.shared.removeEvent(from: context, event: event)
+            EventManager.removeEvent(from: context, event: event)
         }
     }
     
@@ -222,10 +223,10 @@ struct ContentView: View {
                 AddEventView(modifying: modifiableEvent.map(\.properties)) { (data) in
                     if let data = data {
                         if let modified = modifiableEvent {
-                            DataProvider.shared.removeEvent(from: context, event: modified)
+                            EventManager.removeEvent(from: context, event: modified)
                         }
                         
-                        DataProvider.shared.addEvent(to: context, configuration: data)
+                        EventManager.addEvent(to: context, configuration: data)
                     }
                     
                     self.modifiableEvent = nil
@@ -255,7 +256,7 @@ struct ContentView: View {
                 .zIndex(2)
             }
             
-            EmptyView().id("\(self.now.hashValue)")
+            EmptyView().id(self.now)
         }
         .animation(.spring())
         .transition(.scale)
@@ -272,15 +273,19 @@ struct ContentView: View {
                 self.shouldEmitConfetti = true
             }
         }
+        .onContinueUserActivity(CSSearchableItemActionType) { activity in
+            guard let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
+            self.selectedEvent = events.first { $0.id.uuidString == id }!
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PreviewCoreDataWrapper { context in
-            ContentView()
-                .environment(\.managedObjectContext, context)
-                .previewDevice("iPhone 11 Pro")
-        }
+        let container = DataProvider.shared.container
+        
+        return ContentView()
+            .environment(\.managedObjectContext, container.viewContext)
+            .previewDevice("iPhone 11 Pro")
     }
 }

@@ -9,15 +9,19 @@ import SwiftUI
 
 @main
 struct CountdownApp: App {
-    static let container = DataProvider.shared.container
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var store = DataProvider.shared
     
     var body: some Scene {
         WindowGroup {
-            PreviewCoreDataWrapper { context in
-                ContentView()
-                    .environment(\.managedObjectContext, context)
+            ContentView()
+                .environment(\.managedObjectContext, store.context)
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .background {
+                print("~> background")
+                store.save()
             }
-//            ContentView().environment(\.managedObjectContext, Self.container.viewContext)
         }
     }
 }
