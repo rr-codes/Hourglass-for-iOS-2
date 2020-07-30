@@ -10,6 +10,16 @@ import CoreData
 import URLImage
 import CoreSpotlight
 
+extension View {
+    func extraSheet<Content: View>(
+        isPresented: Binding<Bool>,
+        onDismiss: (() -> Void)? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
+        self.background(EmptyView().sheet(isPresented: isPresented, onDismiss: onDismiss, content: content))
+    }
+}
+
 struct AsyncImage: View {
     let color: Color
     let url: URL
@@ -24,7 +34,6 @@ struct AsyncImage: View {
 struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Event {
     let name: String
     let data: Data
-    let namespace: Namespace.ID
     
     let menuItems: (Event) -> EventMenuItems
     let onTap: (Event) -> Void
@@ -43,7 +52,6 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
                     emoji: event.emoji,
                     name: event.name
                 )
-                .matchedGeometryEffect(id: event.id, in: namespace, isSource: true)
                 .background(Color.white)
                 .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .contextMenu {
@@ -84,30 +92,16 @@ struct EventMenuItems: View {
     }
 }
 
-struct ContentView: View {
-    @FetchRequest(
-        fetchRequest: DataProvider.allEventsFetchRequest()
-    ) var events: FetchedResults<Event>
-    
-    @AppStorage("pinnedEvent", store: DataProvider.shared.defaults) var pinnedEventID: String?
-    
+struct HomeView: View {
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
+
+    let events: FetchedResults<Event>
+    let pinnedEventID: String?
     
-    @Namespace var namespace
+    @Binding var selectedEvent: Event?
+    @Binding var modifiableEvent: Event?
+    @Binding var showModifyView: Bool
     
-    @State var modifiableEvent: Event?
-    @State var showModifyView: Bool = false
-    
-    @State var selectedEvent: Event?
-    @State var showEventView: Bool = false
-    
-    @State var now: Date = Date()
-    @State var shouldEmitConfetti: Bool = false
-    @State var confettiEmoji: String = "🎉"
-        
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    // The pinned event, if any, or else the first upcoming event, if any, or else the first event, if any
     var pinnedEvent: Event? {
         return events.first { $0.id.uuidString == pinnedEventID }
             ?? events.first { !$0.isOver }
@@ -121,53 +115,47 @@ struct ContentView: View {
             self.modifiableEvent = event
             self.showModifyView = true
         } onPin: { isPinned in
-            UserDefaults.standard.set(isPinned ? "" : id, forKey: "pinnedEvent")
+            UserDefaults.appGroup!.set(isPinned ? "" : id, forKey: "pinnedEvent")
         } onDelete: {
-            EventManager.removeEvent(from: context, event: event)
+            EventManager.shared.removeEvent(from: context, event: event)
         }
     }
     
     func shouldShowUpcomingEvents() -> Bool {
-        let upcomingEvents = events.filter({ !$0.isOver && $0 != pinnedEvent})
+        let upcomingEvents = events.filter { !$0.isOver && $0 != pinnedEvent}
         return !upcomingEvents.isEmpty
     }
     
     func shouldShowPastEvents() -> Bool {
-        let pastEvents = events.filter({ $0.isOver && $0 != pinnedEvent})
+        let pastEvents = events.filter { $0.isOver && $0 != pinnedEvent}
         return !pastEvents.isEmpty
     }
     
     var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    Text("My Events").font(.title).bold()
-                    Spacer()
-                    Image(systemName: "plus.circle.fill")
-                        .imageScale(.large)
-                        .scaleEffect(1.2)
-                        .offset(x: -3, y: -0)
-                        .onTapGesture {
-                            withAnimation {
-                                self.showModifyView = true
-                            }
+        VStack {
+            HStack {
+                Text("My Events").font(.title).bold()
+                Spacer()
+                Image(systemName: "plus.circle.fill")
+                    .imageScale(.large)
+                    .scaleEffect(1.2)
+                    .offset(x: -3, y: -0)
+                    .onTapGesture {
+                        withAnimation {
+                            self.showModifyView = true
                         }
-                }
-                .background(Color.white)
-                .padding(.horizontal, 20)
-                
-                if events.isEmpty {
-                    Spacer()
-                } else {
-                    ScrollView {
-                        VStack(alignment: .leading) {
-                            if let first = pinnedEvent {
-                                CardView(
-                                    data: first.properties,
-                                    namespace: namespace,
-                                    isSource: !showEventView,
-                                    id: first.id
-                                )
+                    }
+            }
+            .background(Color.white)
+            .padding(.horizontal, 20)
+            
+            if events.isEmpty {
+                Spacer()
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        if let first = pinnedEvent {
+                            CardView(data: first.properties)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 10)
                                 .background(Color.white)
@@ -176,103 +164,110 @@ struct ContentView: View {
                                     eventMenuItems(first)
                                 }
                                 .onTapGesture {
-                                    withAnimation(.spring()) {
-                                        self.selectedEvent = first
-                                    }
+                                    self.selectedEvent = first
                                 }
-                            }
-                            
-                            if shouldShowUpcomingEvents() {
-                                EventSection(
-                                    name: "Upcoming",
-                                    data: events.filter { !$0.isOver && $0 != pinnedEvent},
-                                    namespace: namespace,
-                                    menuItems: eventMenuItems
-                                ) { event in
-                                    withAnimation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0)) {
-                                        showEventView.toggle()
-                                        selectedEvent = event
-                                    }
-                                }
-                            }
-                            
-                            if shouldShowPastEvents() {
-                                EventSection(
-                                    name: "Past",
-                                    data: events.filter(\.isOver),
-                                    namespace: namespace,
-                                    menuItems: eventMenuItems
-                                ) { event in
-                                    withAnimation {
-                                        self.selectedEvent = event
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.top, 20)
-            .edgesIgnoringSafeArea(.bottom)
-            .overlay(
-                events.isEmpty
-                    ? AnyView(PlaceholderView())
-                    : AnyView(EmptyView())
-            )
-            .sheet(isPresented: $showModifyView) {
-                AddEventView(modifying: modifiableEvent.map(\.properties)) { (data) in
-                    if let data = data {
-                        if let modified = modifiableEvent {
-                            EventManager.removeEvent(from: context, event: modified)
                         }
                         
-                        EventManager.addEvent(to: context, configuration: data)
-                    }
-                    
-                    self.modifiableEvent = nil
-                    
-                    withAnimation {
-                        self.showModifyView = false
+                        if shouldShowUpcomingEvents() {
+                            EventSection(
+                                name: "Upcoming",
+                                data: events.filter { !$0.isOver && $0 != pinnedEvent },
+                                menuItems: eventMenuItems
+                            ) { event in
+                                selectedEvent = event
+                            }
+                        }
+                        
+                        if shouldShowPastEvents() {
+                            EventSection(
+                                name: "Past",
+                                data: events.filter { $0.isOver && $0 != pinnedEvent },
+                                menuItems: eventMenuItems
+                            ) { event in
+                                selectedEvent = event
+                            }
+                        }
                     }
                 }
             }
-            .zIndex(1)
-            .frame(maxWidth: .infinity)
-            
-            if let event = selectedEvent {
-                EventView(
-                    id: event.id,
-                    namespace: namespace,
-                    image: event.image,
-                    name: event.name,
-                    date: event.end,
-                    emoji: event.emoji
-                ) {
-                    withAnimation(.spring()) {
-                        showEventView.toggle()
-                        self.selectedEvent = nil
-                    }
-                }
-                .zIndex(2)
-            }
-            
-            EmptyView().id(self.now)
         }
-        .animation(.spring())
-        .transition(.scale)
+        .padding(.top, 20)
+        .edgesIgnoringSafeArea(.bottom)
+    }
+}
+
+struct ContentView: View {
+    @FetchRequest(
+        fetchRequest: CoreDataStore.allEventsFetchRequest()
+    ) var events: FetchedResults<Event>
+    
+    @AppStorage("pinnedEvent", store: UserDefaults.appGroup) var pinnedEventID: String?
+    
+    @Environment(\.managedObjectContext) var context: NSManagedObjectContext
+        
+    @State var modifiableEvent: Event?
+    @State var showModifyView: Bool = false
+    
+    @State var selectedEvent: Event?
+    
+    @State var now: Date = Date()
+    @State var shouldEmitConfetti: Bool = false
+    @State var confettiEmoji: String = "🎉"
+        
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    func update(_ param: Any) {
+        guard !showModifyView else {
+            return
+        }
+        
+        self.now = Date()
+        
+        if let event = events.first(where: { -1...0 ~= $0.end.timeIntervalSinceNow }) {
+            self.confettiEmoji = event.emoji
+            self.shouldEmitConfetti = true
+        }
+    }
+    
+    @ViewBuilder
+    var overlay: some View {
+        if events.isEmpty {
+            PlaceholderView()
+        } else {
+            EmptyView()
+        }
+    }
+    
+    var body: some View {
+        HomeView(
+            events: events,
+            pinnedEventID: pinnedEventID,
+            selectedEvent: $selectedEvent,
+            modifiableEvent: $modifiableEvent,
+            showModifyView: $showModifyView
+        )
+        .overlay(overlay)
+        .fullScreenCover(item: $selectedEvent) { event in
+            EventView(image: event.image, name: event.name, date: event.end, emoji: event.emoji) {
+                self.selectedEvent = nil
+            }
+        }
+        .extraSheet(isPresented: $showModifyView) {
+            AddEventView(modifying: modifiableEvent.map(\.properties)) { (data) in
+                if let data = data {
+                    if let modified = modifiableEvent {
+                        EventManager.shared.removeEvent(from: context, event: modified)
+                    }
+                    
+                    EventManager.shared.addEvent(to: context, configuration: data)
+                }
+                
+                self.modifiableEvent = nil
+                self.showModifyView = false
+            }
+        }
         .confettiOverlay(confettiEmoji, emitWhen: $shouldEmitConfetti)
-        .onReceive(timer) { _ in
-            guard !showModifyView else {
-                return
-            }
-            
-            if !showModifyView { self.now = Date() }
-            
-            if let event = events.first(where: { -1...0 ~= $0.end.timeIntervalSinceNow }) {
-                self.confettiEmoji = event.emoji
-                self.shouldEmitConfetti = true
-            }
-        }
+        .onReceive(timer, perform: update)
         .onContinueUserActivity(CSSearchableItemActionType) { activity in
             guard let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
             self.selectedEvent = events.first { $0.id.uuidString == id }!
@@ -282,10 +277,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let container = DataProvider.shared.container
+        let store = CoreDataStore(.inMemory)
+        
+        MockData.all.forEach { EventManager.shared.addEvent(to: store.context, configuration: $0) }
         
         return ContentView()
-            .environment(\.managedObjectContext, container.viewContext)
+            .environment(\.managedObjectContext, store.context)
             .previewDevice("iPhone 11 Pro")
     }
 }

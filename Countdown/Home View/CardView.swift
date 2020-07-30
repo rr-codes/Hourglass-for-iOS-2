@@ -10,10 +10,6 @@ import SwiftUI
 struct CardView: View {
     let data: Event.Properties
     
-    let namespace: Namespace.ID
-    let isSource: Bool
-    let id: UUID
-    
     var formatter: DateComponentsFormatter {
         let dcf = DateComponentsFormatter()
         dcf.allowedUnits = [.day, .hour, .minute, .second]
@@ -27,7 +23,6 @@ struct CardView: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 AsyncImage(color: data.image.overallColor, url: data.image.url(for: .regular))
-                    .matchedGeometryEffect(id: id, in: namespace, isSource: isSource)
                     .frame(height: 225)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .shadow(color: data.image.overallColor.opacity(0.1), radius: 2, x: 0, y: 2)
@@ -61,11 +56,6 @@ struct CardView_Previews: PreviewProvider {
     )
     
     static var previews: some View {
-        CardView(
-            data: props,
-            namespace: namespace,
-            isSource: true,
-            id: .init()
-        ).padding()
+        CardView(data: props).padding()
     }
 }

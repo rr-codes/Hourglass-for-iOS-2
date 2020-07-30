@@ -20,7 +20,7 @@ class EventProgressIntentHandler: NSObject, EventProgressIntentHandling {
             options: [.caseInsensitive, .diacriticInsensitive]
         )
         
-        let container = DataProvider.shared.container
+        let container = CoreDataStore.shared.container
         let request: NSFetchRequest<Event> = Event.fetchRequest()
         request.predicate = predicate
         request.fetchLimit = 1

@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct CountdownApp: App {
     @Environment(\.scenePhase) private var scenePhase
-    @StateObject private var store = DataProvider.shared
+    @StateObject private var store = CoreDataStore.shared
     
     var body: some Scene {
         WindowGroup {

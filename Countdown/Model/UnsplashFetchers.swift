@@ -21,13 +21,6 @@ public class UnsplashResultProvider {
     
     private static let endpoint = "https://api.unsplash.com/search/photos"
     
-    public static var defaultResult: UnsplashResult {
-        let path = Bundle.main.path(forResource: "defaultImages", ofType: "json")
-        let json = try! String(contentsOfFile: path!)
-        let result = try! JSONDecoder().decode(UnsplashResult.self, from: json.data(using: .utf8)!)
-        return result
-    }
-    
     private let clientID: String
     private let urlSession: URLSession
     

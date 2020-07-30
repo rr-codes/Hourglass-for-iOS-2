@@ -154,14 +154,13 @@ struct AddEventView: View {
     @State var customImages: [UnsplashImage] = []
     
     let provider: UnsplashResultProvider = .shared
-    let defaultResult: UnsplashResult = UnsplashResultProvider.defaultResult
     
     let isEditing: Bool
     let onDismiss: (Event.Properties?) -> Void
     let start: Date?
     
     var allImages: [UnsplashImage] {
-        return self.customImages + self.defaultResult.results
+        return self.customImages + UnsplashResult.default.results
     }
     
     init(modifying data: Event.Properties? = nil, _ onDismiss: @escaping (Event.Properties?) -> Void) {
@@ -216,7 +215,7 @@ struct AddEventView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
                     StylizedTextField(text: $name, emoji: $emoji, onCommit: {
-                                        self.loadRelevantImages(for: name)
+                        self.loadRelevantImages(for: name)
                     })
                     
                     Spacer().height(35)

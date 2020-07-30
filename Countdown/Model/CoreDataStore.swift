@@ -8,6 +8,10 @@
 import Foundation
 import CoreData
 
+public extension UserDefaults {
+    static let appGroup: UserDefaults? = UserDefaults(suiteName: "group.countdown2")
+}
+
 public extension URL {
     /// Returns a URL for the given app group and database pointing to the sqlite database.
     static func storeURL(for appGroup: String, databaseName: String) -> URL {
@@ -19,35 +23,43 @@ public extension URL {
     }
 }
 
+enum StorageType {
+    case persistant, inMemory
+}
 
-class DataProvider: ObservableObject {
-    static let shared = DataProvider()
+class CoreDataStore: ObservableObject {
+    static let shared = CoreDataStore(.persistant)
     
     var context: NSManagedObjectContext {
         container.viewContext
     }
     
-    lazy var defaults = UserDefaults(suiteName: "group.countdown2")
-
-    lazy var container: NSPersistentContainer = {
-        let pc = NSPersistentContainer(name: "Model")
-        let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "group.countdown2")
-        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+    let container: NSPersistentContainer
+    
+    init(_ storageType: StorageType) {
+        #if os(iOS)
+        UnsplashImageValueTransformer.register()
+        #endif
         
-        pc.persistentStoreDescriptions = [storeDescription]
-        pc.loadPersistentStores { _, error in
+        self.container = NSPersistentContainer(name: "Model")
+        
+        switch storageType {
+        case .persistant:
+            let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "group.countdown2")
+            let description = NSPersistentStoreDescription(url: storeURL)
+            self.container.persistentStoreDescriptions = [description]
+            
+        case .inMemory:
+            let description = NSPersistentStoreDescription()
+            description.type = NSInMemoryStoreType
+            self.container.persistentStoreDescriptions = [description]
+        }
+        
+        self.container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError(error.localizedDescription)
             }
         }
-        
-        return pc
-    }()
-    
-    private init() {
-        #if os(iOS)
-        UnsplashImageValueTransformer.register()
-        #endif
     }
     
     @discardableResult func save() -> Result<Bool, Error> {

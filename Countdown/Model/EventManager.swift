@@ -9,7 +9,17 @@ import Foundation
 import CoreData
 
 class EventManager {
-    static func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
+    static let shared: EventManager = EventManager(notificationManager: .shared, spotlightManager: .shared)
+    
+    private let notificationManager: NotificationManager
+    private let spotlightManager: CSManager
+    
+    init(notificationManager: NotificationManager, spotlightManager: CSManager) {
+        self.notificationManager = notificationManager
+        self.spotlightManager = spotlightManager
+    }
+    
+    func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
         let (name, start, end, emoji, image) = configuration
         
         let event = Event(context: context)
@@ -20,7 +30,7 @@ class EventManager {
         event.emoji = emoji
         event.image = image
         
-        NotificationManager.shared.register(config: (name, emoji, end, event.id)) { (result) in
+        self.notificationManager.register(config: (name, emoji, end, event.id)) { (result) in
             switch result {
             case .success(let hasBeenRegistered):
                 print("has been registered: \(hasBeenRegistered)")
@@ -30,16 +40,16 @@ class EventManager {
             }
         }
         
-        CSManager.shared.add(id: event.id, name: name, date: end)
+        self.spotlightManager.add(id: event.id, name: name, date: end)
         
         try! context.save()
     }
     
-    static func removeEvent(from context: NSManagedObjectContext, event: Event) {
+    func removeEvent(from context: NSManagedObjectContext, event: Event) {
         context.delete(event)
         
-        NotificationManager.shared.unregister(id: event.id)
-        CSManager.shared.remove(id: event.id)
+        self.notificationManager.unregister(id: event.id)
+        self.spotlightManager.remove(id: event.id)
         
         try! context.save()
     }

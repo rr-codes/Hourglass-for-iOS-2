@@ -42,7 +42,7 @@ extension Color {
 // MARK: Model
 
 public struct UnsplashUser: Codable {
-    public let username: String
+    public let name: String
     public let links: [String : URL]
 }
 
@@ -68,4 +68,11 @@ public class UnsplashImage: NSObject, Identifiable, Codable {
 
 public struct UnsplashResult: Codable {
     public let results: [UnsplashImage]
+    
+    public static var `default`: UnsplashResult {
+        let path = Bundle.main.path(forResource: "defaultImages", ofType: "json")
+        let json = try! String(contentsOfFile: path!)
+        let result = try! JSONDecoder().decode(UnsplashResult.self, from: json.data(using: .utf8)!)
+        return result
+    }
 }

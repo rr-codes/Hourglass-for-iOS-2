@@ -29,17 +29,18 @@
 		074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
 		0742550124CED6A1006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
+		0771CC6124D296B20090399D /* FancyText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0771CC6024D296B20090399D /* FancyText.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
 		07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */; };
 		07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
 		07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
-		07DDD7E924C9ECE9003C9421 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* DataProvider.swift */; };
+		07DDD7E924C9ECE9003C9421 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
 		07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7EB24CA04BB003C9421 /* MockImages.swift */; };
 		07E245D224D118EF00E45489 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D124D118EF00E45489 /* EventManager.swift */; };
 		07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D624D1429300E45489 /* UnsplashFetchers.swift */; };
-		07E245D824D1430D00E45489 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* DataProvider.swift */; };
+		07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
 		07E245D924D1431400E45489 /* UnsplashFetchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D624D1429300E45489 /* UnsplashFetchers.swift */; };
 		07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */; };
 		07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4251D24C9CA8F00C434C4 /* ContentView.swift */; };
@@ -110,13 +111,14 @@
 		071C05D024CEB3CC00E53EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EventProgressIntent.entitlements; sourceTree = "<group>"; };
 		074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSpotlightConfiguration.swift; sourceTree = "<group>"; };
+		0771CC6024D296B20090399D /* FancyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyText.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		07AB883324CD584400837FA8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		07DDD7E424C9E510003C9421 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashResult.swift; sourceTree = "<group>"; };
-		07DDD7E824C9ECE9003C9421 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Countdown.entitlements; sourceTree = "<group>"; };
 		07DDD7EB24CA04BB003C9421 /* MockImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImages.swift; sourceTree = "<group>"; };
 		07E245D124D118EF00E45489 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				07AB883224CD436600837FA8 /* Add Event View */,
 				07AB882E24CCEEF000837FA8 /* StringExtensions.swift */,
 				0703CB4424CADA7E0089D7D2 /* EventView.swift */,
+				0771CC6024D296B20090399D /* FancyText.swift */,
 				07E4251F24C9CA9000C434C4 /* Assets.xcassets */,
 				07E4252424C9CA9000C434C4 /* Info.plist */,
 				07E4252124C9CA9000C434C4 /* Preview Content */,
@@ -243,7 +246,7 @@
 				07E245D624D1429300E45489 /* UnsplashFetchers.swift */,
 				07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */,
 				07FFC86524CC155400C672FB /* defaultImages.json */,
-				07DDD7E824C9ECE9003C9421 /* DataProvider.swift */,
+				07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */,
 				07E245D124D118EF00E45489 /* EventManager.swift */,
 				07DDD7EB24CA04BB003C9421 /* MockImages.swift */,
 				074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */,
@@ -417,7 +420,7 @@
 				071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */,
 				07E245D924D1431400E45489 /* UnsplashFetchers.swift in Sources */,
 				071C05CF24CEB3CC00E53EAC /* IntentHandler.swift in Sources */,
-				07E245D824D1430D00E45489 /* DataProvider.swift in Sources */,
+				07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */,
 				0742550124CED6A1006F00E1 /* CoreSpotlightConfiguration.swift in Sources */,
 				071C05DB24CEB51A00E53EAC /* Model.xcdatamodeld in Sources */,
 			);
@@ -429,6 +432,7 @@
 			files = (
 				07E245D224D118EF00E45489 /* EventManager.swift in Sources */,
 				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
+				0771CC6124D296B20090399D /* FancyText.swift in Sources */,
 				0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */,
 				0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */,
 				07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */,
@@ -437,7 +441,7 @@
 				0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */,
 				07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */,
 				0703CB4124CAA54A0089D7D2 /* ListCellView.swift in Sources */,
-				07DDD7E924C9ECE9003C9421 /* DataProvider.swift in Sources */,
+				07DDD7E924C9ECE9003C9421 /* CoreDataStore.swift in Sources */,
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
 				07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */,
 				07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */,

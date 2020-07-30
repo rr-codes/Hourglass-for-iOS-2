@@ -17,9 +17,8 @@ private let greeceJSON = """
         "small": "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0"
     },
     "user": {
-        "username": "jonathangallegos",
+        "name": "Jonathan Gallegos",
         "links": {
-            "self": "https://api.unsplash.com/users/jonathangallegos",
             "html": "https://unsplash.com/@jonathangallegos"
         }
     }
@@ -36,9 +35,8 @@ private let birthdayJSON = """
         "small": "https://images.unsplash.com/photo-1531956531700-dc0ee0f1f9a5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0",
     },
     "user": {
-        "username": "adigold1",
+        "name": "Adi Goldstein",
         "links": {
-            "self": "https://api.unsplash.com/users/adigold1",
             "html": "https://unsplash.com/@adigold1",
         }
     }
@@ -55,9 +53,8 @@ private let christmasJSON = """
         "small": "https://images.unsplash.com/photo-1512474932049-78ac69ede12c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0"
     },
     "user": {
-        "username": "freestocks",
+        "name": "freestocks",
         "links": {
-            "self": "https://api.unsplash.com/users/freestocks",
             "html": "https://unsplash.com/@freestocks"
         }
     }
@@ -74,9 +71,8 @@ private let fireworksJSON = """
         "small": "https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0"
     },
     "user": {
-        "username": "rayhennessy",
+        "name": "Ray Hennessy",
         "links": {
-            "self": "https://api.unsplash.com/users/rayhennessy",
             "html": "https://unsplash.com/@rayhennessy"
         }
     }
@@ -93,9 +89,8 @@ private let anniversaryJSON = """
         "small": "https://images.unsplash.com/photo-1581938165093-050aeb5ef218?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0"
     },
     "user": {
-        "username": "eddrobertson",
+        "name": "Ed Robertson",
         "links": {
-            "self": "https://api.unsplash.com/users/eddrobertson",
             "html": "https://unsplash.com/@eddrobertson"
         }
     }
@@ -113,6 +108,14 @@ struct MockImages {
 }
 
 struct MockData {
+    static let greece: Event.Properties = (
+        name: "Vacation in Greece",
+        start: Date(),
+        end: Date(timeIntervalSinceNow: 86400 - 60),
+        emoji: "🇬🇷",
+        image: MockImages.greece
+    )
+    
     static let eventA: Event.Properties = (
         name: "My Birthday",
         start: Date(),
@@ -145,5 +148,5 @@ struct MockData {
         image: MockImages.anniversary
     )
     
-    static let all: [Event.Properties] = [eventA, eventB, eventC, eventD]
+    static let all: [Event.Properties] = [greece, eventA, eventB, eventC, eventD]
 }
