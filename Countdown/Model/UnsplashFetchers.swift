@@ -32,20 +32,19 @@ public class UnsplashResultProvider: ObservableObject {
         self.runLoop = runLoop
     }
     
+    private func configureRequest(_ request: inout URLRequest) {
+        request.addValue("v1", forHTTPHeaderField: "Accept-Version")
+        request.setValue("Client-ID \(self.clientID)", forHTTPHeaderField: "Authorization")
+    }
+    
     public func sendDownloadRequest(for image: UnsplashImage) {
         guard let url = image.links?["download_location"] else {
             return
         }
-        
         var request = URLRequest(url: url)
-        request.addValue("v1", forHTTPHeaderField: "Accept-Version")
-        request.setValue("Client-ID \(self.clientID)", forHTTPHeaderField: "Authorization")
+        self.configureRequest(&request)
         
-        self.urlSession.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                fatalError(error.localizedDescription)
-            }
-        }.resume()
+        self.urlSession.dataTask(with: request).resume()
     }
     
     /// Fetches images from Unsplash using the specified `query` into an `UnsplashResult` and publishes the result to the `result` field
@@ -63,8 +62,7 @@ public class UnsplashResultProvider: ObservableObject {
         }
         
         var request = URLRequest(url: url)
-        request.addValue("v1", forHTTPHeaderField: "Accept-Version")
-        request.setValue("Client-ID \(self.clientID)", forHTTPHeaderField: "Authorization")
+        self.configureRequest(&request)
         
         self.urlSession.dataTaskPublisher(for: request)
             .map(\.data)

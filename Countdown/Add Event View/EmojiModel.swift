@@ -18,18 +18,23 @@ struct Emoji: Decodable, Identifiable {
 
 class EmojiDBProvider {
     typealias Database = [[Emoji]]
-    typealias Categories = [(id: Int, name: String, emoji: String)]
+    
+    struct Category: Identifiable {
+        let id: Int
+        let name: String
+        let emoji: String
+    }
     
     static let shared = EmojiDBProvider(
         from: try! String(contentsOfFile: Bundle.main.path(forResource: "emoji", ofType: "json")!)
     )
     
-    static let categories: Categories = [
-        (0, "Smileys", "😀"),
-        (1, "Travel & Places", "🌍"),
-        (2, "Activities", "🎉"),
-        (3, "Objects", "👔"),
-        (4, "Flags", "🏁"),
+    static let categories: [Category] = [
+        Category(id: 0, name: "Smileys",         emoji: "😀"),
+        Category(id: 1, name: "Travel & Places", emoji: "🌍"),
+        Category(id: 2, name: "Activities",      emoji: "🎉"),
+        Category(id: 3, name: "Objects",         emoji: "👔"),
+        Category(id: 4, name: "Flags",           emoji: "🏁"),
     ]
     
     private let contents: Data

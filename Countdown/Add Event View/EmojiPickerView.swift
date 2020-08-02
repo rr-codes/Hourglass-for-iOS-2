@@ -45,7 +45,7 @@ extension Color {
 
 fileprivate struct EmojiPickerView: View {
     let database: EmojiDBProvider.Database
-    let categories: EmojiDBProvider.Categories
+    let categories: [EmojiDBProvider.Category]
     
     @State private var selectedCategoryIndex: Int = 0
     @Binding var selectedEmoji: String
@@ -63,8 +63,8 @@ fileprivate struct EmojiPickerView: View {
             EmojiGroupView(group: database[selectedCategoryIndex], selectedEmoji: $selectedEmoji)
                         
             Picker("Category", selection: $selectedCategoryIndex) {
-                ForEach(categories, id: \.id) { (id, _, emoji) in
-                    Text(emoji).tag(id)
+                ForEach(categories) { category in
+                    Text(category.emoji).tag(category.id)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
@@ -82,7 +82,7 @@ fileprivate struct EmojiPickerView: View {
 
 struct EmojiOverlay: View {
     let database: EmojiDBProvider.Database
-    let categories: EmojiDBProvider.Categories
+    let categories: [EmojiDBProvider.Category]
     
     @Binding var isPresented: Bool
     @Binding var emoji: String

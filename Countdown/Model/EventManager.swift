@@ -19,6 +19,10 @@ class EventManager {
         self.spotlightManager = spotlightManager
     }
     
+    func reindex(_ event: Event) {
+        self.spotlightManager.index(id: event.id, name: event.name, date: event.end)
+    }
+    
     func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
         let (name, start, end, emoji, image) = configuration
         
@@ -40,7 +44,7 @@ class EventManager {
             }
         }
         
-        self.spotlightManager.add(id: event.id, name: name, date: end)
+        self.reindex(event)
         
         try! context.save()
     }
@@ -49,7 +53,7 @@ class EventManager {
         context.delete(event)
         
         self.notificationManager.unregister(id: event.id)
-        self.spotlightManager.remove(id: event.id)
+        self.spotlightManager.deindex(id: event.id)
         
         try! context.save()
     }

@@ -9,16 +9,6 @@ import Foundation
 import NaturalLanguage
 
 extension String {
-    /// Extracts the substrings of this string which match any of the specified `partsOfSpeech`
-    ///
-    /// For example,
-    ///
-    ///     let string = "John's anniversary in Greece"
-    ///     let filtered = string.filter(by: [.noun, .placeName]) // ["anniversary", "Greece"]
-    ///
-    /// - Parameter partsOfSpeech: an array of `NLTags` specifying which parts of speech should be extracted
-    ///
-    /// - Returns: An array of `Substring`s which match any of the specified parts of speech
     func filter(by partsOfSpeech: [NLTag]) -> [Substring] {
         let tagger = NLTagger(tagSchemes: [.nameTypeOrLexicalClass])
         tagger.string = self
@@ -30,13 +20,10 @@ extension String {
             options: [.omitPunctuation, .omitWhitespace, .omitOther]
         )
         
-        let filtered = tags.filter { (tag, _) in
-            if let tag = tag {
-                return partsOfSpeech.contains(tag)
+        return tags
+            .filter { (tag, _) in
+                tag.map { partsOfSpeech.contains($0) } ?? false
             }
-            return false
-        }
-        
-        return filtered.map { (_, range) in self[range] }
+            .map { (_, range) in self[range] }
     }
 }

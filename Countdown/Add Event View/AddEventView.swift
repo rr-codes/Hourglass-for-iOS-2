@@ -42,7 +42,7 @@ struct StylizedTextField: View {
     
     let onEditingChanged: (Bool) -> Void
     let onCommit: () -> Void
-        
+    
     var body: some View {
         Text("What's the occasion?")
             .bold()
@@ -50,14 +50,15 @@ struct StylizedTextField: View {
         
         HStack {
             TextField("New Year's Day", text: $text, onEditingChanged: onEditingChanged, onCommit: onCommit)
+                .autocapitalization(.words)
                 .padding(.leading, 10)
                 .font(Font.body.weight(.medium))
                 .background(
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color.foreground.opacity(0.05))
                         .padding(.vertical, -10)
-            )
-            .padding(.trailing, 10)
+                )
+                .padding(.trailing, 10)
             
             Text(emoji)
                 .background(
@@ -86,7 +87,7 @@ struct DateView: View {
         df.timeStyle = .short
         return df
     }
-        
+    
     var body: some View {
         Text("When's it happening?")
             .bold()
@@ -102,7 +103,7 @@ struct DateView: View {
                 .font(Font.body.weight(.medium))
                 .onTapGesture {
                     UIApplication.shared.endEditing()
-
+                    
                     withAnimation {
                         self.show.toggle()
                     }
@@ -113,10 +114,10 @@ struct DateView: View {
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black.opacity(0.03))
-
+                
                 DatePicker("Select a Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                .labelsHidden()
-                .datePickerStyle(GraphicalDatePickerStyle())
+                    .labelsHidden()
+                    .datePickerStyle(GraphicalDatePickerStyle())
             }
             .height(350)
             .mask(Rectangle().height(show ? 350 : 0))
@@ -243,20 +244,20 @@ struct AddEventView: View {
                     Spacer().height(35)
                     
                     DateView(date: $date)
-
+                    
                     Spacer().height(35)
                     
                     ImagePicker(allImages: allImages, selectedImage: $image)
                     
                     Spacer().height(50)
-
+                    
                     Button {
                         let data = (name: name, start: start ?? Date(), end: date, emoji: emoji, image: image!)
                         
                         if let image = image {
                             self.provider.sendDownloadRequest(for: image)
                         }
-                                                
+                        
                         self.onDismiss(data)
                     } label: {
                         Text(isEditing ? "Apply Changes" : "Create Event")

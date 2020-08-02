@@ -93,6 +93,7 @@ struct EventMenuItems: View {
 }
 
 struct HomeView: View {
+    @Environment(\.eventManager) var eventManager: EventManager
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
 
     let events: FetchedResults<Event>
@@ -117,7 +118,7 @@ struct HomeView: View {
         } onPin: { isPinned in
             UserDefaults.appGroup!.set(isPinned ? "" : id, forKey: "pinnedEvent")
         } onDelete: {
-            EventManager.shared.removeEvent(from: context, event: event)
+            self.eventManager.removeEvent(from: context, event: event)
         }
     }
     
@@ -186,6 +187,11 @@ struct HomeView: View {
                             ) { event in
                                 selectedEvent = event
                             }
+                        }
+                    }
+                    .onChange(of: selectedEvent) { event in
+                        if let event = event {
+                            self.eventManager.reindex(event)
                         }
                     }
                 }
