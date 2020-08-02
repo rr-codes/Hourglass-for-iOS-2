@@ -41,5 +41,6 @@ struct PlaceholderView: View {
 struct PlaceholderView_Previews: PreviewProvider {
     static var previews: some View {
         PlaceholderView()
+            .preferredColorScheme(.dark)
     }
 }

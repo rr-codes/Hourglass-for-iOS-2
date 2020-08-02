@@ -55,6 +55,7 @@ public class UnsplashImage: NSObject, Identifiable, Codable {
     private let color: String
 
     public let id: String
+    public var links: [String : URL]? = nil
     public let user: UnsplashUser
     
     public var overallColor: Color {

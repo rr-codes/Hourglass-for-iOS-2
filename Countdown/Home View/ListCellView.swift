@@ -89,6 +89,7 @@ struct ListCellView_Previews: PreviewProvider {
                 name: "My Birthday"
             )
         }
+        .preferredColorScheme(.dark)
         
         
     }

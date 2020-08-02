@@ -117,6 +117,8 @@ struct EmojiOverlay: View {
 }
 
 struct EmojiPickerViewPreviewHelper: View {
+    @Environment(\.emojiProvider) var provider: EmojiDBProvider
+    
     @State var emoji = "😀"
     @State var show = true;
 
@@ -126,7 +128,7 @@ struct EmojiPickerViewPreviewHelper: View {
                 Toggle("Toggle", isOn: $show).offset(x: 0, y: -100)
             )
             .overlay(
-                EmojiOverlay(database: EmojiDBProvider.shared.database, categories: EmojiDBProvider.categories, isPresented: $show, emoji: $emoji)
+                EmojiOverlay(database: provider.database, categories: EmojiDBProvider.categories, isPresented: $show, emoji: $emoji)
             )
     }
 }

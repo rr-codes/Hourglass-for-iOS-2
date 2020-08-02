@@ -28,6 +28,7 @@
 		074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
 		0742550124CED6A1006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
+		07540DD624D66C6F0057B1C4 /* EnvironmentKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
@@ -119,6 +120,7 @@
 		071C05D024CEB3CC00E53EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EventProgressIntent.entitlements; sourceTree = "<group>"; };
 		074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSpotlightConfiguration.swift; sourceTree = "<group>"; };
+		07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKeys.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		07AB883324CD584400837FA8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 				07E245D124D118EF00E45489 /* EventManager.swift */,
 				07DDD7EB24CA04BB003C9421 /* MockImages.swift */,
 				074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */,
+				07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				0700F40724CBBA6300028EA9 /* Event+CoreDataClass.swift in Sources */,
 				07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */,
 				071C05C324CEAC7F00E53EAC /* NotificationManager.swift in Sources */,
+				07540DD624D66C6F0057B1C4 /* EnvironmentKeys.swift in Sources */,
 				07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */,
 				0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */,
 				07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */,

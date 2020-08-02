@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EventView: View {
+    @Environment(\.calendar) var calendar: Calendar
+    
     @State var now: Date = Date()
     @State var counter = 0
     @State var shouldEmitConfetti = false
@@ -42,13 +44,13 @@ struct EventView: View {
     }
     
     func format(_ interval: (start: Date, end: Date), numberOfDroppedUnits n: Int, using formatter: DateComponentsFormatter) -> String? {
-        let inOneDay  = Calendar.current.date(byAdding: .day, value: 1, to: interval.start)!
-        let inOneHour = Calendar.current.date(byAdding: .hour, value: 1, to: interval.start)!
-        let inOneMin  = Calendar.current.date(byAdding: .minute, value: 1, to: interval.start)!
+        let inOneDay  = calendar.date(byAdding: .day, value: 1, to: interval.start)!
+        let inOneHour = calendar.date(byAdding: .hour, value: 1, to: interval.start)!
+        let inOneMin  = calendar.date(byAdding: .minute, value: 1, to: interval.start)!
         
-        let oneDayAgo  = Calendar.current.date(byAdding: .day, value: -1, to: interval.start)!
-        let oneHourAgo = Calendar.current.date(byAdding: .hour, value: -1, to: interval.start)!
-        let oneMinAgo  = Calendar.current.date(byAdding: .minute, value: -1, to: interval.start)!
+        let oneDayAgo  = calendar.date(byAdding: .day, value: -1, to: interval.start)!
+        let oneHourAgo = calendar.date(byAdding: .hour, value: -1, to: interval.start)!
+        let oneMinAgo  = calendar.date(byAdding: .minute, value: -1, to: interval.start)!
                 
         var units: [NSCalendar.Unit] = [.day, .hour, .minute, .second]
         
@@ -89,6 +91,8 @@ struct EventView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "xmark.circle.fill")
+                            .renderingMode(.original)
+                            .foregroundColor(.black)
                             .imageScale(.large)
                             .scaleEffect(1.2)
                             .background(Color.white.clipShape(Circle()))
@@ -142,9 +146,7 @@ struct EventView: View {
     }
 }
 
-struct EventView_Previews: PreviewProvider {
-    @Namespace static var namespace
-    
+struct EventView_Previews: PreviewProvider {    
     static let (name, _, end, emoji, image) = MockData.greece
     
     static var previews: some View {
@@ -154,5 +156,6 @@ struct EventView_Previews: PreviewProvider {
             date: Date(timeIntervalSinceNow: 20),
             emoji: emoji
         ) {}
+        .preferredColorScheme(.dark)
     }
 }

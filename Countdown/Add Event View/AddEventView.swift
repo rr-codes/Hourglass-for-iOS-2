@@ -38,7 +38,7 @@ struct CTAButtonStyle: ButtonStyle {
 struct StylizedTextField: View {
     @Binding var text: String
     @Binding var showEmojiPicker: Bool
-    @State var emoji: String
+    @Binding var emoji: String
     
     let onEditingChanged: (Bool) -> Void
     let onCommit: () -> Void
@@ -68,6 +68,7 @@ struct StylizedTextField: View {
                 .width(44)
                 .onTapGesture {
                     showEmojiPicker.toggle()
+                    UIApplication.shared.endEditing()
                 }
         }
         .height(44)
@@ -226,7 +227,11 @@ struct AddEventView: View {
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
-                    StylizedTextField(text: $name, showEmojiPicker: $showEmojiOverlay, emoji: emoji) { startedEditing in
+                    StylizedTextField(
+                        text: $name,
+                        showEmojiPicker: $showEmojiOverlay,
+                        emoji: $emoji
+                    ) { startedEditing in
                         if !startedEditing {
                             self.loadRelevantImages(for: name)
                         }
@@ -248,7 +253,11 @@ struct AddEventView: View {
                     Button {
                         let data = (name: name, start: start ?? Date(), end: date, emoji: emoji, image: image!)
                         
-                        onDismiss(data)
+                        if let image = image {
+                            self.provider.sendDownloadRequest(for: image)
+                        }
+                                                
+                        self.onDismiss(data)
                     } label: {
                         Text(isEditing ? "Apply Changes" : "Create Event")
                     }

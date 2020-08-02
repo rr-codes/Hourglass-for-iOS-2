@@ -46,13 +46,13 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
         VStack(spacing: 0) {
             ForEach(data) { event in
                 ListCellView(
-                    imageURL: event.image.url(for: .regular),
+                    imageURL: event.image.url(for: .small),
                     imageColor: event.image.overallColor,
                     date: event.end,
                     emoji: event.emoji,
                     name: event.name
                 )
-                .background(Color.white)
+                .background(Color.background)
                 .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .contextMenu {
                     menuItems(event)
@@ -146,7 +146,7 @@ struct HomeView: View {
                         }
                     }
             }
-            .background(Color.white)
+            .background(Color.background)
             .padding(.horizontal, 20)
             
             if events.isEmpty {
@@ -158,7 +158,7 @@ struct HomeView: View {
                             CardView(data: first.properties)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 10)
-                                .background(Color.white)
+                                .background(Color.background)
                                 .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                 .contextMenu {
                                     eventMenuItems(first)
@@ -204,6 +204,7 @@ struct ContentView: View {
     @AppStorage("pinnedEvent", store: UserDefaults.appGroup) var pinnedEventID: String?
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
+    @Environment(\.eventManager) var eventManager: EventManager
         
     @State var modifiableEvent: Event?
     @State var showModifyView: Bool = false
@@ -256,10 +257,10 @@ struct ContentView: View {
             AddEventView(modifying: modifiableEvent.map(\.properties)) { (data) in
                 if let data = data {
                     if let modified = modifiableEvent {
-                        EventManager.shared.removeEvent(from: context, event: modified)
+                        self.eventManager.removeEvent(from: context, event: modified)
                     }
                     
-                    EventManager.shared.addEvent(to: context, configuration: data)
+                    self.eventManager.addEvent(to: context, configuration: data)
                 }
                 
                 self.modifiableEvent = nil
@@ -282,6 +283,7 @@ struct ContentView_Previews: PreviewProvider {
         MockData.all.forEach { EventManager.shared.addEvent(to: store.context, configuration: $0) }
         
         return ContentView()
+            .preferredColorScheme(.dark)
             .environment(\.managedObjectContext, store.context)
             .previewDevice("iPhone 11 Pro")
     }

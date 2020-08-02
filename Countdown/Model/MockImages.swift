@@ -16,6 +16,9 @@ private let greeceJSON = """
         "regular": "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0",
         "small": "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE1MDY2Mn0"
     },
+    "links": {
+        "download_location": "https://api.unsplash.com/photos/_vA2q0-NroU/download"
+    },
     "user": {
         "name": "Jonathan Gallegos",
         "links": {

@@ -19,9 +19,7 @@ public class UnsplashResultProvider: ObservableObject {
         authToken: Bundle.main.apiKey(named: "API_KEY"),
         on: .main
     )
-    
-    private static let endpoint = "https://api.unsplash.com/search/photos"
-    
+        
     @Published public var result: UnsplashResult? = nil
     
     private let clientID: String
@@ -32,6 +30,22 @@ public class UnsplashResultProvider: ObservableObject {
         self.urlSession = session
         self.clientID = clientID
         self.runLoop = runLoop
+    }
+    
+    public func sendDownloadRequest(for image: UnsplashImage) {
+        guard let url = image.links?["download_location"] else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.addValue("v1", forHTTPHeaderField: "Accept-Version")
+        request.setValue("Client-ID \(self.clientID)", forHTTPHeaderField: "Authorization")
+        
+        self.urlSession.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                fatalError(error.localizedDescription)
+            }
+        }.resume()
     }
     
     /// Fetches images from Unsplash using the specified `query` into an `UnsplashResult` and publishes the result to the `result` field
