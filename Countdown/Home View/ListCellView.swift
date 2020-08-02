@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class RelativeDateFormatter: DateComponentsFormatter {
+class FixedDateComponentsFormatter: DateComponentsFormatter {
     override func string(from ti: TimeInterval) -> String? {
         guard let string = super.string(from: abs(ti)) else {
             return nil
@@ -27,7 +27,7 @@ struct ListCellView: View {
     let size: CGFloat = 85
         
     var formatter: DateComponentsFormatter {
-        let dcf = RelativeDateFormatter()
+        let dcf = FixedDateComponentsFormatter()
         dcf.allowedUnits = [.day, .hour, .minute, .second]
         dcf.unitsStyle = .full
         dcf.maximumUnitCount = 2

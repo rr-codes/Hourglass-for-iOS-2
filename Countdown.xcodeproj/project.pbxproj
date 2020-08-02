@@ -13,7 +13,6 @@
 		0703CB4124CAA54A0089D7D2 /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4024CAA54A0089D7D2 /* ListCellView.swift */; };
 		0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */; };
 		0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4424CADA7E0089D7D2 /* EventView.swift */; };
-		0703CB4924CAE9480089D7D2 /* EmojiTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */; };
 		0706FF4F24CFD86600D51012 /* IndexRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0706FF4E24CFD86600D51012 /* IndexRequestHandler.swift */; };
 		0706FF5324CFD86600D51012 /* SpotlightIndex.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0706FF4C24CFD86600D51012 /* SpotlightIndex.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		071C05C324CEAC7F00E53EAC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C224CEAC7F00E53EAC /* NotificationManager.swift */; };
@@ -29,7 +28,6 @@
 		074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
 		0742550124CED6A1006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
-		0771CC6124D296B20090399D /* FancyText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0771CC6024D296B20090399D /* FancyText.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
@@ -38,6 +36,10 @@
 		07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
 		07DDD7E924C9ECE9003C9421 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
 		07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7EB24CA04BB003C9421 /* MockImages.swift */; };
+		07DF3B1824D50964001EFCB7 /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF3B1724D50964001EFCB7 /* EmojiPickerView.swift */; };
+		07DF3B1B24D5097D001EFCB7 /* EmojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF3B1A24D5097D001EFCB7 /* EmojiModel.swift */; };
+		07DF3B2524D5162D001EFCB7 /* CountdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF3B2424D5162D001EFCB7 /* CountdownTests.swift */; };
+		07DF3B2E24D53BD5001EFCB7 /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 07DF3B2D24D53BD5001EFCB7 /* emoji.json */; };
 		07E245D224D118EF00E45489 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D124D118EF00E45489 /* EventManager.swift */; };
 		07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D624D1429300E45489 /* UnsplashFetchers.swift */; };
 		07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
@@ -64,6 +66,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 071C05CB24CEB3CC00E53EAC;
 			remoteInfo = EventProgressIntent;
+		};
+		07DF3B2724D5162D001EFCB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07E4251024C9CA8E00C434C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07E4251724C9CA8F00C434C4;
+			remoteInfo = Countdown;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -99,7 +108,6 @@
 		0703CB4024CAA54A0089D7D2 /* ListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
 		0703CB4224CAC4890089D7D2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		0703CB4424CADA7E0089D7D2 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
-		0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextFieldView.swift; sourceTree = "<group>"; };
 		0706FF4C24CFD86600D51012 /* SpotlightIndex.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SpotlightIndex.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0706FF4E24CFD86600D51012 /* IndexRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexRequestHandler.swift; sourceTree = "<group>"; };
 		0706FF5024CFD86600D51012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -111,7 +119,6 @@
 		071C05D024CEB3CC00E53EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EventProgressIntent.entitlements; sourceTree = "<group>"; };
 		074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSpotlightConfiguration.swift; sourceTree = "<group>"; };
-		0771CC6024D296B20090399D /* FancyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyText.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		07AB883324CD584400837FA8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
@@ -121,6 +128,12 @@
 		07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Countdown.entitlements; sourceTree = "<group>"; };
 		07DDD7EB24CA04BB003C9421 /* MockImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImages.swift; sourceTree = "<group>"; };
+		07DF3B1724D50964001EFCB7 /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		07DF3B1A24D5097D001EFCB7 /* EmojiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiModel.swift; sourceTree = "<group>"; };
+		07DF3B2224D5162D001EFCB7 /* CountdownTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountdownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		07DF3B2424D5162D001EFCB7 /* CountdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTests.swift; sourceTree = "<group>"; };
+		07DF3B2624D5162D001EFCB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07DF3B2D24D53BD5001EFCB7 /* emoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
 		07E245D124D118EF00E45489 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		07E245D424D11B1000E45489 /* SpotlightIndex.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SpotlightIndex.entitlements; sourceTree = "<group>"; };
 		07E245D624D1429300E45489 /* UnsplashFetchers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashFetchers.swift; sourceTree = "<group>"; };
@@ -142,6 +155,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		071C05C924CEB3CC00E53EAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07DF3B1F24D5162D001EFCB7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,10 +202,21 @@
 		07AB883224CD436600837FA8 /* Add Event View */ = {
 			isa = PBXGroup;
 			children = (
+				07DF3B2D24D53BD5001EFCB7 /* emoji.json */,
+				07DF3B1724D50964001EFCB7 /* EmojiPickerView.swift */,
+				07DF3B1A24D5097D001EFCB7 /* EmojiModel.swift */,
 				07AB883024CCF54100837FA8 /* AddEventView.swift */,
-				0703CB4824CAE9480089D7D2 /* EmojiTextFieldView.swift */,
 			);
 			path = "Add Event View";
+			sourceTree = "<group>";
+		};
+		07DF3B2324D5162D001EFCB7 /* CountdownTests */ = {
+			isa = PBXGroup;
+			children = (
+				07DF3B2424D5162D001EFCB7 /* CountdownTests.swift */,
+				07DF3B2624D5162D001EFCB7 /* Info.plist */,
+			);
+			path = CountdownTests;
 			sourceTree = "<group>";
 		};
 		07E4250F24C9CA8E00C434C4 = {
@@ -195,6 +226,7 @@
 				07E4251A24C9CA8F00C434C4 /* Countdown */,
 				071C05CD24CEB3CC00E53EAC /* EventProgressIntent */,
 				0706FF4D24CFD86600D51012 /* SpotlightIndex */,
+				07DF3B2324D5162D001EFCB7 /* CountdownTests */,
 				07E4251924C9CA8F00C434C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -205,6 +237,7 @@
 				07E4251824C9CA8F00C434C4 /* Countdown.app */,
 				071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */,
 				0706FF4C24CFD86600D51012 /* SpotlightIndex.appex */,
+				07DF3B2224D5162D001EFCB7 /* CountdownTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -220,7 +253,6 @@
 				07AB883224CD436600837FA8 /* Add Event View */,
 				07AB882E24CCEEF000837FA8 /* StringExtensions.swift */,
 				0703CB4424CADA7E0089D7D2 /* EventView.swift */,
-				0771CC6024D296B20090399D /* FancyText.swift */,
 				07E4251F24C9CA9000C434C4 /* Assets.xcassets */,
 				07E4252424C9CA9000C434C4 /* Info.plist */,
 				07E4252124C9CA9000C434C4 /* Preview Content */,
@@ -304,6 +336,24 @@
 			productReference = 071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		07DF3B2124D5162D001EFCB7 /* CountdownTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07DF3B2924D5162D001EFCB7 /* Build configuration list for PBXNativeTarget "CountdownTests" */;
+			buildPhases = (
+				07DF3B1E24D5162D001EFCB7 /* Sources */,
+				07DF3B1F24D5162D001EFCB7 /* Frameworks */,
+				07DF3B2024D5162D001EFCB7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				07DF3B2824D5162D001EFCB7 /* PBXTargetDependency */,
+			);
+			name = CountdownTests;
+			productName = CountdownTests;
+			productReference = 07DF3B2224D5162D001EFCB7 /* CountdownTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		07E4251724C9CA8F00C434C4 /* Countdown */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 07E4252724C9CA9000C434C4 /* Build configuration list for PBXNativeTarget "Countdown" */;
@@ -343,6 +393,10 @@
 					071C05CB24CEB3CC00E53EAC = {
 						CreatedOnToolsVersion = 12.0;
 					};
+					07DF3B2124D5162D001EFCB7 = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = 07E4251724C9CA8F00C434C4;
+					};
 					07E4251724C9CA8F00C434C4 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -367,6 +421,7 @@
 				07E4251724C9CA8F00C434C4 /* Countdown */,
 				071C05CB24CEB3CC00E53EAC /* EventProgressIntent */,
 				0706FF4B24CFD86600D51012 /* SpotlightIndex */,
+				07DF3B2124D5162D001EFCB7 /* CountdownTests */,
 			);
 		};
 /* End PBXProject section */
@@ -386,12 +441,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		07DF3B2024D5162D001EFCB7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07E4251624C9CA8F00C434C4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				07E4252324C9CA9000C434C4 /* Preview Assets.xcassets in Resources */,
 				07FFC86624CC155400C672FB /* defaultImages.json in Resources */,
+				07DF3B2E24D53BD5001EFCB7 /* emoji.json in Resources */,
 				07E4252024C9CA9000C434C4 /* Assets.xcassets in Resources */,
 				07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */,
 				071C05C524CEB24400E53EAC /* Success-1.caf in Resources */,
@@ -426,16 +489,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		07DF3B1E24D5162D001EFCB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07DF3B2524D5162D001EFCB7 /* CountdownTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07E4251424C9CA8F00C434C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				07E245D224D118EF00E45489 /* EventManager.swift in Sources */,
 				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
-				0771CC6124D296B20090399D /* FancyText.swift in Sources */,
 				0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */,
 				0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */,
 				07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */,
+				07DF3B1B24D5097D001EFCB7 /* EmojiModel.swift in Sources */,
 				071C05C724CEB29D00E53EAC /* Intents.intentdefinition in Sources */,
 				0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */,
 				0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */,
@@ -444,6 +515,7 @@
 				07DDD7E924C9ECE9003C9421 /* CoreDataStore.swift in Sources */,
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
 				07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */,
+				07DF3B1824D50964001EFCB7 /* EmojiPickerView.swift in Sources */,
 				07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */,
 				0700F40724CBBA6300028EA9 /* Event+CoreDataClass.swift in Sources */,
 				07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */,
@@ -451,7 +523,6 @@
 				07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */,
 				0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */,
 				07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */,
-				0703CB4924CAE9480089D7D2 /* EmojiTextFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +539,11 @@
 			target = 071C05CB24CEB3CC00E53EAC /* EventProgressIntent */;
 			targetProxy = 071C05D124CEB3CC00E53EAC /* PBXContainerItemProxy */;
 		};
+		07DF3B2824D5162D001EFCB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07E4251724C9CA8F00C434C4 /* Countdown */;
+			targetProxy = 07DF3B2724D5162D001EFCB7 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -476,6 +552,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SpotlightIndex/SpotlightIndex.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = SpotlightIndex/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -483,6 +560,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2.SpotlightIndex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -496,6 +574,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SpotlightIndex/SpotlightIndex.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = SpotlightIndex/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -503,6 +582,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2.SpotlightIndex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -516,6 +596,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = EventProgressIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -523,6 +604,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2.EventProgressIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -536,6 +618,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = EventProgressIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -543,11 +626,52 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2.EventProgressIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		07DF3B2A24D5162D001EFCB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DS63W44KSD;
+				INFOPLIST_FILE = CountdownTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.CountdownTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Countdown.app/Countdown";
+			};
+			name = Debug;
+		};
+		07DF3B2B24D5162D001EFCB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DS63W44KSD;
+				INFOPLIST_FILE = CountdownTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.CountdownTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Countdown.app/Countdown";
 			};
 			name = Release;
 		};
@@ -675,6 +799,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				ENABLE_PREVIEWS = YES;
@@ -684,6 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -699,6 +825,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				ENABLE_PREVIEWS = YES;
@@ -708,6 +835,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.richardrobinson.Countdown2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -732,6 +860,15 @@
 			buildConfigurations = (
 				071C05D524CEB3CC00E53EAC /* Debug */,
 				071C05D624CEB3CC00E53EAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07DF3B2924D5162D001EFCB7 /* Build configuration list for PBXNativeTarget "CountdownTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07DF3B2A24D5162D001EFCB7 /* Debug */,
+				07DF3B2B24D5162D001EFCB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

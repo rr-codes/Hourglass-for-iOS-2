@@ -6,6 +6,18 @@
 //
 
 import SwiftUI
+import Combine
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+extension Color {
+    static let background: Self = .init(.systemBackground)
+    static let foreground: Self = .init(.label)
+}
 
 struct CTAButtonStyle: ButtonStyle {
     let color: Color
@@ -13,7 +25,7 @@ struct CTAButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(Font.body.weight(.semibold))
-            .foregroundColor(.white)
+            .foregroundColor(.background)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 13)
             .background(
@@ -25,8 +37,10 @@ struct CTAButtonStyle: ButtonStyle {
 
 struct StylizedTextField: View {
     @Binding var text: String
-    @Binding var emoji: String
+    @Binding var showEmojiPicker: Bool
+    @State var emoji: String
     
+    let onEditingChanged: (Bool) -> Void
     let onCommit: () -> Void
         
     var body: some View {
@@ -35,22 +49,26 @@ struct StylizedTextField: View {
             .padding(.bottom, 10)
         
         HStack {
-            TextField("New Year's Day", text: $text, onCommit: onCommit)
+            TextField("New Year's Day", text: $text, onEditingChanged: onEditingChanged, onCommit: onCommit)
                 .padding(.leading, 10)
                 .font(Font.body.weight(.medium))
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.black.opacity(0.05))
+                        .fill(Color.foreground.opacity(0.05))
                         .padding(.vertical, -10)
             )
             .padding(.trailing, 10)
             
-            EmojiPicker(emoji: $emoji)
+            Text(emoji)
                 .background(
                     Circle()
-                        .fill(Color.black.opacity(0.03))
+                        .fill(Color.foreground.opacity(0.05))
+                        .frame(width: 42, height: 42)
                 )
                 .width(44)
+                .onTapGesture {
+                    showEmojiPicker.toggle()
+                }
         }
         .height(44)
     }
@@ -75,13 +93,15 @@ struct DateView: View {
         
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.black.opacity(0.05))
-                .height(40)
+                .fill(Color.foreground.opacity(0.05))
+                .height(41)
             
             Text(formatter.string(from: date))
                 .padding(.leading, 10)
                 .font(Font.body.weight(.medium))
                 .onTapGesture {
+                    UIApplication.shared.endEditing()
+
                     withAnimation {
                         self.show.toggle()
                     }
@@ -151,16 +171,16 @@ struct AddEventView: View {
     @State private var date: Date = Date()
     @State private var image: UnsplashImage? = nil
     
-    @State var customImages: [UnsplashImage] = []
+    @State private var showEmojiOverlay: Bool = false
     
-    let provider: UnsplashResultProvider = .shared
+    @ObservedObject var provider: UnsplashResultProvider = .shared
     
     let isEditing: Bool
     let onDismiss: (Event.Properties?) -> Void
     let start: Date?
     
     var allImages: [UnsplashImage] {
-        return self.customImages + UnsplashResult.default.results
+        return (self.provider.result?.images ?? []) + UnsplashResult.default.images
     }
     
     init(modifying data: Event.Properties? = nil, _ onDismiss: @escaping (Event.Properties?) -> Void) {
@@ -184,15 +204,7 @@ struct AddEventView: View {
             processed = query
         }
                 
-        self.provider.fetch(query: processed) { result in
-            switch result {
-            case .success(let result):
-                self.customImages = result.results
-                
-            case .failure(let error):
-                fatalError(error.localizedDescription)
-            }
-        }
+        try? self.provider.fetch(query: processed)
     }
     
     var body: some View {
@@ -208,15 +220,20 @@ struct AddEventView: View {
                     }
                     .offset(x: 0, y: -1)
             }
-            .background(Color.white)
+            .background(Color.background)
             .padding(.top, 20)
             .padding(.bottom)
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
-                    StylizedTextField(text: $name, emoji: $emoji, onCommit: {
+                    StylizedTextField(text: $name, showEmojiPicker: $showEmojiOverlay, emoji: emoji) { startedEditing in
+                        if !startedEditing {
+                            self.loadRelevantImages(for: name)
+                        }
+                    } onCommit: {
                         self.loadRelevantImages(for: name)
-                    })
+                        UIApplication.shared.endEditing()
+                    }
                     
                     Spacer().height(35)
                     
@@ -235,7 +252,8 @@ struct AddEventView: View {
                     } label: {
                         Text(isEditing ? "Apply Changes" : "Create Event")
                     }
-                    .buttonStyle(CTAButtonStyle(color: .black))
+                    .buttonStyle(CTAButtonStyle(color: .foreground))
+                    .opacity(name.isEmpty ? 0.5 : 1.0)
                     .disabled(name.isEmpty)
                 }
             }
@@ -246,11 +264,20 @@ struct AddEventView: View {
                 self.loadRelevantImages(for: name)
             }
         }
+        .overlay(
+            EmojiOverlay(
+                database: EmojiDBProvider.shared.database,
+                categories: EmojiDBProvider.categories,
+                isPresented: $showEmojiOverlay,
+                emoji: $emoji
+            )
+        )
     }
 }
 
 struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
         AddEventView { _ in}
+            .preferredColorScheme(.dark)
     }
 }

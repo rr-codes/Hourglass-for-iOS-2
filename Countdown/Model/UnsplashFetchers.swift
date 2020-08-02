@@ -6,30 +6,36 @@
 //
 
 import Foundation
+import Combine
+import SwiftUI
 
 public enum FetchError: Error {
-    case dataUnavailable(response: URLResponse?)
     case invalidURL(String)
-    case invalidQuery(String)
 }
 
-public class UnsplashResultProvider {
+public class UnsplashResultProvider: ObservableObject {
     public static let shared = UnsplashResultProvider(
         using: .shared,
-        authToken: Bundle.main.apiKey(named: "API_KEY")
+        authToken: Bundle.main.apiKey(named: "API_KEY"),
+        on: .main
     )
     
     private static let endpoint = "https://api.unsplash.com/search/photos"
     
+    @Published public var result: UnsplashResult? = nil
+    
     private let clientID: String
     private let urlSession: URLSession
+    private let runLoop: RunLoop
     
-    init(using session: URLSession, authToken clientID: String) {
+    init(using session: URLSession, authToken clientID: String, on runLoop: RunLoop) {
         self.urlSession = session
         self.clientID = clientID
+        self.runLoop = runLoop
     }
     
-    public func fetch(query: String, _ completion: @escaping (Result<UnsplashResult, Error>) -> Void) {
+    /// Fetches images from Unsplash using the specified `query` into an `UnsplashResult` and publishes the result to the `result` field
+    public func fetch(query: String) throws {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.unsplash.com"
@@ -39,24 +45,19 @@ public class UnsplashResultProvider {
         ]
         
         guard let url = urlComponents.url else {
-            return completion(.failure(FetchError.invalidURL(urlComponents.description)))
+            throw FetchError.invalidURL(urlComponents.description)
         }
-
         
         var request = URLRequest(url: url)
         request.addValue("v1", forHTTPHeaderField: "Accept-Version")
         request.setValue("Client-ID \(self.clientID)", forHTTPHeaderField: "Authorization")
         
-        self.urlSession.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                return completion(.failure(error ?? FetchError.dataUnavailable(response: response)))
-            }
-            
-            let decoder = JSONDecoder()
-            completion(Result {
-                try decoder.decode(UnsplashResult.self, from: data)
-            })
-        }.resume()
+        self.urlSession.dataTaskPublisher(for: request)
+            .map(\.data)
+            .decode(type: UnsplashResult?.self, decoder: JSONDecoder())
+            .replaceError(with: nil)
+            .receive(on: runLoop)
+            .assign(to: &$result)
     }
 }
 

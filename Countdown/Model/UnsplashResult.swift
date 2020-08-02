@@ -67,7 +67,11 @@ public class UnsplashImage: NSObject, Identifiable, Codable {
 }
 
 public struct UnsplashResult: Codable {
-    public let results: [UnsplashImage]
+    public let images: [UnsplashImage]
+    
+    enum CodingKeys: String, CodingKey {
+        case images = "results"
+    }
     
     public static var `default`: UnsplashResult {
         let path = Bundle.main.path(forResource: "defaultImages", ofType: "json")

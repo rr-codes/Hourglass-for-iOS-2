@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-
-
 struct EventView: View {
+    @State var now: Date = Date()
+    @State var counter = 0
+    @State var shouldEmitConfetti = false
+
     let image: UnsplashImage
     let name: String
     let date: Date
@@ -17,7 +19,7 @@ struct EventView: View {
     
     let onDismiss: () -> Void
     
-    @State var numberOfDroppedUnits = 0
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var unsplashLink: URL? {
         var urlComponents = URLComponents()
@@ -33,12 +35,37 @@ struct EventView: View {
     
     var formatter: DateComponentsFormatter {
         let dcf = DateComponentsFormatter()
-        let units: [NSCalendar.Unit] = [.day, .hour, .minute, .second]
-        
-        dcf.allowedUnits = NSCalendar.Unit(units.dropFirst(numberOfDroppedUnits))
+        dcf.allowedUnits = [.day, .hour, .minute, .second]
         dcf.unitsStyle = .short
         dcf.maximumUnitCount = 2
         return dcf
+    }
+    
+    func format(_ interval: (start: Date, end: Date), numberOfDroppedUnits n: Int, using formatter: DateComponentsFormatter) -> String? {
+        let inOneDay  = Calendar.current.date(byAdding: .day, value: 1, to: interval.start)!
+        let inOneHour = Calendar.current.date(byAdding: .hour, value: 1, to: interval.start)!
+        let inOneMin  = Calendar.current.date(byAdding: .minute, value: 1, to: interval.start)!
+        
+        let oneDayAgo  = Calendar.current.date(byAdding: .day, value: -1, to: interval.start)!
+        let oneHourAgo = Calendar.current.date(byAdding: .hour, value: -1, to: interval.start)!
+        let oneMinAgo  = Calendar.current.date(byAdding: .minute, value: -1, to: interval.start)!
+                
+        var units: [NSCalendar.Unit] = [.day, .hour, .minute, .second]
+        
+        if oneDayAgo...inOneDay ~= interval.end {
+            units.removeFirst()
+        }
+        
+        if oneHourAgo...inOneHour ~= interval.end {
+            units.removeFirst()
+        }
+        
+        if oneMinAgo...inOneMin ~= interval.end {
+            units.removeFirst()
+        }
+        
+        formatter.allowedUnits = .init(units.dropFirst(n % units.count))
+        return formatter.string(from: interval.end.timeIntervalSince(interval.start))
     }
     
     var gradientOverlay: LinearGradient {
@@ -49,11 +76,6 @@ struct EventView: View {
         
         return .init(gradient: gradient, startPoint: .top, endPoint: .bottom)
     }
-    
-//    TextBuilder.TextType.normal("Photo by")
-//    .link(image.user.name, url: image.user.links["html"])
-//    .normal("on")
-//    .link("Unsplash", url: unsplashLink)
             
     var body: some View {
         GeometryReader { geometry in
@@ -86,34 +108,37 @@ struct EventView: View {
                     
                     Spacer().height(8)
                     
-                    Text(formatter.string(from: date.timeIntervalSinceNow)!)
+                    Text(self.format((start: now, end: date), numberOfDroppedUnits: counter, using: formatter) ?? "")
                         .font(Font.title2.weight(.semibold))
                         .foregroundColor(Color(white: 0.5))
                         .onTapGesture {
-                            self.numberOfDroppedUnits = (self.numberOfDroppedUnits + 1) % 4
+                            self.counter += 1
                         }
                     
                     Spacer()
                     
-                    HStack {
-                        FancyText {
-                            TextType.normal("Photo by")
-                            
-                            TextType.link(image.user.name, url: image.user.links["html"])
-                            
-                            TextType.normal("on")
-                            
-                            TextType.link("Unsplash", url: unsplashLink)
+                    HStack(spacing: 3) {
+                        Text("Photo by")
+                        Link(destination: image.user.links["html"]!) { Text(image.user.name).underline()
                         }
-                        .font(.caption)
-                        .foregroundColor(Color.black.opacity(0.5))
+                        Text("on")
+                        Link(destination: unsplashLink!) { Text("Unsplash").underline() }
                         
                         Spacer()
                     }
+                    .font(.caption)
+                    .foregroundColor(Color.black.opacity(0.5))
                     .padding(.leading, 20)
                 }
             }
         }
+        .onReceive(timer) {
+            self.now = $0
+            if -1...0 ~= self.date.timeIntervalSince(self.now) {
+                self.shouldEmitConfetti = true
+            }
+        }
+        .confettiOverlay(self.emoji, emitWhen: $shouldEmitConfetti)
     }
 }
 
@@ -126,7 +151,7 @@ struct EventView_Previews: PreviewProvider {
         EventView(
             image: image,
             name: name,
-            date: end,
+            date: Date(timeIntervalSinceNow: 20),
             emoji: emoji
         ) {}
     }
