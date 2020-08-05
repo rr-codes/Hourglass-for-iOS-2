@@ -37,7 +37,7 @@ class CoreDataStore: ObservableObject {
     let container: NSPersistentContainer
     
     init(_ storageType: StorageType) {
-        #if os(iOS)
+        #if os(iOS) && !WIDGET
         UnsplashImageValueTransformer.register()
         #endif
         

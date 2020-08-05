@@ -111,41 +111,36 @@ struct MockImages {
 }
 
 struct MockData {
-    static let greece: Event.Properties = (
+    static let greece = Event.Properties(
         name: "Vacation in Greece",
-        start: Date(),
         end: Date(timeIntervalSinceNow: 86400 - 60),
         emoji: "🇬🇷",
         image: MockImages.greece
     )
     
-    static let eventA: Event.Properties = (
+    static let eventA = Event.Properties(
         name: "My Birthday",
-        start: Date(),
         end: Date(timeIntervalSinceNow: 86400 - 60),
         emoji: "😍",
         image: MockImages.birthday
     )
 
-    static let eventB: Event.Properties = (
+    static let eventB = Event.Properties(
         name: "New Year's Day",
-        start: Date(),
         end: Date(timeIntervalSinceNow: 86400 * 42),
         emoji: "🎉",
         image: MockImages.fireworks
     )
 
-    static let eventC: Event.Properties = (
+    static let eventC = Event.Properties(
         name: "Christmas",
-        start: Date(),
         end: Date(timeIntervalSinceNow: 86400 * 300),
         emoji: "🎄",
         image: MockImages.christmas
     )
 
-    static let eventD: Event.Properties = (
+    static let eventD = Event.Properties(
         name: "My Anniversary",
-        start: Date(),
         end: Date(timeIntervalSinceNow: -60 * 70),
         emoji: "💍",
         image: MockImages.anniversary

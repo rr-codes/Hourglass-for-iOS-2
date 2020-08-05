@@ -59,11 +59,11 @@ public class UnsplashImage: NSObject, Identifiable, Codable {
     public let user: UnsplashUser
     
     public var overallColor: Color {
-        return try! Color(hex: color)
+        try! Color(hex: color)
     }
     
     func url(for size: UnsplashImage.Size) -> URL {
-        return self.urls[size.rawValue]!
+        self.urls[size.rawValue]!
     }
 }
 

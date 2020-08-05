@@ -127,7 +127,7 @@ struct DateView: View {
 
 struct ImagePicker: View {
     var allImages: [UnsplashImage]
-    @Binding var selectedImage: UnsplashImage?
+    @Binding var selectedImage: UnsplashImage
     
     private let rows = [GridItem](repeating: GridItem(.flexible()), count: 2)
     
@@ -161,43 +161,35 @@ struct ImagePicker: View {
             }
         }
         .height(210)
-        .onChange(of: allImages) { newValue in
-            self.selectedImage = newValue.first!
-        }
     }
 }
 
 struct AddEventView: View {
+    @Environment(\.emojiProvider) var emojiProvider: EmojiDBProvider
+    
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
-    @State private var image: UnsplashImage? = nil
+    @State private var image: UnsplashImage = UnsplashResult.default.images.first!
     
     @State private var showEmojiOverlay: Bool = false
     
-    @ObservedObject var provider: UnsplashResultProvider = .shared
+    @StateObject var provider = UnsplashResultProvider()
     
-    let isEditing: Bool
     let onDismiss: (Event.Properties?) -> Void
-    let start: Date?
+    let props: Event.Properties?
     
     var allImages: [UnsplashImage] {
-        return (self.provider.result?.images ?? []) + UnsplashResult.default.images
+        (self.provider.result?.images ?? []) + UnsplashResult.default.images
+    }
+    
+    var isDisabled: Bool {
+        name.isEmpty
     }
     
     init(modifying data: Event.Properties? = nil, _ onDismiss: @escaping (Event.Properties?) -> Void) {
         self.onDismiss = onDismiss
-        self.isEditing = data != nil
-        
-        if let data = data {
-            self.start = data.start
-            self.name = data.name
-            self.emoji = data.emoji
-            self.date = data.end
-            self.image = data.image
-        } else {
-            self.start = nil
-        }
+        self.props = data
     }
     
     private func loadRelevantImages(for query: String) {
@@ -212,7 +204,7 @@ struct AddEventView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(isEditing ? "Edit Event" : "Create Event").font(.title).bold()
+                Text(props != nil ? "Edit Event" : "Create Event").font(.title).bold()
                 Spacer()
                 Image(systemName: "xmark.circle.fill")
                     .imageScale(.large)
@@ -252,42 +244,51 @@ struct AddEventView: View {
                     Spacer().height(50)
                     
                     Button {
-                        let data = (name: name, start: start ?? Date(), end: date, emoji: emoji, image: image!)
-                        
-                        if let image = image {
-                            self.provider.sendDownloadRequest(for: image)
-                        }
+                        let data = Event.Properties(name: name, end: date, emoji: emoji, image: image)
+                        self.provider.sendDownloadRequest(for: image)
                         
                         self.onDismiss(data)
                     } label: {
-                        Text(isEditing ? "Apply Changes" : "Create Event")
+                        Text(props != nil ? "Apply Changes" : "Create Event")
                     }
                     .buttonStyle(CTAButtonStyle(color: .foreground))
-                    .opacity(name.isEmpty ? 0.5 : 1.0)
-                    .disabled(name.isEmpty)
+                    .opacity(isDisabled ? 0.5 : 1.0)
+                    .disabled(isDisabled)
                 }
             }
         }
         .padding(.horizontal, 20)
         .onAppear {
-            if isEditing && !name.isEmpty {
+            if let data = props {
+                self.name = data.name
+                self.emoji = data.emoji
+                self.date = data.end
+                self.image = data.image ?? UnsplashResult.default.images.first!
+            }
+            
+            if props != nil && !name.isEmpty {
                 self.loadRelevantImages(for: name)
             }
         }
         .overlay(
             EmojiOverlay(
-                database: EmojiDBProvider.shared.database,
+                database: emojiProvider.database,
                 categories: EmojiDBProvider.categories,
                 isPresented: $showEmojiOverlay,
                 emoji: $emoji
             )
         )
+        .onReceive(provider.$result) { result in
+            if let first = result?.images.first {
+                self.image = first
+            }
+        }
     }
 }
 
 struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
-        AddEventView { _ in}
+        AddEventView { _ in }
             .preferredColorScheme(.dark)
     }
 }

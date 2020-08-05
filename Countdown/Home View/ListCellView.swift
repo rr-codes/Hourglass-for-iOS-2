@@ -7,17 +7,9 @@
 
 import SwiftUI
 
-class FixedDateComponentsFormatter: DateComponentsFormatter {
-    override func string(from ti: TimeInterval) -> String? {
-        guard let string = super.string(from: abs(ti)) else {
-            return nil
-        }
-        
-        return "\(string) \(ti < 0 ? "ago" : "remaining")"
-    }
-}
-
 struct ListCellView: View {
+    @EnvironmentObject var timer: GlobalTimer
+    
     let imageURL: URL
     let imageColor: Color
     let date: Date
@@ -27,7 +19,7 @@ struct ListCellView: View {
     let size: CGFloat = 85
         
     var formatter: DateComponentsFormatter {
-        let dcf = FixedDateComponentsFormatter()
+        let dcf = DateComponentsFormatter()
         dcf.allowedUnits = [.day, .hour, .minute, .second]
         dcf.unitsStyle = .full
         dcf.maximumUnitCount = 2
@@ -54,7 +46,7 @@ struct ListCellView: View {
                     .padding(.bottom, 4)
                     .padding(.top, 1)
                 
-                Text(formatter.string(from: date.timeIntervalSinceNow)!)
+                Text(formatter.string(from: date.timeIntervalSince(timer.lastUpdated))!)
                     .font(.subheadline)
                     .opacity(0.5)
                 

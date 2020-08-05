@@ -14,19 +14,17 @@ public enum FetchError: Error {
 }
 
 public class UnsplashResultProvider: ObservableObject {
-    public static let shared = UnsplashResultProvider(
-        using: .shared,
-        authToken: Bundle.main.apiKey(named: "API_KEY"),
-        on: .main
-    )
-        
     @Published public var result: UnsplashResult? = nil
     
     private let clientID: String
     private let urlSession: URLSession
     private let runLoop: RunLoop
     
-    init(using session: URLSession, authToken clientID: String, on runLoop: RunLoop) {
+    init(
+        using session: URLSession = .shared,
+        authToken clientID: String = Bundle.main.apiKey(named: "API_KEY"),
+        on runLoop: RunLoop = .main
+    ) {
         self.urlSession = session
         self.clientID = clientID
         self.runLoop = runLoop
@@ -91,7 +89,7 @@ public class Transformer<T: Transformable>: ValueTransformer {
             return nil
         }
         
-        return try! JSONEncoder().encode(image)
+        return try? JSONEncoder().encode(image)
     }
     
     public override func reverseTransformedValue(_ value: Any?) -> Any? {
@@ -99,7 +97,7 @@ public class Transformer<T: Transformable>: ValueTransformer {
             return nil
         }
         
-        return try! JSONDecoder().decode(T.self, from: Data(data))
+        return try? JSONDecoder().decode(T.self, from: Data(data))
     }
 }
 

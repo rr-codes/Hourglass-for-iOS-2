@@ -11,7 +11,12 @@ import CoreData
 
 @objc(Event)
 public class Event: NSManagedObject, Identifiable {
-    typealias Properties = (name: String, start: Date, end: Date, emoji: String, image: UnsplashImage)
+    struct Properties {
+        let name: String
+        let end: Date
+        let emoji: String
+        let image: UnsplashImage?
+    }
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Event> {
         return NSFetchRequest<Event>(entityName: "Event")
@@ -20,15 +25,14 @@ public class Event: NSManagedObject, Identifiable {
     @NSManaged public var emoji: String
     @NSManaged public var end: Date
     @NSManaged public var id: UUID
-    @NSManaged public var image: UnsplashImage
+    @NSManaged public var image: UnsplashImage?
     @NSManaged public var name: String
-    @NSManaged public var start: Date
     
     var isOver: Bool {
         return end < Date()
     }
     
     var properties: Properties {
-        (name, start, end, emoji, image)
+        Properties(name: name, end: end, emoji: emoji, image: image)
     }
 }

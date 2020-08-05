@@ -10,7 +10,6 @@ import SwiftUI
 struct EventView: View {
     @Environment(\.calendar) var calendar: Calendar
     
-    @State var now: Date = Date()
     @State var counter = 0
     @State var shouldEmitConfetti = false
 
@@ -20,9 +19,7 @@ struct EventView: View {
     let emoji: String
     
     let onDismiss: () -> Void
-    
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
+        
     var unsplashLink: URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
@@ -43,31 +40,32 @@ struct EventView: View {
         return dcf
     }
     
-    func format(_ interval: (start: Date, end: Date), numberOfDroppedUnits n: Int, using formatter: DateComponentsFormatter) -> String? {
-        let inOneDay  = calendar.date(byAdding: .day, value: 1, to: interval.start)!
-        let inOneHour = calendar.date(byAdding: .hour, value: 1, to: interval.start)!
-        let inOneMin  = calendar.date(byAdding: .minute, value: 1, to: interval.start)!
+    func format(end: Date, numberOfDroppedUnits n: Int, using formatter: DateComponentsFormatter) -> String? {
+        let now = Date()
+        let inOneDay  = calendar.date(byAdding: .day, value: 1, to: now)!
+        let inOneHour = calendar.date(byAdding: .hour, value: 1, to: now)!
+        let inOneMin  = calendar.date(byAdding: .minute, value: 1, to: now)!
         
-        let oneDayAgo  = calendar.date(byAdding: .day, value: -1, to: interval.start)!
-        let oneHourAgo = calendar.date(byAdding: .hour, value: -1, to: interval.start)!
-        let oneMinAgo  = calendar.date(byAdding: .minute, value: -1, to: interval.start)!
+        let oneDayAgo  = calendar.date(byAdding: .day, value: -1, to: now)!
+        let oneHourAgo = calendar.date(byAdding: .hour, value: -1, to: now)!
+        let oneMinAgo  = calendar.date(byAdding: .minute, value: -1, to: now)!
                 
         var units: [NSCalendar.Unit] = [.day, .hour, .minute, .second]
         
-        if oneDayAgo...inOneDay ~= interval.end {
+        if oneDayAgo...inOneDay ~= end {
             units.removeFirst()
         }
         
-        if oneHourAgo...inOneHour ~= interval.end {
+        if oneHourAgo...inOneHour ~= end {
             units.removeFirst()
         }
         
-        if oneMinAgo...inOneMin ~= interval.end {
+        if oneMinAgo...inOneMin ~= end {
             units.removeFirst()
         }
         
         formatter.allowedUnits = .init(units.dropFirst(n % units.count))
-        return formatter.string(from: interval.end.timeIntervalSince(interval.start))
+        return formatter.string(from: end.timeIntervalSince(now))
     }
     
     var gradientOverlay: LinearGradient {
@@ -112,7 +110,7 @@ struct EventView: View {
                     
                     Spacer().height(8)
                     
-                    Text(self.format((start: now, end: date), numberOfDroppedUnits: counter, using: formatter) ?? "")
+                    Text(self.format(end: date, numberOfDroppedUnits: counter, using: formatter) ?? "")
                         .font(Font.title2.weight(.semibold))
                         .foregroundColor(Color(white: 0.5))
                         .onTapGesture {
@@ -136,25 +134,19 @@ struct EventView: View {
                 }
             }
         }
-        .onReceive(timer) {
-            self.now = $0
-            if -1...0 ~= self.date.timeIntervalSince(self.now) {
-                self.shouldEmitConfetti = true
-            }
-        }
         .confettiOverlay(self.emoji, emitWhen: $shouldEmitConfetti)
     }
 }
 
 struct EventView_Previews: PreviewProvider {    
-    static let (name, _, end, emoji, image) = MockData.greece
+    static let data = MockData.greece
     
     static var previews: some View {
         EventView(
-            image: image,
-            name: name,
+            image: data.image!,
+            name: data.name,
             date: Date(timeIntervalSinceNow: 20),
-            emoji: emoji
+            emoji: data.emoji
         ) {}
         .preferredColorScheme(.dark)
     }

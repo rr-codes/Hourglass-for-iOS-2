@@ -24,17 +24,14 @@ class EventManager {
     }
     
     func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
-        let (name, start, end, emoji, image) = configuration
-        
         let event = Event(context: context)
         event.id = UUID()
-        event.start = start
-        event.end = end
-        event.name = name
-        event.emoji = emoji
-        event.image = image
+        event.end = configuration.end
+        event.name = configuration.name
+        event.emoji = configuration.emoji
+        event.image = configuration.image
         
-        self.notificationManager.register(config: (name, emoji, end, event.id)) { (result) in
+        self.notificationManager.register(config: (event.name, event.emoji, event.end, event.id)) { (result) in
             switch result {
             case .success(let hasBeenRegistered):
                 print("has been registered: \(hasBeenRegistered)")
