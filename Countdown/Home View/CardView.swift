@@ -39,7 +39,9 @@ struct CardView: View {
             .padding(.bottom, 6)
             
             Group {
-                Text(data.name).font(.headline).padding(.bottom, 4)
+                Text(data.name).font(.headline)
+                
+                Spacer().height(5)
                 
                 Text(formatter.string(from: data.end.timeIntervalSince(timer.lastUpdated))!)
                     .font(.subheadline)
@@ -62,5 +64,6 @@ struct CardView_Previews: PreviewProvider {
     
     static var previews: some View {
         CardView(data: props).padding()
+            .environmentObject(GlobalTimer(from: .init(interval: 1.0, runLoop: .current, mode: .common)))
     }
 }

@@ -43,8 +43,9 @@ struct ListCellView: View {
             VStack(alignment: .leading) {
                 Text(name)
                     .font(.headline)
-                    .padding(.bottom, 4)
                     .padding(.top, 1)
+                
+                Spacer().height(5)
                 
                 Text(formatter.string(from: date.timeIntervalSince(timer.lastUpdated))!)
                     .font(.subheadline)
@@ -80,8 +81,9 @@ struct ListCellView_Previews: PreviewProvider {
                 emoji: "🎉",
                 name: "My Birthday"
             )
+
         }
-        .preferredColorScheme(.dark)
+        .environmentObject(GlobalTimer(from: .init(interval: 1.0, runLoop: .current, mode: .common)))
         
         
     }

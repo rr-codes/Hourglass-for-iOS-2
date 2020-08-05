@@ -7,12 +7,12 @@
 		<key>AppWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>0</integer>
 		</dict>
 		<key>Countdown.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>CountdownWatch (Complication).xcscheme_^#shared#^_</key>
 		<dict>
@@ -32,12 +32,40 @@
 		<key>EventProgressIntent.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
+		</dict>
+		<key>ReleaseTest.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 		<key>SpotlightIndex.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>071BBBE324D904C0008591A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>071C05CB24CEB3CC00E53EAC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>07DF3B2124D5162D001EFCB7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>07E4251724C9CA8F00C434C4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

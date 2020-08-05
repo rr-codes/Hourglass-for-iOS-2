@@ -260,8 +260,6 @@ struct ContentView: View {
     @State var showModifyView: Bool = false
         
     func update(_ param: Any) {
-        guard !showModifyView else { return }
-                
         if let event = events.first(where: { -1...0 ~= $0.end.timeIntervalSince(timer.lastUpdated) }) {
             self.confettiEmoji = event.emoji
             self.shouldEmitConfetti = true
@@ -296,7 +294,13 @@ struct ContentView: View {
                     }
                 }
                 .confettiOverlay(confettiEmoji, emitWhen: $shouldEmitConfetti)
-                .onReceive(timer.$lastUpdated, perform: update)
+                .onReceive(
+                    timer.$lastUpdated,
+                    perform: update
+                )
+                .onChange(of: showModifyView) { _ in
+                    timer.isActive.toggle()
+                }
         }
     }
 }
