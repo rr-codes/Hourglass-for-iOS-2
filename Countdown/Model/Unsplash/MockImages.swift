@@ -111,40 +111,40 @@ struct MockImages {
 }
 
 struct MockData {
-    static let greece = Event.Properties(
-        name: "Vacation in Greece",
+    static let greece = Event(
+        "Vacation in Greece",
         end: Date(timeIntervalSinceNow: 86400 - 60),
-        emoji: "🇬🇷",
-        image: MockImages.greece
+        image: MockImages.greece,
+        emoji: "🇬🇷"
     )
     
-    static let eventA = Event.Properties(
-        name: "My Birthday",
+    static let eventA = Event(
+        "My Birthday",
         end: Date(timeIntervalSinceNow: 86400 - 60),
-        emoji: "😍",
-        image: MockImages.birthday
+        image: MockImages.birthday,
+        emoji: "😍"
     )
 
-    static let eventB = Event.Properties(
-        name: "New Year's Day",
+    static let eventB = Event(
+        "New Year's Day",
         end: Date(timeIntervalSinceNow: 86400 * 42),
-        emoji: "🎉",
-        image: MockImages.fireworks
+        image: MockImages.fireworks,
+        emoji: "🎉"
     )
 
-    static let eventC = Event.Properties(
-        name: "Christmas",
+    static let eventC = Event(
+        "Christmas",
         end: Date(timeIntervalSinceNow: 86400 * 300),
-        emoji: "🎄",
-        image: MockImages.christmas
+        image: MockImages.christmas,
+        emoji: "🎄"
     )
 
-    static let eventD = Event.Properties(
-        name: "My Anniversary",
+    static let eventD = Event(
+        "My Anniversary",
         end: Date(timeIntervalSinceNow: -60 * 70),
-        emoji: "💍",
-        image: MockImages.anniversary
+        image: MockImages.anniversary,
+        emoji: "💍"
     )
     
-    static let all: [Event.Properties] = [greece, eventA, eventB, eventC, eventD]
+    static let all: [Event] = [greece, eventA, eventB, eventC, eventD]
 }

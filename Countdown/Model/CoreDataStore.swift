@@ -37,16 +37,16 @@ class CoreDataStore: ObservableObject {
     let container: NSPersistentContainer
     
     init(_ storageType: StorageType) {
-        #if os(iOS) && !WIDGET
-        UnsplashImageValueTransformer.register()
-        #endif
-        
         self.container = NSPersistentContainer(name: "Model")
         
         switch storageType {
         case .persistant:
             let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "group.countdown2")
+            
             let description = NSPersistentStoreDescription(url: storeURL)
+            description.shouldMigrateStoreAutomatically = true
+            description.shouldInferMappingModelAutomatically = true
+            
             self.container.persistentStoreDescriptions = [description]
             
         case .inMemory:
@@ -57,7 +57,7 @@ class CoreDataStore: ObservableObject {
         
         self.container.loadPersistentStores { _, error in
             if let error = error {
-                fatalError(error.localizedDescription)
+                print(error.localizedDescription)
             }
         }
     }
@@ -76,10 +76,10 @@ class CoreDataStore: ObservableObject {
         return .success(false)
     }
     
-    public static func allEventsFetchRequest() -> NSFetchRequest<Event> {
-        let request: NSFetchRequest<Event> = Event.fetchRequest()
+    public static func allEventsFetchRequest() -> NSFetchRequest<EventMO> {
+        let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
         request.sortDescriptors = [
-            NSSortDescriptor(keyPath: \Event.end, ascending: true)
+            NSSortDescriptor(keyPath: \EventMO.end, ascending: true)
         ]
         return request
     }

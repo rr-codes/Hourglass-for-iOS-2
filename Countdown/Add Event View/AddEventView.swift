@@ -17,6 +17,7 @@ extension UIApplication {
 extension Color {
     static let background: Self = .init(.systemBackground)
     static let foreground: Self = .init(.label)
+    static let tertiaryBackground: Self = Color(.secondarySystemBackground).opacity(0.5)
 }
 
 struct CTAButtonStyle: ButtonStyle {
@@ -55,7 +56,7 @@ struct StylizedTextField: View {
                 .font(Font.body.weight(.medium))
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.foreground.opacity(0.05))
+                        .fill(Color.tertiaryBackground)
                         .padding(.vertical, -10)
                 )
                 .padding(.trailing, 10)
@@ -63,7 +64,7 @@ struct StylizedTextField: View {
             Text(emoji)
                 .background(
                     Circle()
-                        .fill(Color.foreground.opacity(0.05))
+                        .fill(Color.tertiaryBackground)
                         .frame(width: 42, height: 42)
                 )
                 .width(44)
@@ -95,7 +96,7 @@ struct DateView: View {
         
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.foreground.opacity(0.05))
+                .fill(Color.tertiaryBackground)
                 .height(41)
             
             Text(formatter.string(from: date))
@@ -111,16 +112,16 @@ struct DateView: View {
         }
         
         if show {
-            ZStack(alignment: .leading) {
+            ZStack {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.black.opacity(0.03))
+                    .fill(Color.tertiaryBackground)
                 
                 DatePicker("Select a Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
                     .labelsHidden()
-                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .datePickerStyle(WheelDatePickerStyle())
             }
-            .height(350)
-            .mask(Rectangle().height(show ? 350 : 0))
+            .height(220)
+            .mask(RoundedRectangle(cornerRadius: 10).height(show ? 220 : 0))
         }
     }
 }
@@ -176,8 +177,8 @@ struct AddEventView: View {
     
     @StateObject var provider = UnsplashResultProvider()
     
-    let onDismiss: (Event.Properties?) -> Void
-    let props: Event.Properties?
+    let onDismiss: (Event?) -> Void
+    let props: Event?
     
     var allImages: [UnsplashImage] {
         (self.provider.result?.images ?? []) + UnsplashResult.default.images
@@ -187,7 +188,7 @@ struct AddEventView: View {
         name.isEmpty
     }
     
-    init(modifying data: Event.Properties? = nil, _ onDismiss: @escaping (Event.Properties?) -> Void) {
+    init(modifying data: Event? = nil, _ onDismiss: @escaping (Event?) -> Void) {
         self.onDismiss = onDismiss
         self.props = data
     }
@@ -244,7 +245,7 @@ struct AddEventView: View {
                     Spacer().height(50)
                     
                     Button {
-                        let data = Event.Properties(name: name, end: date, emoji: emoji, image: image)
+                        let data = Event(name, end: date, image: image, emoji: emoji)
                         self.provider.sendDownloadRequest(for: image)
                         
                         self.onDismiss(data)
@@ -263,7 +264,7 @@ struct AddEventView: View {
                 self.name = data.name
                 self.emoji = data.emoji
                 self.date = data.end
-                self.image = data.image ?? UnsplashResult.default.images.first!
+                self.image = data.image
             }
             
             if props != nil && !name.isEmpty {
@@ -290,5 +291,6 @@ struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
         AddEventView { _ in }
             .preferredColorScheme(.dark)
+            .background(Color.background)
     }
 }

@@ -50,8 +50,8 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
         VStack(spacing: 0) {
             ForEach(data) { event in
                 ListCellView(
-                    imageURL: (event.image ?? defaultImage).url(for: .small),
-                    imageColor: (event.image ?? defaultImage).overallColor,
+                    imageURL: event.image.url(for: .small),
+                    imageColor: event.image.overallColor,
                     date: event.end,
                     emoji: event.emoji,
                     name: event.name
@@ -102,7 +102,7 @@ struct HomeView: View {
     
     @AppStorage("pinnedEvent", store: UserDefaults.appGroup) var pinnedEventID: String?
     
-    let events: FetchedResults<Event>
+    let events: [Event]
     
     @State var selectedEvent: Event? = nil
     
@@ -181,7 +181,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         if let first = pinnedEvent {
-                            CardView(data: first.properties)
+                            CardView(data: first)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 10)
                                 .background(Color.background)
@@ -225,8 +225,7 @@ struct HomeView: View {
                         }
                     }
                     .fullScreenCover(item: $selectedEvent) { event in
-                        let image = event.image ?? UnsplashResult.default.images.first!
-                        EventView(image: image, name: event.name, date: event.end, emoji: event.emoji) {
+                        EventView(event: event) {
                             self.selectedEvent = nil
                         }
                     }
@@ -246,7 +245,11 @@ struct HomeView: View {
 struct ContentView: View {
     @FetchRequest(
         fetchRequest: CoreDataStore.allEventsFetchRequest()
-    ) var events: FetchedResults<Event>
+    ) var fetchedEvents: FetchedResults<EventMO>
+    
+    var events: [Event] {
+        fetchedEvents.compactMap(Event.init)
+    }
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     @Environment(\.eventManager) var eventManager: EventManager
@@ -280,13 +283,13 @@ struct ContentView: View {
             HomeView(events: events, modifiableEvent: $modifiableEvent, showModifyView: $showModifyView)
                 .overlay(overlay)
                 .extraSheet(isPresented: $showModifyView) {
-                    AddEventView(modifying: modifiableEvent?.properties) { (data) in
+                    AddEventView(modifying: modifiableEvent) { (data) in
                         if let data = data {
                             if let modified = modifiableEvent {
                                 self.eventManager.removeEvent(from: context, event: modified)
                             }
                             
-                            self.eventManager.addEvent(to: context, configuration: data)
+                            self.eventManager.addEvent(to: context, event: data)
                         }
                         
                         self.modifiableEvent = nil
@@ -309,7 +312,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let store = CoreDataStore(.inMemory)
         
-        MockData.all.forEach { EventManager.shared.addEvent(to: store.context, configuration: $0) }
+        MockData.all.forEach { EventManager.shared.addEvent(to: store.context, event: $0) }
         
         return ContentView()
             .preferredColorScheme(.dark)

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-public class GlobalTimer: ObservableObject {    
+public class GlobalTimer: ObservableObject {
     @Published public var lastUpdated = Date()
     
     private let _isActive = CurrentValueSubject<Bool, Never>(true)
@@ -18,7 +18,7 @@ public class GlobalTimer: ObservableObject {
         set { _isActive.send(newValue) }
     }
             
-    public init(from publisher: Timer.TimerPublisher) {
+    public init(from publisher: Timer.TimerPublisher) {        
         self._isActive
             .combineLatest(publisher.autoconnect())
             .filter(\.0)

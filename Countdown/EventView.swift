@@ -13,10 +13,7 @@ struct EventView: View {
     @State var counter = 0
     @State var shouldEmitConfetti = false
 
-    let image: UnsplashImage
-    let name: String
-    let date: Date
-    let emoji: String
+    let event: Event
     
     let onDismiss: () -> Void
         
@@ -80,7 +77,7 @@ struct EventView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                AsyncImage(color: image.overallColor, url: image.url(for: .regular))
+                AsyncImage(color: event.image.overallColor, url: event.image.url(for: .regular))
                     .width(geometry.size.width)
                     .overlay(gradientOverlay)
                     .edgesIgnoringSafeArea(.all)
@@ -100,17 +97,17 @@ struct EventView: View {
                             .onTapGesture(perform: onDismiss)
                     }
                     
-                    EmojiView(emoji, radius: 18.0)
+                    EmojiView(event.emoji, radius: 18.0)
                         .background(Color.black.opacity(0.3).clipShape(Circle()))
                         .padding(.top, 15)
                     
-                    Text(name)
+                    Text(event.name)
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundColor(Color.black.opacity(0.9))
                     
                     Spacer().height(8)
                     
-                    Text(self.format(end: date, numberOfDroppedUnits: counter, using: formatter) ?? "")
+                    Text(self.format(end: event.end, numberOfDroppedUnits: counter, using: formatter) ?? "")
                         .font(Font.title2.weight(.semibold))
                         .foregroundColor(Color(white: 0.5))
                         .onTapGesture {
@@ -121,7 +118,7 @@ struct EventView: View {
                     
                     HStack(spacing: 3) {
                         Text("Photo by")
-                        Link(destination: image.user.links["html"]!) { Text(image.user.name).underline()
+                        Link(destination: event.image.user.links["html"]!) { Text(event.image.user.name).underline()
                         }
                         Text("on")
                         Link(destination: unsplashLink!) { Text("Unsplash").underline() }
@@ -134,20 +131,13 @@ struct EventView: View {
                 }
             }
         }
-        .confettiOverlay(self.emoji, emitWhen: $shouldEmitConfetti)
+        .confettiOverlay(event.emoji, emitWhen: $shouldEmitConfetti)
     }
 }
 
-struct EventView_Previews: PreviewProvider {    
-    static let data = MockData.greece
-    
+struct EventView_Previews: PreviewProvider {
     static var previews: some View {
-        EventView(
-            image: data.image!,
-            name: data.name,
-            date: Date(timeIntervalSinceNow: 20),
-            emoji: data.emoji
-        ) {}
+        EventView(event: MockData.greece) {}
         .preferredColorScheme(.dark)
     }
 }

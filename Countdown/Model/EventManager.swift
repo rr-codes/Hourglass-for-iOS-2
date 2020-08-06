@@ -23,15 +23,10 @@ class EventManager {
         self.spotlightManager.index(id: event.id, name: event.name, date: event.end)
     }
     
-    func addEvent(to context: NSManagedObjectContext, configuration: Event.Properties) {
-        let event = Event(context: context)
-        event.id = UUID()
-        event.end = configuration.end
-        event.name = configuration.name
-        event.emoji = configuration.emoji
-        event.image = configuration.image
+    func addEvent(to context: NSManagedObjectContext, event: Event) {
+        let _ = EventMO(bridged: event, context: context)
         
-        self.notificationManager.register(config: (event.name, event.emoji, event.end, event.id)) { (result) in
+        self.notificationManager.register(event) { (result) in
             switch result {
             case .success(let hasBeenRegistered):
                 print("has been registered: \(hasBeenRegistered)")
@@ -43,15 +38,17 @@ class EventManager {
         
         self.reindex(event)
         
-        try! context.save()
+        try? context.save()
     }
     
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
-        context.delete(event)
+        if let object = context.insertedObjects.first(where: { ($0 as? EventMO)?.id == event.id }) {
+            context.delete(object)
+        }
         
         self.notificationManager.unregister(id: event.id)
         self.spotlightManager.deindex(id: event.id)
         
-        try! context.save()
+        try? context.save()
     }
 }

@@ -23,7 +23,7 @@ class NotificationManager {
         )
     }
     
-    func register(config: (name: String, emoji: String, date: Date, id: UUID), _ completion: @escaping (Result<Bool, Error>) -> Void) {
+    func register(_ event: Event, _ completion: @escaping (Result<Bool, Error>) -> Void) {
         self.center.requestAuthorization(options: [.alert, .sound]) { granted, error in
             guard error == nil else {
                 completion(.failure(error!))
@@ -37,7 +37,7 @@ class NotificationManager {
             
             let content = UNMutableNotificationContent()
             content.title = "Countdown complete!"
-            content.body = "The countdown to \(config.name) is complete! \(config.emoji)"
+            content.body = "The countdown to \(event.name) is complete! \(event.emoji)"
             content.categoryIdentifier = "countdown"
             #if os(iOS)
             content.sound = UNNotificationSound(
@@ -48,13 +48,13 @@ class NotificationManager {
             let trigger = UNCalendarNotificationTrigger(
                 dateMatching: Calendar.current.dateComponents(
                     [.year, .month, .day, .hour, .minute],
-                    from: config.date
+                    from: event.end
                 ),
                 repeats: false
             )
             
             let request = UNNotificationRequest(
-                identifier: config.id.uuidString,
+                identifier: event.id.uuidString,
                 content: content,
                 trigger: trigger
             )
