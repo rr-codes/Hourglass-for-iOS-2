@@ -32,7 +32,7 @@ class EventManager {
                 print("has been registered: \(hasBeenRegistered)")
                 
             case .failure(let error):
-                fatalError("error: \(error)")
+                print("error: \(error)")
             }
         }
         
@@ -42,10 +42,21 @@ class EventManager {
     }
     
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
-        if let object = context.insertedObjects.first(where: { ($0 as? EventMO)?.id == event.id }) {
-            context.delete(object)
-        }
+        let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
         
+        request.predicate = NSComparisonPredicate(
+            leftExpression: .init(forKeyPath: \EventMO.id),
+            rightExpression: .init(forConstantValue: event.id),
+            modifier: .direct,
+            type: .equalTo
+        )
+        
+        request.fetchLimit = 1
+        
+        if let result = try? context.fetch(request).first {
+            context.delete(result)
+        }
+                
         self.notificationManager.unregister(id: event.id)
         self.spotlightManager.deindex(id: event.id)
         

@@ -41,7 +41,7 @@ class CoreDataStore: ObservableObject {
         
         switch storageType {
         case .persistant:
-            let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "group.countdown2")
+            let storeURL = URL.storeURL(for: "group.countdown3", databaseName: "group.countdown3")
             
             let description = NSPersistentStoreDescription(url: storeURL)
             description.shouldMigrateStoreAutomatically = true
@@ -57,7 +57,7 @@ class CoreDataStore: ObservableObject {
         
         self.container.loadPersistentStores { _, error in
             if let error = error {
-                print(error.localizedDescription)
+                fatalError(error.localizedDescription)
             }
         }
     }
