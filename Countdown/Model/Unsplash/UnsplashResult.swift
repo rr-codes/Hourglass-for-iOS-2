@@ -65,6 +65,10 @@ public class UnsplashImage: NSObject, Identifiable, Codable {
     func url(for size: UnsplashImage.Size) -> URL {
         self.urls[size.rawValue]!
     }
+    
+    static func ==(lhs: UnsplashImage, rhs: UnsplashImage) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 public struct UnsplashResult: Codable {

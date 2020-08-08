@@ -134,6 +134,7 @@
 		074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSpotlightConfiguration.swift; sourceTree = "<group>"; };
 		07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKeys.swift; sourceTree = "<group>"; };
 		075A77B124DA5B0100687568 /* GlobalTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTimer.swift; sourceTree = "<group>"; };
+		075B15C224DDBB3200FDB9A7 /* AppWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppWidgetExtension.entitlements; sourceTree = "<group>"; };
 		075B3D4C24D94B4D00236129 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
 		07795A4824DAD8C700EB477A /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -247,6 +248,7 @@
 		07E4250F24C9CA8E00C434C4 = {
 			isa = PBXGroup;
 			children = (
+				075B15C224DDBB3200FDB9A7 /* AppWidgetExtension.entitlements */,
 				071C05C624CEB29D00E53EAC /* Intents.intentdefinition */,
 				07E4251A24C9CA8F00C434C4 /* Countdown */,
 				071C05CD24CEB3CC00E53EAC /* EventProgressIntent */,
@@ -600,8 +602,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AppWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = AppWidget/Info.plist;
@@ -625,8 +628,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AppWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = AppWidget/Info.plist;
@@ -650,7 +654,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = EventProgressIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -673,7 +677,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = EventProgressIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -855,7 +859,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				ENABLE_PREVIEWS = YES;
@@ -882,7 +886,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				ENABLE_PREVIEWS = YES;

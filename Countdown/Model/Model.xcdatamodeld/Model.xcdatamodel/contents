@@ -6,8 +6,9 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="Binary" valueTransformerName="UnsplashImageValueTransformer"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="Event" positionX="-118.0486450195312" positionY="-175.9573364257812" width="128" height="118"/>
+        <element name="Event" positionX="-118.0486450195312" positionY="-175.9573364257812" width="128" height="119"/>
     </elements>
 </model>

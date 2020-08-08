@@ -34,14 +34,14 @@ class CoreDataStore: ObservableObject {
         container.viewContext
     }
     
-    let container: NSPersistentContainer
-    
+    private let container: NSPersistentContainer
+        
     init(_ storageType: StorageType) {
         self.container = NSPersistentContainer(name: "Model")
         
         switch storageType {
         case .persistant:
-            let storeURL = URL.storeURL(for: "group.countdown3", databaseName: "group.countdown3")
+            let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "group.countdown4")
             
             let description = NSPersistentStoreDescription(url: storeURL)
             description.shouldMigrateStoreAutomatically = true
@@ -55,11 +55,7 @@ class CoreDataStore: ObservableObject {
             self.container.persistentStoreDescriptions = [description]
         }
         
-        self.container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError(error.localizedDescription)
-            }
-        }
+        self.container.loadPersistentStores { _, _ in }
     }
     
     @discardableResult func save() -> Result<Bool, Error> {

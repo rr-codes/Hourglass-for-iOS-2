@@ -8,6 +8,14 @@
 import SwiftUI
 import Combine
 
+extension Sequence where Element: Identifiable {
+    /// Returns an array containing all the elements of this Sequence, with no duplicate elements
+    func distinct() -> [Element] {
+        var set: Set<Element.ID> = []
+        return filter { set.insert($0.id).inserted }
+    }
+}
+
 extension UIApplication {
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -126,27 +134,54 @@ struct DateView: View {
     }
 }
 
-struct ImagePicker: View {
-    var allImages: [UnsplashImage]
-    @Binding var selectedImage: UnsplashImage
+extension StringProtocol {
+    var circle: String {
+        "\(self).circle"
+    }
     
-    private let rows = [GridItem](repeating: GridItem(.flexible()), count: 2)
+    var fill: String {
+        "\(self).fill"
+    }
+}
+
+extension View {
+    @ViewBuilder func applyIf<V: View>(_ condition: Bool, modifier: (Self) -> V) -> some View {
+        if condition {
+            modifier(self)
+        } else {
+            self
+        }
+    }
+}
+
+struct ImagePicker: View {
+    let allImages: [UnsplashImage]
+    @Binding var selectedImageID: UnsplashImage.ID?
+    
+    private let rows = [GridItem](repeating: GridItem(.flexible(), spacing: 12), count: 2)
     
     private func imageView(_ image: UnsplashImage) -> some View {
-        AsyncImage(color: image.overallColor, url: image.url(for: .small))
-            .frame(width: 100, height: 100)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-            )
+        let overlay = RoundedRectangle(cornerRadius: 11)
+            .foregroundColor(Color.foreground.opacity(0.3))
             .overlay(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .strokeBorder(lineWidth: 3.0)
-                    .foregroundColor(self.selectedImage == image ? .blue : .clear)
+                Image(systemName: "checkmark".circle.fill)
+                    .imageScale(.large)
+                    .foregroundColor(.background)
             )
-            .scaleEffect(self.selectedImage == image ? 0.98 : 1.0)
+        
+        return AsyncImage(color: image.overallColor, url: image.url(for: .small))
+            .blur(radius: selectedImageID == image.id ? 2.0 : 0.0)
+            .frame(width: 97, height: 97)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 11)
+            )
+            .applyIf(selectedImageID == image.id) {
+                $0.overlay(overlay)
+            }
+            .scaleEffect(selectedImageID == image.id ? 0.98 : 1.0)
             .onTapGesture {
-                withAnimation(.linear(duration: 0.05)) {
-                    self.selectedImage = image
+                withAnimation(.linear(duration: 0.1)) {
+                    self.selectedImageID = image.id
                 }
             }
     }
@@ -157,11 +192,11 @@ struct ImagePicker: View {
             .padding(.bottom, 10)
         
         ScrollView(.horizontal, showsIndicators: false) {
-            LazyHGrid(rows: rows) {
+            LazyHGrid(rows: rows, spacing: 12) {
                 ForEach(allImages, content: imageView)
             }
         }
-        .height(210)
+        .height(206)
     }
 }
 
@@ -171,7 +206,7 @@ struct AddEventView: View {
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
-    @State private var image: UnsplashImage = UnsplashResult.default.images.first!
+    @State private var imageID: UnsplashImage.ID?
     
     @State private var showEmojiOverlay: Bool = false
     
@@ -179,9 +214,19 @@ struct AddEventView: View {
     
     let onDismiss: (Event?) -> Void
     let props: Event?
-    
+        
     var allImages: [UnsplashImage] {
-        (self.provider.result?.images ?? []) + UnsplashResult.default.images
+        let array: [UnsplashImage]
+        let relatedImages = self.provider.result?.images ?? []
+        
+        if let pinnedImage = props?.image {
+            array = [pinnedImage] + relatedImages.filter { $0.id != pinnedImage.id }
+        } else {
+            array = relatedImages
+        }
+    
+        let images = (array + UnsplashResult.default.images)
+        return images
     }
     
     var isDisabled: Bool {
@@ -240,11 +285,15 @@ struct AddEventView: View {
                     
                     Spacer().height(35)
                     
-                    ImagePicker(allImages: allImages, selectedImage: $image)
+                    ImagePicker(allImages: allImages, selectedImageID: $imageID)
                     
                     Spacer().height(50)
                     
                     Button {
+                        guard let image = allImages.first(where: { $0.id == imageID }) else {
+                            return
+                        }
+                        
                         let data = Event(name, end: date, image: image, emoji: emoji)
                         self.provider.sendDownloadRequest(for: image)
                         
@@ -260,14 +309,14 @@ struct AddEventView: View {
         }
         .padding(.horizontal, 20)
         .onAppear {
-            if let data = props {
-                self.name = data.name
-                self.emoji = data.emoji
-                self.date = data.end
-                self.image = data.image
-            }
+            guard let data = props else { return }
             
-            if props != nil && !name.isEmpty {
+            self.name = data.name
+            self.emoji = data.emoji
+            self.date = data.end
+            self.imageID = data.image.id
+            
+            if !name.isEmpty {
                 self.loadRelevantImages(for: name)
             }
         }
@@ -280,8 +329,10 @@ struct AddEventView: View {
             )
         )
         .onReceive(provider.$result) { result in
-            if let first = result?.images.first {
-                self.image = first
+            if let first = allImages.first {
+                self.imageID = first.id
+            } else if let first = result?.images.first {
+                self.imageID = first.id
             }
         }
     }
@@ -290,7 +341,6 @@ struct AddEventView: View {
 struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
         AddEventView { _ in }
-            .preferredColorScheme(.dark)
             .background(Color.background)
     }
 }

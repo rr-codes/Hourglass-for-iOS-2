@@ -120,7 +120,7 @@ struct EmojiPickerViewPreviewHelper: View {
     @Environment(\.emojiProvider) var provider: EmojiDBProvider
     
     @State var emoji = "😀"
-    @State var show = true;
+    @State var show = true
 
     var body: some View {
         Rectangle().fill(Color.background)

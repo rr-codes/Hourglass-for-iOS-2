@@ -10,12 +10,12 @@ import SwiftUI
 import CoreData
 
 struct Provider: TimelineProvider {
-    let context: NSManagedObjectContext
+    let context: NSManagedObjectContext?
     
     private var pinnedEntry: SimpleEntry {
         let fetchRequest = CoreDataStore.allEventsFetchRequest()
         fetchRequest.fetchLimit = 1
-        let events = try? context.fetch(fetchRequest).compactMap(Event.init)
+        let events = try? context?.fetch(fetchRequest).compactMap(Event.init)
         
         let pinnedEventID = UserDefaults.appGroup?.string(forKey: "pinnedEvent")
         

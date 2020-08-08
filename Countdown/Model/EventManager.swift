@@ -7,16 +7,27 @@
 
 import Foundation
 import CoreData
+import WidgetKit
 
 class EventManager {
-    static let shared: EventManager = EventManager(notificationManager: .shared, spotlightManager: .shared)
+    static let shared = EventManager(
+        notificationManager: .shared,
+        spotlightManager: .shared,
+        widgetCenter: .shared
+    )
     
     private let notificationManager: NotificationManager
     private let spotlightManager: CSManager
+    private let widgetCenter: WidgetCenter
     
-    init(notificationManager: NotificationManager, spotlightManager: CSManager) {
+    init(
+        notificationManager: NotificationManager,
+        spotlightManager: CSManager,
+        widgetCenter: WidgetCenter
+    ) {
         self.notificationManager = notificationManager
         self.spotlightManager = spotlightManager
+        self.widgetCenter = widgetCenter
     }
     
     func reindex(_ event: Event) {
@@ -39,6 +50,8 @@ class EventManager {
         self.reindex(event)
         
         try? context.save()
+        
+        self.widgetCenter.reloadAllTimelines()
     }
     
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
@@ -61,5 +74,7 @@ class EventManager {
         self.spotlightManager.deindex(id: event.id)
         
         try? context.save()
+        
+        self.widgetCenter.reloadAllTimelines()
     }
 }

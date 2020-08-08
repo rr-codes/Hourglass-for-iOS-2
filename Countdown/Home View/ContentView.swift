@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 import URLImage
 import CoreSpotlight
+import WidgetKit
 
 extension View {
     func extraSheet<Content: View>(
@@ -122,8 +123,10 @@ struct HomeView: View {
             self.modifiableEvent = event
         } onPin: { isPinned in
             UserDefaults.appGroup!.set(isPinned ? "" : id, forKey: "pinnedEvent")
+            WidgetCenter.shared.reloadAllTimelines()
         } onDelete: {
             self.eventManager.removeEvent(from: context, event: event)
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
@@ -311,8 +314,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let store = CoreDataStore(.inMemory)
+        let manager = EventManager.shared
         
-        MockData.all.forEach { EventManager.shared.addEvent(to: store.context, event: $0) }
+        MockData.all.forEach { manager.addEvent(to: store.context, event: $0) }
         
         return ContentView()
             .preferredColorScheme(.dark)

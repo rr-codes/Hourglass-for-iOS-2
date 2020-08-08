@@ -8,6 +8,14 @@
 import XCTest
 @testable import Countdown
 
+extension Sequence where Element: Hashable {
+    /// Returns an array containing all the elements of this Sequence, with no duplicate elements
+    func distinct() -> [Element] {
+        var set: Set<Element> = []
+        return filter { set.insert($0).inserted }
+    }
+}
+
 class CountdownTests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -18,24 +26,11 @@ class CountdownTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testEmojiProvider() throws {
-        let contents = """
-        [
-          [
-            {
-              "emoji":"😀",
-              "name":"grinning_face"
-            },
-            {
-              "emoji":"😃",
-              "name":"grinning_face_with_big_eyes"
-            }
-          ]
-        ]
-        """
+    func testUniqueSequence() throws {
+        let array = [1, 2, 3, 2, 3, 3, 4, 4, 5, 6, 5, 7]
+        let unique = array.distinct()
         
-        let provider = EmojiDBProvider(from: contents)
-        XCTAssertEqual(provider.database.first!.first!.emoji, "😀")
+        XCTAssertEqual([1, 2, 3, 4, 5, 6, 7], unique)
     }
 
     func testPerformanceExample() throws {

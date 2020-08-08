@@ -41,7 +41,7 @@ public class UnsplashResultProvider: ObservableObject {
         }
         var request = URLRequest(url: url)
         self.configureRequest(&request)
-        
+    
         self.urlSession.dataTask(with: request).resume()
     }
     
