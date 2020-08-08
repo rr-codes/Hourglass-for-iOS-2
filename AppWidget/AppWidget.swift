@@ -73,27 +73,44 @@ struct AppWidgetEntryView : View {
         return components
     }()
     
+    var gradient: some ShapeStyle {
+        AngularGradient(
+            gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]),
+            center: .center,
+            startAngle: .zero,
+            endAngle: .degrees(360)
+        )
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(entry.props?.name ?? "")
-                .font(.subheadline)
+                .font(.caption)
                 .bold()
+                .textCase(.uppercase)
                 .foregroundColor(.secondary)
                 .padding(.top, 8)
             
-            Spacer().frame(height: 4)
-            
+            Spacer().height(4)
+
             Text(entry.date, style: .relative)
                 .font(.headline)
                 .bold()
             
             Spacer()
             
-            HStack(spacing: 20) {
-                Text(entry.props?.emoji ?? "").font(.title)
+            HStack {
+                Circle()
+                    .fill(gradient)
+                    .opacity(0.1)
+                    .overlay(
+                        Text(entry.props?.emoji ?? "").font(.body)
+                    )
+                    .width(40)
+                
                 Spacer()
             }
-            .padding(.bottom, 6)
+            .padding(.bottom, -20)
         }
         .padding()
         .widgetURL(urlComponents.url)
@@ -117,13 +134,14 @@ struct AppWidget: Widget {
                 ? AppWidgetEntryView(entry: entry).eraseToAnyView()
                 : EmptyWidgetView().eraseToAnyView()
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Pinned Event")
+        .description("Displays the time remaining for your pinned Event.")
+        .supportedFamilies([.systemSmall])
     }
 }
 
 struct AppWidget_Previews: PreviewProvider {
-    static let props = (id: UUID(), name: "My Birthday", emoji: "🎉")
+    static let props = (id: UUID(), name: "My Birthday", emoji: "🥳")
     
     static var previews: some View {
         Group {
@@ -137,20 +155,6 @@ struct AppWidget_Previews: PreviewProvider {
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             
             EmptyWidgetView().previewContext(WidgetPreviewContext(family: .systemSmall))
-        }
-    }
-}
-
-extension View {
-    func eraseToAnyView() -> AnyView {
-        self as? AnyView ?? AnyView(self)
-    }
-    
-    @ViewBuilder func redacted(if condition: Bool, reason: RedactionReasons) -> some View {
-        if condition {
-            self.redacted(reason: reason)
-        } else {
-            self
         }
     }
 }

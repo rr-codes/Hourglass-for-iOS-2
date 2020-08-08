@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-extension View {
-    func width(_ value: CGFloat) -> some View {
-        self.frame(width: value)
-    }
-    
-    func height(_ value: CGFloat) -> some View {
-        self.frame(height: value)
-    }
-}
-
 struct PlaceholderView: View {
     var body: some View {
         VStack {

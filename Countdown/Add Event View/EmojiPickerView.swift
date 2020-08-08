@@ -39,10 +39,6 @@ fileprivate struct EmojiGroupView: View {
     }
 }
 
-extension Color {
-    static let secondaryBackground: Self = .init(.secondarySystemBackground)
-}
-
 fileprivate struct EmojiPickerView: View {
     let database: EmojiDBProvider.Database
     let categories: [EmojiDBProvider.Category]

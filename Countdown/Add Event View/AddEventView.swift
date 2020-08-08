@@ -134,25 +134,6 @@ struct DateView: View {
     }
 }
 
-extension StringProtocol {
-    var circle: String {
-        "\(self).circle"
-    }
-    
-    var fill: String {
-        "\(self).fill"
-    }
-}
-
-extension View {
-    @ViewBuilder func applyIf<V: View>(_ condition: Bool, modifier: (Self) -> V) -> some View {
-        if condition {
-            modifier(self)
-        } else {
-            self
-        }
-    }
-}
 
 struct ImagePicker: View {
     let allImages: [UnsplashImage]
@@ -164,7 +145,7 @@ struct ImagePicker: View {
         let overlay = RoundedRectangle(cornerRadius: 11)
             .foregroundColor(Color.foreground.opacity(0.3))
             .overlay(
-                Image(systemName: "checkmark".circle.fill)
+                Image(systemName: "checkmark.circle.fill")
                     .imageScale(.large)
                     .foregroundColor(.background)
             )

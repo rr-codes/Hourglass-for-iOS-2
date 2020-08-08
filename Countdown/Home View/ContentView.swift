@@ -11,16 +11,6 @@ import URLImage
 import CoreSpotlight
 import WidgetKit
 
-extension View {
-    func extraSheet<Content: View>(
-        isPresented: Binding<Bool>,
-        onDismiss: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping () -> Content
-    ) -> some View {
-        self.background(EmptyView().sheet(isPresented: isPresented, onDismiss: onDismiss, content: content))
-    }
-}
-
 struct AsyncImage: View {
     let color: Color
     let url: URL
@@ -126,7 +116,6 @@ struct HomeView: View {
             WidgetCenter.shared.reloadAllTimelines()
         } onDelete: {
             self.eventManager.removeEvent(from: context, event: event)
-            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
