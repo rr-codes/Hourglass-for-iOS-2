@@ -19,6 +19,16 @@ extension View {
 }
 
 extension View {
+    @ViewBuilder func link(destination: URL?) -> some View {
+        if let url = destination {
+            Link(destination: url, label: { self })
+        } else {
+            self
+        }
+    }
+}
+
+extension View {
     func width(_ value: CGFloat) -> some View {
         self.frame(width: value)
     }
@@ -41,13 +51,5 @@ extension View {
 extension View {
     func eraseToAnyView() -> AnyView {
         self as? AnyView ?? AnyView(self)
-    }
-    
-    @ViewBuilder func redacted(if condition: Bool, reason: RedactionReasons) -> some View {
-        if condition {
-            self.redacted(reason: reason)
-        } else {
-            self
-        }
     }
 }

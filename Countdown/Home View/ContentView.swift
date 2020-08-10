@@ -130,22 +130,19 @@ struct HomeView: View {
     }
     
     func onOpenURL(_ url: URL) {
-        guard url.scheme == URL.deepLinkScheme else { return }
-        
-        let query = url.components?
-            .queryItems?
-            .reduce(into: [:]) { $0[$1.name] = $1.value }
+        guard url.scheme == URL.appScheme else {
+            return
+        }
         
         switch url.host {
-        case URL.viewEventHost:
-            if let id = query?["event"] {
-                if id == "pinned" {
-                    self.selectedEvent = self.pinnedEvent
-                }
-            }
+        case URL.Hosts.addEvent:
+            self.showModifyView = true
+        
+        case URL.Hosts.viewPinned:
+            self.selectedEvent = pinnedEvent
             
         default:
-            break
+            return
         }
     }
     
@@ -310,6 +307,8 @@ struct ContentView_Previews: PreviewProvider {
         return ContentView()
             .preferredColorScheme(.dark)
             .environment(\.managedObjectContext, store.context)
+            .environment(\.eventManager, manager)
+            .environmentObject(GlobalTimer.init(from: .init(interval: 1.0, runLoop: .current, mode: .common)))
             .previewDevice("iPhone 11 Pro")
     }
 }

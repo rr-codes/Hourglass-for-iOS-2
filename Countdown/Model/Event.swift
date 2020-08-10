@@ -17,7 +17,7 @@ struct Event: Identifiable, Equatable {
     let emoji: String
     
     var isOver: Bool {
-        end > Date()
+        end < Date()
     }
     
     init(_ name: String, end: Date, image: UnsplashImage, emoji: String, start: Date = Date(), id: UUID = UUID()) {

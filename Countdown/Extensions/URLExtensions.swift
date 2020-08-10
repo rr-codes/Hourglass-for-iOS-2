@@ -8,11 +8,11 @@
 import Foundation
 
 extension URL {
-    static let deepLinkScheme = "com.richardrobinson.hourglass"
-    static let viewEventHost = "view_event"
+    static let appScheme = "com.richardrobinson.hourglass"
     
-    var components: URLComponents? {
-        URLComponents(url: self, resolvingAgainstBaseURL: false)
+    struct Hosts {
+        static let addEvent = "addEvent"
+        static let viewPinned = "viewPinned"
     }
 }
 

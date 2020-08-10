@@ -14,32 +14,30 @@ struct Provider: TimelineProvider {
     
     private var pinnedEntry: SimpleEntry {
         let fetchRequest = CoreDataStore.allEventsFetchRequest()
-        fetchRequest.fetchLimit = 1
         let events = try? context?.fetch(fetchRequest).compactMap(Event.init)
         
         let pinnedEventID = UserDefaults.appGroup?.string(forKey: "pinnedEvent")
-        
+
         let pinned = events?.first { $0.id.uuidString == pinnedEventID }
             ?? events?.first { !$0.isOver }
             ?? events?.first
         
         let tuple = pinned.map { ($0.id, $0.name, $0.emoji) }
-        return SimpleEntry(date: pinned?.end ?? Date(), props: tuple, isPlaceholder: false)
+        return SimpleEntry(date: pinned?.end ?? Date(), props: tuple)
     }
     
-    func placeholder(with context: Context) -> SimpleEntry {
+    func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
-            date: .init(timeIntervalSinceNow: 86400 - 60),
-            props: (id: UUID(), name: "My Birthday", emoji: "🎉"),
-            isPlaceholder: true
+            date: Date(),
+            props: (id: UUID(), name: "---------", emoji: "-")
         )
     }
     
-    public func snapshot(with context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    public func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         completion(pinnedEntry)
     }
     
-    public func timeline(with context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+    public func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         let timeline = Timeline(entries: [pinnedEntry], policy: .after(pinnedEntry.date))
         completion(timeline)
     }
@@ -48,29 +46,36 @@ struct Provider: TimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let props: (id: UUID, name: String, emoji: String)?
-    let isPlaceholder: Bool
 }
 
 struct EmptyWidgetView: View {
+    let addEventURL: URL? = {
+        var components = URLComponents()
+        components.scheme = URL.appScheme
+        components.host = URL.Hosts.addEvent
+        return components.url
+    }()
+    
     var body: some View {
         Text("No Events")
             .font(.footnote)
             .bold()
             .foregroundColor(.secondary)
+            .widgetURL(addEventURL)
     }
 }
 
 struct AppWidgetEntryView : View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
-    var entry: Provider.Entry
+    let date: Date
+    let props: (id: UUID, name: String, emoji: String)
     
-    let urlComponents: URLComponents = {
+    let viewEventURL: URL? = {
         var components = URLComponents()
-        components.scheme = URL.deepLinkScheme
-        components.host = URL.viewEventHost
-        components.queryItems = ["event" : "pinned"].map(URLQueryItem.init)
-        return components
+        components.scheme = URL.appScheme
+        components.host = URL.Hosts.viewPinned
+        return components.url
     }()
     
     var gradient: some ShapeStyle {
@@ -82,9 +87,15 @@ struct AppWidgetEntryView : View {
         )
     }
     
+    var text: Text {
+        date < Date()
+            ? Text("Complete!")
+            : Text(date, style: .relative)
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(entry.props?.name ?? "")
+            Text(props.name)
                 .font(.caption)
                 .bold()
                 .textCase(.uppercase)
@@ -93,7 +104,7 @@ struct AppWidgetEntryView : View {
             
             Spacer().height(4)
 
-            Text(entry.date, style: .relative)
+            self.text
                 .font(.headline)
                 .bold()
             
@@ -102,9 +113,9 @@ struct AppWidgetEntryView : View {
             HStack {
                 Circle()
                     .fill(gradient)
-                    .opacity(0.1)
+                    .opacity(0.05)
                     .overlay(
-                        Text(entry.props?.emoji ?? "").font(.body)
+                        Text(props.emoji).font(.body)
                     )
                     .width(40)
                 
@@ -113,12 +124,24 @@ struct AppWidgetEntryView : View {
             .padding(.bottom, -20)
         }
         .padding()
-        .widgetURL(urlComponents.url)
-        .redacted(if: entry.isPlaceholder, reason: .placeholder)
+        .widgetURL(viewEventURL)
         .background(colorScheme == .dark
                         ? Color(UIColor.systemGray6)
                         : Color.white
         )
+    }
+}
+
+struct WidgetView: View {
+    let date: Date
+    let props: (id: UUID, name: String, emoji: String)?
+    
+    var body: some View {
+        if let props = props {
+            AppWidgetEntryView(date: date, props: props)
+        } else {
+            EmptyWidgetView()
+        }
     }
 }
 
@@ -130,9 +153,7 @@ struct AppWidget: Widget {
     
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider(context: store.context)) { entry in
-            entry.props != nil
-                ? AppWidgetEntryView(entry: entry).eraseToAnyView()
-                : EmptyWidgetView().eraseToAnyView()
+            WidgetView(date: entry.date, props: entry.props)
         }
         .configurationDisplayName("Pinned Event")
         .description("Displays the time remaining for your pinned Event.")
@@ -146,11 +167,8 @@ struct AppWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             AppWidgetEntryView(
-                entry: SimpleEntry(
-                    date: Date(timeIntervalSinceNow: 600),
-                    props: props,
-                    isPlaceholder: false
-                )
+                date: Date(timeIntervalSinceNow: 1500),
+                props: props
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             

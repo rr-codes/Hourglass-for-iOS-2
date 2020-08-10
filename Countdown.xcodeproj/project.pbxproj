@@ -43,6 +43,7 @@
 		07795A4924DAD8C700EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
 		07795A4A24DAD8CA00EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
 		07795A4B24DAD8CA00EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
+		0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
@@ -531,6 +532,7 @@
 				071BBBF624D905A8008591A7 /* CoreDataStore.swift in Sources */,
 				075B3D4E24D94B4D00236129 /* URLExtensions.swift in Sources */,
 				071BF2EE24DE504400338F38 /* ViewExtensions.swift in Sources */,
+				0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */,
 				071BBBEC24D904C0008591A7 /* AppWidget.swift in Sources */,
 				071BBBF924D9076D008591A7 /* UnsplashResult.swift in Sources */,
 				07795A4A24DAD8CA00EB477A /* Event.swift in Sources */,

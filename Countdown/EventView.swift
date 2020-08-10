@@ -118,11 +118,17 @@ struct EventView: View {
                     
                     HStack(spacing: 3) {
                         Text("Photo by")
-                        Link(destination: event.image.user.links["html"]!) { Text(event.image.user.name).underline()
-                        }
-                        Text("on")
-                        Link(destination: unsplashLink!) { Text("Unsplash").underline() }
                         
+                        Text(event.image.user.name)
+                            .underline()
+                            .link(destination: event.image.user.links["html"])
+
+                        Text("on")
+                        
+                        Text("Unsplash")
+                            .underline()
+                            .link(destination: unsplashLink)
+                                                
                         Spacer()
                     }
                     .font(.caption)
