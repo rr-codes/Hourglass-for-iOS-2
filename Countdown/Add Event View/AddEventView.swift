@@ -22,12 +22,6 @@ extension UIApplication {
     }
 }
 
-extension Color {
-    static let background: Self = .init(.systemBackground)
-    static let foreground: Self = .init(.label)
-    static let tertiaryBackground: Self = Color(.secondarySystemBackground).opacity(0.5)
-}
-
 struct CTAButtonStyle: ButtonStyle {
     let color: Color
     
@@ -181,9 +175,7 @@ struct ImagePicker: View {
     }
 }
 
-struct AddEventView: View {
-    @Environment(\.emojiProvider) var emojiProvider: EmojiDBProvider
-    
+struct AddEventView: View {    
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
@@ -303,10 +295,9 @@ struct AddEventView: View {
         }
         .overlay(
             EmojiOverlay(
-                database: emojiProvider.database,
-                categories: EmojiDBProvider.categories,
                 isPresented: $showEmojiOverlay,
-                emoji: $emoji
+                emoji: $emoji,
+                database: EmojiProvider.shared.database
             )
         )
         .onReceive(provider.$result) { result in

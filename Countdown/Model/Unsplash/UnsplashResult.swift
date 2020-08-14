@@ -8,14 +8,6 @@
 import Foundation
 import SwiftUI
 
-extension Bundle {
-    func apiKey(named keyName: String) -> String {
-        let path = self.path(forResource: "ApiKeys", ofType: "plist")
-        let plist = NSDictionary(contentsOfFile: path!)
-        return plist!.object(forKey: keyName) as! String
-    }
-}
-
 // MARK: Model
 
 public struct UnsplashUser: Codable {

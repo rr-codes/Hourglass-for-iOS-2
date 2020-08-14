@@ -22,7 +22,7 @@ extension String {
         
         return tags
             .filter { (tag, _) in
-                tag.map { partsOfSpeech.contains($0) } ?? false
+                tag.map { partsOfSpeech ~= $0 } ?? false
             }
             .map { (_, range) in self[range] }
     }

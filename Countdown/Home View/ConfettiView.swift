@@ -37,7 +37,7 @@ fileprivate struct ConfettiViewImpl: UIViewRepresentable {
     func updateUIView(_ uiView: ConfettiUIView, context: Context) {
         if shouldEmit {
             shouldEmit.toggle()
-            uiView.emit(with: [.text(emoji)])
+            uiView.emit(with: [emoji])
         }
     }
 }
@@ -68,7 +68,7 @@ fileprivate final class ConfettiUIView: UIView {
         - duration: The amount of time in seconds to emit confetti before fading out;
                     3.0 seconds by default.
     */
-    public func emit(with contents: [Content], for duration: TimeInterval = 3.0) {
+    public func emit(with contents: [String], for duration: TimeInterval = 3.0) {
         let layer = Layer()
         layer.configure(with: contents)
         layer.frame = self.bounds
@@ -115,31 +115,9 @@ fileprivate final class ConfettiUIView: UIView {
     }
 
     // MARK: -
-
-    /// Content to be emitted as confetti
-    public enum Content {
-        /// Confetti shapes
-        public enum Shape {
-            case circle
-            case triangle
-            case square
-            case custom(CGPath)
-        }
-
-        /// A shape with a particular color.
-        case shape(Shape, UIColor)
-
-        /// An image with an optional tint color.
-        case image(UIImage, UIColor?)
-
-        /// A string of characters.
-        case text(String)
-    }
-
-    // MARK: -
     
     private final class Layer: CAEmitterLayer {
-        func configure(with contents: [Content]) {
+        func configure(with contents: [String]) {
             self.emitterCells = contents.map { content in
                 let cell = CAEmitterCell()
 
@@ -153,10 +131,6 @@ fileprivate final class ConfettiUIView: UIView {
                 cell.scaleRange = 0.25
                 cell.scale = 1.0 - cell.scaleRange
                 cell.contents = content.image.cgImage
-
-                if let color = content.color {
-                    cell.color = color.cgColor
-                }
 
                 return cell
             }
@@ -188,68 +162,19 @@ extension ConfettiUIView: CAAnimationDelegate {
 
 // MARK: -
 
-fileprivate extension ConfettiUIView.Content.Shape {
-    func path(in rect: CGRect) -> CGPath {
-        switch self {
-        case .circle:
-            return CGPath(ellipseIn: rect, transform: nil)
-        case .triangle:
-            let path = CGMutablePath()
-            path.addLines(between: [
-                CGPoint(x: rect.midX, y: 0),
-                CGPoint(x: rect.maxX, y: rect.maxY),
-                CGPoint(x: rect.minX, y: rect.maxY),
-                CGPoint(x: rect.midX, y: 0)
-            ])
-
-            return path
-        case .square:
-            return CGPath(rect: rect, transform: nil)
-        case .custom(let path):
-            return path
-        }
-    }
-
-    func image(with color: UIColor) -> UIImage {
-        let rect = CGRect(origin: .zero, size: CGSize(width: 12.0, height: 12.0))
-        return UIGraphicsImageRenderer(size: rect.size).image { context in
-            context.cgContext.setFillColor(color.cgColor)
-            context.cgContext.addPath(path(in: rect))
-            context.cgContext.fillPath()
-        }
-    }
-}
-
-fileprivate extension ConfettiUIView.Content {
-    var color: UIColor? {
-        switch self {
-        case let .image(_, color?),
-             let .shape(_, color):
-            return color
-        default:
-            return nil
-        }
-    }
-
+fileprivate extension String {
     var image: UIImage {
-        switch self {
-        case let .shape(shape, _):
-            return shape.image(with: .white)
-        case let .image(image, _):
-            return image
-        case let .text(string):
-            let defaultAttributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 16.0)
-            ]
+        let defaultAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16.0)
+        ]
 
-            return NSAttributedString(string: "\(string)", attributes: defaultAttributes).image()
-        }
+        return NSAttributedString(string: self, attributes: defaultAttributes).image()
     }
 }
 
 fileprivate extension NSAttributedString {
     func image() -> UIImage {
-        return UIGraphicsImageRenderer(size: size()).image { _ in
+        UIGraphicsImageRenderer(size: size()).image { _ in
             self.draw(at: .zero)
         }
     }

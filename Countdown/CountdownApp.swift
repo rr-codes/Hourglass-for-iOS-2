@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Sentry
 
 @main
 struct CountdownApp: App {
@@ -18,9 +19,14 @@ struct CountdownApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(timer: .shared, eventManager: .shared)
                 .environment(\.managedObjectContext, store.context)
-                .environmentObject(GlobalTimer(from: timer))
+                .onAppear {
+                    SentrySDK.start { options in
+                        options.dsn = "https://5194002887d04b8eaaaad02d3fcd1d1d@o432249.ingest.sentry.io/5384677"
+                        options.debug = true // Enabled debug when first installing is always helpful
+                    }
+                }
         }
         .onChange(of: scenePhase) { phase in
             if phase == .background {

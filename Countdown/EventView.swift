@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct EventView: View {
-    @Environment(\.calendar) var calendar: Calendar
-    
+struct EventView: View {    
     @State var counter = 0
     @State var shouldEmitConfetti = false
 
@@ -37,41 +35,21 @@ struct EventView: View {
         return dcf
     }
     
-    func format(end: Date, numberOfDroppedUnits n: Int, using formatter: DateComponentsFormatter) -> String? {
-        let now = Date()
-        let inOneDay  = calendar.date(byAdding: .day, value: 1, to: now)!
-        let inOneHour = calendar.date(byAdding: .hour, value: 1, to: now)!
-        let inOneMin  = calendar.date(byAdding: .minute, value: 1, to: now)!
-        
-        let oneDayAgo  = calendar.date(byAdding: .day, value: -1, to: now)!
-        let oneHourAgo = calendar.date(byAdding: .hour, value: -1, to: now)!
-        let oneMinAgo  = calendar.date(byAdding: .minute, value: -1, to: now)!
-                
-        var units: [NSCalendar.Unit] = [.day, .hour, .minute, .second]
-        
-        if oneDayAgo...inOneDay ~= end {
-            units.removeFirst()
-        }
-        
-        if oneHourAgo...inOneHour ~= end {
-            units.removeFirst()
-        }
-        
-        if oneMinAgo...inOneMin ~= end {
-            units.removeFirst()
-        }
-        
-        formatter.allowedUnits = .init(units.dropFirst(n % units.count))
-        return formatter.string(from: end.timeIntervalSince(now))
-    }
-    
     var gradientOverlay: LinearGradient {
         let gradient = Gradient(stops: [
-            .init(color: Color.white.opacity(0.8), location: 0),
-            .init(color: Color.white.opacity(0), location: 0.6)
+            .init(color: Color.white.opacity(0.7), location: 0),
+            .init(color: Color.white.opacity(0), location: 1)
         ])
         
         return .init(gradient: gradient, startPoint: .top, endPoint: .bottom)
+    }
+    
+    var formattedString: String? {
+        formatter.string(
+            from: (start: Date(), end: event.end),
+            numberOfDroppedUnits: counter,
+            using: Calendar.current
+        )
     }
             
     var body: some View {
@@ -107,12 +85,13 @@ struct EventView: View {
                     
                     Spacer().height(8)
                     
-                    Text(self.format(end: event.end, numberOfDroppedUnits: counter, using: formatter) ?? "")
+                    Text(formattedString ?? "")
                         .font(Font.title2.weight(.semibold))
-                        .foregroundColor(Color(white: 0.5))
+                        .foregroundColor(Color.black.opacity(0.7))
                         .onTapGesture {
                             self.counter += 1
                         }
+                    
                     
                     Spacer()
                     
@@ -143,7 +122,7 @@ struct EventView: View {
 
 struct EventView_Previews: PreviewProvider {
     static var previews: some View {
-        EventView(event: MockData.greece) {}
+        EventView(event: MockData.eventB) {}
         .preferredColorScheme(.dark)
     }
 }

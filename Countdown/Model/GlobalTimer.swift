@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 public class GlobalTimer: ObservableObject {
+    public static let shared = GlobalTimer(from: .init(interval: 1.0, runLoop: .main, mode: .common))
+    
     @Published public var lastUpdated = Date()
     
     private let _isActive = CurrentValueSubject<Bool, Never>(true)

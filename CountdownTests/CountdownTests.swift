@@ -27,16 +27,12 @@ class CountdownTests: XCTestCase {
     }
 
     func testUniqueSequence() throws {
-        let array = [1, 2, 3, 2, 3, 3, 4, 4, 5, 6, 5, 7]
-        let unique = array.distinct()
-        
-        XCTAssertEqual([1, 2, 3, 4, 5, 6, 7], unique)
+
     }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         measure {
-            // Put the code you want to measure the time of here.
         }
     }
 

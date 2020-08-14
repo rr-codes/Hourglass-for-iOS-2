@@ -8,9 +8,12 @@
 import SwiftUI
 
 fileprivate struct EmojiGroupView: View {
-    let gridItems = [GridItem](repeating: .init(.fixed(44)), count: 5)
+    var gridItems: [GridItem] {
+        Array(repeating: .init(.fixed(44)), count: rows)
+    }
 
     let group: [Emoji]
+    let rows: Int
     
     @Binding var selectedEmoji: String
     
@@ -40,48 +43,76 @@ fileprivate struct EmojiGroupView: View {
 }
 
 fileprivate struct EmojiPickerView: View {
-    let database: EmojiDBProvider.Database
-    let categories: [EmojiDBProvider.Category]
+    let database: EmojiDatabase
     
-    @State private var selectedCategoryIndex: Int = 0
+    @StateObject var searchProvider: SearchProvider<EmojiDatabase>
+    
+    @State private var selectedCategory: EmojiCategory? = nil
+    @State private var isSearching: Bool = false
+    @State private var searchQuery: String = ""
+    
     @Binding var selectedEmoji: String
+    
+    init(_ selectedEmoji: Binding<String>, database: EmojiDatabase) {
+        self._selectedEmoji = selectedEmoji
+        self.database = database
+        self._searchProvider = .init(wrappedValue: SearchProvider(database: database))
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(categories[selectedCategoryIndex].name)
-                .font(.caption)
-                .bold()
-                .textCase(.uppercase)
-                .foregroundColor(.init(UIColor.secondaryLabel))
-                .padding(.leading, 20)
-                .padding(.top, 25)
+            SearchBar(text: $searchProvider.searchQuery, isEditing: $isSearching)
+                .padding(.top, 20)
+                .padding(.horizontal, 6)
             
-            EmojiGroupView(group: database[selectedCategoryIndex], selectedEmoji: $selectedEmoji)
-                        
-            Picker("Category", selection: $selectedCategoryIndex) {
-                ForEach(categories) { category in
-                    Text(category.emoji).tag(category.id)
+            if isSearching {
+                EmojiGroupView(
+                    group: searchProvider.result,
+                    rows: 1,
+                    selectedEmoji: $selectedEmoji
+                )
+            } else if let category = selectedCategory {
+                Text(category.name)
+                    .font(.caption)
+                    .bold()
+                    .textCase(.uppercase)
+                    .foregroundColor(.init(UIColor.secondaryLabel))
+                    .padding(.leading, 20)
+                    .padding(.top, 16)
+                
+                EmojiGroupView(
+                    group: category.all,
+                    rows: 5,
+                    selectedEmoji: $selectedEmoji
+                )
+                            
+                Picker("Category", selection: $selectedCategory) {
+                    ForEach(database) { category in
+                        Text(category.emoji).tag(category.id)
+                    }
                 }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal, 20)
+                .labelsHidden()
+                .padding(.bottom, 20)
             }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal, 20)
-            .labelsHidden()
-            .padding(.bottom, 20)
         }
         .background(
             RoundedRectangle(cornerRadius: 25.0)
                 .fill(Color.secondaryBackground)
                 .shadow(color: Color.foreground.opacity(0.1), radius: 5)
         )
+        .onAppear {
+            selectedCategory = database.first
+        }
     }
 }
 
 struct EmojiOverlay: View {
-    let database: EmojiDBProvider.Database
-    let categories: [EmojiDBProvider.Category]
-    
     @Binding var isPresented: Bool
     @Binding var emoji: String
+    
+    let database: EmojiDatabase
     
     var body: some View {
         GeometryReader { geometry in
@@ -99,12 +130,15 @@ struct EmojiOverlay: View {
                     }
                 
                 if isPresented {
-                    EmojiPickerView(database: database, categories: categories, selectedEmoji: $emoji)
-                        .animation(Animation.spring().speed(2))
-                        .transition(.move(edge: .bottom))
-                        .padding(.horizontal, 14)
-                        .zIndex(2)
-                        .padding(.bottom, geometry.safeAreaInsets.bottom)
+                    EmojiPickerView(
+                        $emoji,
+                        database: database
+                    )
+                    .animation(Animation.spring().speed(2))
+                    .transition(.move(edge: .bottom))
+                    .padding(.horizontal, 14)
+                    .zIndex(2)
+                    .padding(.bottom, geometry.safeAreaInsets.bottom)
                 }
             }
             .edgesIgnoringSafeArea(.all)
@@ -113,8 +147,6 @@ struct EmojiOverlay: View {
 }
 
 struct EmojiPickerViewPreviewHelper: View {
-    @Environment(\.emojiProvider) var provider: EmojiDBProvider
-    
     @State var emoji = "😀"
     @State var show = true
 
@@ -124,15 +156,14 @@ struct EmojiPickerViewPreviewHelper: View {
                 Toggle("Toggle", isOn: $show).offset(x: 0, y: -100)
             )
             .overlay(
-                EmojiOverlay(database: provider.database, categories: EmojiDBProvider.categories, isPresented: $show, emoji: $emoji)
+                EmojiOverlay(isPresented: $show, emoji: $emoji, database: EmojiProvider.shared.database)
             )
     }
 }
 
 struct EmojiPickerView_Previews: PreviewProvider {
-    
     static var previews: some View {
         EmojiPickerViewPreviewHelper()
-            .preferredColorScheme(.dark)
+            .environmentObject(EmojiProvider.shared)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0701B86D24E5683500D25F28 /* SearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0701B86C24E5683500D25F28 /* SearchProvider.swift */; };
 		0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB3C24CA60E70089D7D2 /* EmojiView.swift */; };
 		0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB3E24CA747F0089D7D2 /* CardView.swift */; };
 		0703CB4124CAA54A0089D7D2 /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0703CB4024CAA54A0089D7D2 /* ListCellView.swift */; };
@@ -33,17 +34,23 @@
 		071C05DB24CEB51A00E53EAC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
 		071C05DD24CEB57E00E53EAC /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
 		071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C224CEAC7F00E53EAC /* NotificationManager.swift */; };
-		074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
+		072F26D624E1587F00CC032C /* DateComponentsFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F26D524E1587F00CC032C /* DateComponentsFormatterExtensions.swift */; };
+		072F26D924E1919600CC032C /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 072F26D824E1919600CC032C /* Sentry */; };
+		0739861124E2F5E8006BEF6A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0739861024E2F5E8006BEF6A /* BundleExtensions.swift */; };
+		0739861224E2F5E8006BEF6A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0739861024E2F5E8006BEF6A /* BundleExtensions.swift */; };
+		0739861424E300FE006BEF6A /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0739861324E300FE006BEF6A /* SearchBar.swift */; };
 		0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
 		0742550124CED6A1006F00E1 /* CoreSpotlightConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */; };
-		07540DD624D66C6F0057B1C4 /* EnvironmentKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */; };
 		075A77B224DA5B0100687568 /* GlobalTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075A77B124DA5B0100687568 /* GlobalTimer.swift */; };
 		075B3D4D24D94B4D00236129 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B3D4C24D94B4D00236129 /* URLExtensions.swift */; };
 		075B3D4E24D94B4D00236129 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B3D4C24D94B4D00236129 /* URLExtensions.swift */; };
+		0763A0F624E27BB4006E9E5B /* SequenceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */; };
+		0763A0F724E27BB4006E9E5B /* SequenceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */; };
 		07795A4924DAD8C700EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
 		07795A4A24DAD8CA00EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
 		07795A4B24DAD8CA00EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
 		0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
+		079C409324E37D6B00AEED80 /* FuzzySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079C409224E37D6B00AEED80 /* FuzzySearch.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
@@ -59,7 +66,6 @@
 		07E245D224D118EF00E45489 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D124D118EF00E45489 /* EventManager.swift */; };
 		07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D624D1429300E45489 /* UnsplashFetchers.swift */; };
 		07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
-		07E245D924D1431400E45489 /* UnsplashFetchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D624D1429300E45489 /* UnsplashFetchers.swift */; };
 		07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */; };
 		07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4251D24C9CA8F00C434C4 /* ContentView.swift */; };
 		07E4252024C9CA9000C434C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07E4251F24C9CA9000C434C4 /* Assets.xcassets */; };
@@ -120,6 +126,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0701B86C24E5683500D25F28 /* SearchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProvider.swift; sourceTree = "<group>"; };
 		0703CB3C24CA60E70089D7D2 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
 		0703CB3E24CA747F0089D7D2 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		0703CB4024CAA54A0089D7D2 /* ListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
@@ -138,12 +145,16 @@
 		071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		071C05D024CEB3CC00E53EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EventProgressIntent.entitlements; sourceTree = "<group>"; };
+		072F26D524E1587F00CC032C /* DateComponentsFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatterExtensions.swift; sourceTree = "<group>"; };
+		0739861024E2F5E8006BEF6A /* BundleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
+		0739861324E300FE006BEF6A /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSpotlightConfiguration.swift; sourceTree = "<group>"; };
-		07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKeys.swift; sourceTree = "<group>"; };
 		075A77B124DA5B0100687568 /* GlobalTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTimer.swift; sourceTree = "<group>"; };
 		075B15C224DDBB3200FDB9A7 /* AppWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppWidgetExtension.entitlements; sourceTree = "<group>"; };
 		075B3D4C24D94B4D00236129 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
+		0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExtensions.swift; sourceTree = "<group>"; };
 		07795A4824DAD8C700EB477A /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		079C409224E37D6B00AEED80 /* FuzzySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzySearch.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		07AB883324CD584400837FA8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
@@ -201,12 +212,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				07F4EA1A24CA159300CD1BA8 /* URLImage in Frameworks */,
+				072F26D924E1919600CC032C /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0701B86B24E5680200D25F28 /* Emoji */ = {
+			isa = PBXGroup;
+			children = (
+				07DF3B1A24D5097D001EFCB7 /* EmojiModel.swift */,
+				07DF3B2D24D53BD5001EFCB7 /* emoji.json */,
+				0701B86C24E5683500D25F28 /* SearchProvider.swift */,
+				079C409224E37D6B00AEED80 /* FuzzySearch.swift */,
+			);
+			path = Emoji;
+			sourceTree = "<group>";
+		};
 		071BBBE524D904C0008591A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				07DF3B1724D50964001EFCB7 /* EmojiPickerView.swift */,
+				0739861324E300FE006BEF6A /* SearchBar.swift */,
 				07AB883024CCF54100837FA8 /* AddEventView.swift */,
 			);
 			path = "Add Event View";
@@ -322,7 +346,10 @@
 			children = (
 				07AB882E24CCEEF000837FA8 /* StringExtensions.swift */,
 				07F762DE24DE4E0F001DBC18 /* ColorExtensions.swift */,
+				0739861024E2F5E8006BEF6A /* BundleExtensions.swift */,
 				075B3D4C24D94B4D00236129 /* URLExtensions.swift */,
+				0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */,
+				072F26D524E1587F00CC032C /* DateComponentsFormatterExtensions.swift */,
 				07F762E024DE4E53001DBC18 /* ViewExtensions.swift */,
 			);
 			path = Extensions;
@@ -332,15 +359,13 @@
 			isa = PBXGroup;
 			children = (
 				071C05C224CEAC7F00E53EAC /* NotificationManager.swift */,
-				07DF3B1A24D5097D001EFCB7 /* EmojiModel.swift */,
-				07DF3B2D24D53BD5001EFCB7 /* emoji.json */,
+				0701B86B24E5680200D25F28 /* Emoji */,
 				07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */,
 				07EFF6E524D8164E00AEFEC6 /* Unsplash */,
 				07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */,
 				07E245D124D118EF00E45489 /* EventManager.swift */,
 				074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */,
 				07795A4824DAD8C700EB477A /* Event.swift */,
-				07540DD524D66C6F0057B1C4 /* EnvironmentKeys.swift */,
 				075A77B124DA5B0100687568 /* GlobalTimer.swift */,
 			);
 			path = Model;
@@ -423,6 +448,7 @@
 				07E4251624C9CA8F00C434C4 /* Resources */,
 				071C05D724CEB3CC00E53EAC /* Embed App Extensions */,
 				0706FF8224CFD8E900D51012 /* Embed Watch Content */,
+				072F26DA24E1937800CC032C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -433,6 +459,7 @@
 			name = Countdown;
 			packageProductDependencies = (
 				07F4EA1924CA159300CD1BA8 /* URLImage */,
+				072F26D824E1919600CC032C /* Sentry */,
 			);
 			productName = Countdown;
 			productReference = 07E4251824C9CA8F00C434C4 /* Countdown.app */;
@@ -473,6 +500,7 @@
 			mainGroup = 07E4250F24C9CA8E00C434C4;
 			packageReferences = (
 				07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */,
+				072F26D724E1919600CC032C /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = 07E4251924C9CA8F00C434C4 /* Products */;
 			projectDirPath = "";
@@ -524,6 +552,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		072F26DA24E1937800CC032C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which sentry-cli >/dev/null; then\nexport SENTRY_ORG=richardrobinson\nexport SENTRY_PROJECT=hourglass\nexport SENTRY_AUTH_TOKEN=b8d90debca5a4f6ca65cc07ad8b4d134d715bf449890446a924721476a36ce77\nERROR=$(sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\nif [ ! $? -eq 0 ]; then\necho \"warning: sentry-cli - $ERROR\"\nfi\nelse\necho \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		071BBBE024D904C0008591A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -532,11 +581,13 @@
 				071BBBF624D905A8008591A7 /* CoreDataStore.swift in Sources */,
 				075B3D4E24D94B4D00236129 /* URLExtensions.swift in Sources */,
 				071BF2EE24DE504400338F38 /* ViewExtensions.swift in Sources */,
+				0739861224E2F5E8006BEF6A /* BundleExtensions.swift in Sources */,
 				0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */,
 				071BBBEC24D904C0008591A7 /* AppWidget.swift in Sources */,
 				071BBBF924D9076D008591A7 /* UnsplashResult.swift in Sources */,
 				07795A4A24DAD8CA00EB477A /* Event.swift in Sources */,
 				071BBBF724D9069F008591A7 /* Model.xcdatamodeld in Sources */,
+				0763A0F724E27BB4006E9E5B /* SequenceExtensions.swift in Sources */,
 				071BF2ED24DE4F2300338F38 /* ColorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,12 +596,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				074254FE24CEBB82006F00E1 /* StringExtensions.swift in Sources */,
 				071C05D924CEB44200E53EAC /* Intents.intentdefinition in Sources */,
 				071C05DD24CEB57E00E53EAC /* UnsplashResult.swift in Sources */,
 				071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */,
 				07795A4B24DAD8CA00EB477A /* Event.swift in Sources */,
-				07E245D924D1431400E45489 /* UnsplashFetchers.swift in Sources */,
 				071C05CF24CEB3CC00E53EAC /* IntentHandler.swift in Sources */,
 				07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */,
 				071BF2EB24DE4F1400338F38 /* URLExtensions.swift in Sources */,
@@ -578,11 +627,15 @@
 				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
 				0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */,
 				0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */,
+				0739861424E300FE006BEF6A /* SearchBar.swift in Sources */,
+				0701B86D24E5683500D25F28 /* SearchProvider.swift in Sources */,
 				07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */,
 				07DF3B1B24D5097D001EFCB7 /* EmojiModel.swift in Sources */,
 				071C05C724CEB29D00E53EAC /* Intents.intentdefinition in Sources */,
+				079C409324E37D6B00AEED80 /* FuzzySearch.swift in Sources */,
 				0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */,
 				0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */,
+				0763A0F624E27BB4006E9E5B /* SequenceExtensions.swift in Sources */,
 				07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */,
 				0703CB4124CAA54A0089D7D2 /* ListCellView.swift in Sources */,
 				07F762E124DE4E53001DBC18 /* ViewExtensions.swift in Sources */,
@@ -590,15 +643,16 @@
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
 				075A77B224DA5B0100687568 /* GlobalTimer.swift in Sources */,
 				07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */,
+				072F26D624E1587F00CC032C /* DateComponentsFormatterExtensions.swift in Sources */,
 				07DF3B1824D50964001EFCB7 /* EmojiPickerView.swift in Sources */,
 				07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */,
 				07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */,
 				071C05C324CEAC7F00E53EAC /* NotificationManager.swift in Sources */,
-				07540DD624D66C6F0057B1C4 /* EnvironmentKeys.swift in Sources */,
 				07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */,
 				0703CB4324CAC4890089D7D2 /* PlaceholderView.swift in Sources */,
 				07DDD7EC24CA04BB003C9421 /* MockImages.swift in Sources */,
 				07795A4924DAD8C700EB477A /* Event.swift in Sources */,
+				0739861124E2F5E8006BEF6A /* BundleExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,7 +684,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = AppWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = AppWidget/Info.plist;
@@ -656,7 +710,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = AppWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = AppWidget/Info.plist;
@@ -680,7 +734,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = EventProgressIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -703,7 +757,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = EventProgressIntent/EventProgressIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				INFOPLIST_FILE = EventProgressIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -885,7 +939,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				ENABLE_PREVIEWS = YES;
@@ -912,7 +967,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Countdown/Countdown.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Countdown/Preview Content\"";
 				DEVELOPMENT_TEAM = DS63W44KSD;
 				ENABLE_PREVIEWS = YES;
@@ -982,6 +1037,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		072F26D724E1919600CC032C /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.0;
+			};
+		};
 		07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
@@ -993,6 +1056,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		072F26D824E1919600CC032C /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 072F26D724E1919600CC032C /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
 		07F4EA1924CA159300CD1BA8 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */;

@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct ListCellView: View {
-    @EnvironmentObject var timer: GlobalTimer
-    
+struct ListCellView: View {    
     let imageURL: URL
     let imageColor: Color
     let date: Date
     let emoji: String
     let name: String
+    
+    let timer: GlobalTimer
     
     let size: CGFloat = 85
         
@@ -70,7 +70,8 @@ struct ListCellView_Previews: PreviewProvider {
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",
-                name: "My Birthday"
+                name: "My Birthday",
+                timer: .shared
             )
             
             
@@ -79,7 +80,8 @@ struct ListCellView_Previews: PreviewProvider {
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",
-                name: "My Birthday"
+                name: "My Birthday",
+                timer: .shared
             )
 
         }

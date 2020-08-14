@@ -45,7 +45,8 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
                     imageColor: event.image.overallColor,
                     date: event.end,
                     emoji: event.emoji,
-                    name: event.name
+                    name: event.name,
+                    timer: .shared
                 )
                 .background(Color.background)
                 .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
@@ -88,12 +89,12 @@ struct EventMenuItems: View {
 }
 
 struct HomeView: View {
-    @Environment(\.eventManager) var eventManager: EventManager
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     
     @AppStorage("pinnedEvent", store: UserDefaults.appGroup) var pinnedEventID: String?
     
     let events: [Event]
+    let eventManager: EventManager
     
     @State var selectedEvent: Event? = nil
     
@@ -120,13 +121,11 @@ struct HomeView: View {
     }
     
     func shouldShowUpcomingEvents() -> Bool {
-        let upcomingEvents = events.filter { !$0.isOver && $0 != pinnedEvent}
-        return !upcomingEvents.isEmpty
+        events ~= { !$0.isOver && $0 != pinnedEvent }
     }
     
     func shouldShowPastEvents() -> Bool {
-        let pastEvents = events.filter { $0.isOver && $0 != pinnedEvent}
-        return !pastEvents.isEmpty
+        events ~= { $0.isOver && $0 != pinnedEvent }
     }
     
     func onOpenURL(_ url: URL) {
@@ -170,7 +169,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         if let first = pinnedEvent {
-                            CardView(data: first)
+                            CardView(data: first, timer: .shared)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 10)
                                 .background(Color.background)
@@ -240,11 +239,11 @@ struct ContentView: View {
         fetchedEvents.compactMap(Event.init)
     }
     
-    @Environment(\.managedObjectContext) var context: NSManagedObjectContext
-    @Environment(\.eventManager) var eventManager: EventManager
+    let timer: GlobalTimer
+    let eventManager: EventManager
     
-    @EnvironmentObject var timer: GlobalTimer
-        
+    @Environment(\.managedObjectContext) var context: NSManagedObjectContext
+            
     @State var shouldEmitConfetti: Bool = false
     @State var confettiEmoji: String = "🎉"
     
@@ -269,7 +268,12 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            HomeView(events: events, modifiableEvent: $modifiableEvent, showModifyView: $showModifyView)
+            HomeView(
+                events: events,
+                eventManager: eventManager,
+                modifiableEvent: $modifiableEvent,
+                showModifyView: $showModifyView
+            )
                 .overlay(overlay)
                 .extraSheet(isPresented: $showModifyView) {
                     AddEventView(modifying: modifiableEvent) { (data) in
@@ -304,11 +308,9 @@ struct ContentView_Previews: PreviewProvider {
         
         MockData.all.forEach { manager.addEvent(to: store.context, event: $0) }
         
-        return ContentView()
+        return ContentView(timer: .shared, eventManager: .shared)
             .preferredColorScheme(.dark)
             .environment(\.managedObjectContext, store.context)
-            .environment(\.eventManager, manager)
-            .environmentObject(GlobalTimer.init(from: .init(interval: 1.0, runLoop: .current, mode: .common)))
             .previewDevice("iPhone 11 Pro")
     }
 }
