@@ -1,12 +1,26 @@
 //
-//  IntentHandler.swift
+//  EventProgressIntentHandler.swift
 //  EventProgressIntent
 //
-//  Created by Richard Robinson on 2020-07-27.
+//  Created by Richard Robinson on 2020-08-15.
 //
 
-import Intents
+import Foundation
 import CoreData
+import Intents
+
+class IntentHandler: INExtension {
+    override func handler(for intent: INIntent) -> Any {
+        // This is the default implementation.  If you want different objects to handle different intents,
+        // you can override this and return the handler you want for that particular intent.
+        if intent is EventProgressIntent {
+            return EventProgressIntentHandler()
+        }
+        
+        fatalError()
+    }
+    
+}
 
 class EventProgressIntentHandler: NSObject, EventProgressIntentHandling {
     func handle(intent: EventProgressIntent, completion: @escaping (EventProgressIntentResponse) -> Void) {
@@ -43,17 +57,4 @@ class EventProgressIntentHandler: NSObject, EventProgressIntentHandling {
             completion(.needsValue())
         }
     }
-}
-
-class IntentHandler: INExtension {
-    override func handler(for intent: INIntent) -> Any {
-        // This is the default implementation.  If you want different objects to handle different intents,
-        // you can override this and return the handler you want for that particular intent.
-        if intent is EventProgressIntent {
-            return EventProgressIntentHandler()
-        }
-        
-        fatalError()
-    }
-    
 }

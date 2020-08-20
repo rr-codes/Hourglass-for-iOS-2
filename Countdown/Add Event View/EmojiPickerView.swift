@@ -37,15 +37,13 @@ fileprivate struct EmojiGroupView: View {
             }
             .padding(.horizontal, 20)
         }
-        .padding(.bottom, 13)
-        .padding(.top, 5)
     }
 }
 
 fileprivate struct EmojiPickerView: View {
     let database: EmojiDatabase
     
-    @StateObject var searchProvider: SearchProvider<EmojiDatabase>
+    @StateObject var searchProvider: SearchProvider<Emoji>
     
     @State private var selectedCategory: EmojiCategory? = nil
     @State private var isSearching: Bool = false
@@ -56,7 +54,9 @@ fileprivate struct EmojiPickerView: View {
     init(_ selectedEmoji: Binding<String>, database: EmojiDatabase) {
         self._selectedEmoji = selectedEmoji
         self.database = database
-        self._searchProvider = .init(wrappedValue: SearchProvider(database: database))
+        
+        let candy = SearchProvider(database.flatMap(\.all), limit: 20, keyPath: \.name)
+        self._searchProvider = .init(wrappedValue: candy)
     }
     
     var body: some View {
@@ -67,7 +67,7 @@ fileprivate struct EmojiPickerView: View {
             
             if isSearching {
                 EmojiGroupView(
-                    group: searchProvider.result,
+                    group: searchProvider.results,
                     rows: 1,
                     selectedEmoji: $selectedEmoji
                 )
@@ -85,6 +85,8 @@ fileprivate struct EmojiPickerView: View {
                     rows: 5,
                     selectedEmoji: $selectedEmoji
                 )
+                .padding(.bottom, 13)
+                .padding(.top, 5)
                             
                 Picker("Category", selection: $selectedCategory) {
                     ForEach(database) { category in

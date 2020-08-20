@@ -7,12 +7,39 @@
 
 import SwiftUI
 
-struct EventView: View {    
+struct MyToggleStyle: ToggleStyle {
+    let width: CGFloat = 50
+    
+    func makeBody(configuration: Self.Configuration) -> some View {
+        HStack {
+            configuration.label
+
+            ZStack(alignment: configuration.isOn ? .trailing : .leading) {
+                RoundedRectangle(cornerRadius: 4)
+                    .frame(width: width, height: width / 2)
+                    .foregroundColor(configuration.isOn ? .green : .red)
+                
+                RoundedRectangle(cornerRadius: 4)
+                    .frame(width: (width / 2) - 4, height: width / 2 - 6)
+                    .padding(4)
+                    .foregroundColor(.white)
+                    .onTapGesture {
+                        withAnimation {
+                            configuration.$isOn.wrappedValue.toggle()
+                        }
+                }
+            }
+        }
+    }
+}
+
+struct EventView: View {
+    @EnvironmentObject var timer: ObservableTimer
+
     @State var counter = 0
     @State var shouldEmitConfetti = false
 
     let event: Event
-    
     let onDismiss: () -> Void
         
     var unsplashLink: URL? {
@@ -46,7 +73,7 @@ struct EventView: View {
     
     var formattedString: String? {
         formatter.string(
-            from: (start: Date(), end: event.end),
+            from: (start: timer.output, end: event.end),
             numberOfDroppedUnits: counter,
             using: Calendar.current
         )
@@ -61,19 +88,13 @@ struct EventView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    HStack {
-                        Spacer()
+                    Header("") {
                         Image(systemName: "xmark.circle.fill")
-                            .renderingMode(.original)
                             .foregroundColor(.black)
-                            .imageScale(.large)
-                            .scaleEffect(1.2)
-                            .background(Color.white.clipShape(Circle()))
-                            .offset(x: -3, y: -0)
-                            .padding(.top, 30)
-                            .padding(.trailing, 20)
                             .onTapGesture(perform: onDismiss)
                     }
+                    .padding(.trailing, 20)
+                    .padding(.top, 20)
                     
                     EmojiView(event.emoji, radius: 18.0)
                         .background(Color.black.opacity(0.3).clipShape(Circle()))
@@ -123,6 +144,7 @@ struct EventView: View {
 struct EventView_Previews: PreviewProvider {
     static var previews: some View {
         EventView(event: MockData.eventB) {}
-        .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
+            .environmentObject(ObservableTimer.shared)
     }
 }

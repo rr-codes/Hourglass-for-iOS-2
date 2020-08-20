@@ -14,8 +14,8 @@ struct ListCellView: View {
     let emoji: String
     let name: String
     
-    let timer: GlobalTimer
-    
+    @EnvironmentObject var timer: ObservableTimer
+
     let size: CGFloat = 85
         
     var formatter: DateComponentsFormatter {
@@ -47,7 +47,7 @@ struct ListCellView: View {
                 
                 Spacer().height(5)
                 
-                Text(formatter.string(from: date.timeIntervalSince(timer.lastUpdated))!)
+                Text(formatter.string(from: date.timeIntervalSince(timer.output))!)
                     .font(.subheadline)
                     .opacity(0.5)
                 
@@ -70,8 +70,7 @@ struct ListCellView_Previews: PreviewProvider {
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",
-                name: "My Birthday",
-                timer: .shared
+                name: "My Birthday"
             )
             
             
@@ -80,13 +79,9 @@ struct ListCellView_Previews: PreviewProvider {
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",
-                name: "My Birthday",
-                timer: .shared
+                name: "My Birthday"
             )
 
         }
-        .environmentObject(GlobalTimer(from: .init(interval: 1.0, runLoop: .current, mode: .common)))
-        
-        
     }
 }

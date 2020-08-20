@@ -27,6 +27,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>EventProgressIntent</string>
+		<string>WidgetColorSelectionIntent</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

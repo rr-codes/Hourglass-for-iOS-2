@@ -19,7 +19,7 @@ struct CountdownApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(timer: .shared, eventManager: .shared)
+            ContentView(eventManager: .shared)
                 .environment(\.managedObjectContext, store.context)
                 .onAppear {
                     SentrySDK.start { options in

@@ -7,24 +7,31 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
-public class GlobalTimer: ObservableObject {
-    public static let shared = GlobalTimer(from: .init(interval: 1.0, runLoop: .main, mode: .common))
-    
-    @Published public var lastUpdated = Date()
-    
-    private let _isActive = CurrentValueSubject<Bool, Never>(true)
-    
-    public var isActive: Bool {
-        get { _isActive.value }
-        set { _isActive.send(newValue) }
-    }
-            
-    public init(from publisher: Timer.TimerPublisher) {
-        self._isActive
-            .combineLatest(publisher.autoconnect())
-            .filter(\.0)
-            .map(\.1)
-            .assign(to: &$lastUpdated)
+class ObservablePublisher<P: Publisher>: ObservableObject where P.Failure == Never {
+    @Published private(set) var output: P.Output
+        
+    fileprivate init(wrapping publisher: P, initialValue: P.Output) {
+        self.output = initialValue
+        publisher.assign(to: &$output)
     }
 }
+
+extension Publisher where Failure == Never {
+    func observable(initialValue: Output) -> ObservablePublisher<Self> {
+        ObservablePublisher(wrapping: self, initialValue: initialValue)
+    }
+}
+
+// MARK: Timer
+
+typealias ObservableTimer = ObservablePublisher<Publishers.Autoconnect<Timer.TimerPublisher>>
+
+#if DEBUG
+extension ObservableTimer {
+    static let shared = Timer.publish(every: 1.0, on: .main, in: .common)
+        .autoconnect()
+        .observable(initialValue: Date())
+}
+#endif

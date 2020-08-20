@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct CardView: View {
+    @EnvironmentObject var timer: ObservableTimer
+
     let data: Event
-    let timer: GlobalTimer
-    
+
     var formatter: DateComponentsFormatter {
         let dcf = DateComponentsFormatter()
         dcf.allowedUnits = [.day, .hour, .minute, .second]
@@ -38,7 +39,7 @@ struct CardView: View {
                 
                 Spacer().height(5)
                 
-                Text(formatter.string(from: data.end.timeIntervalSince(timer.lastUpdated))!)
+                Text(formatter.string(from: data.end.timeIntervalSince(timer.output))!)
                     .font(.subheadline)
                     .opacity(0.5)
             }
@@ -58,6 +59,6 @@ struct CardView_Previews: PreviewProvider {
     )
     
     static var previews: some View {
-        CardView(data: props, timer: .shared).padding()
+        CardView(data: props).padding()
     }
 }

@@ -8,47 +8,52 @@
 import Foundation
 import Combine
 
-class SearchProvider<DB: Database>: ObservableObject {
+/// Binds a specified search query to a sequence of results
+/// - Invariant: ``SearchProvider/result`` is always a subset of ``SearchProvider/database``
+class SearchProvider<Element>: ObservableObject {
     @Published var searchQuery: String = ""
-    @Published var result: [DB.Item] = []
+    @Published var results: [Element] = []
     
-    private let database: DB
+    private let database: [Element]
+    private let limit: Int
+    private let keyPath: (Element) -> String
 
-    private func search(_ query: String) -> [DB.Item] {
-        let flat = database.all
-
-        return flat
-            .map(\.description)
-            .sortedByFuzzyMatchPattern(query, limit: database.limit)
-            .compactMap { name in flat.first(where: { $0.description == name }) }
+    /// Searches the database for all entries matching the specified query using _fuzzy_ mtaching
+    /// - Note: This is an expensive operation, and should be executed in an asynchronous context
+    private func search(_ query: String) -> [Element] {
+        database
+            .map(keyPath)
+            .sortedByFuzzyMatchPattern(query, limit: limit)
+            .compactMap { name in database.first(where: { keyPath($0) == name }) }
     }
-    
-    init(database: DB) {
+        
+    init(_ database: [Element], limit: Int, keyPath: @escaping (Element) -> String) {
         self.database = database
-        self.result = Array(self.database.all.prefix(self.database.limit))
-
+        self.limit = limit
+        self.keyPath = keyPath
+        
+        let defaultList = Array(self.database.prefix(limit))
+        
         $searchQuery
             .debounce(for: .microseconds(5), scheduler: DispatchQueue.main)
-            .flatMap { [unowned self] query in
-                DispatchQueue.global().deferred { search(query) }
+            .map { [weak self] query -> AnyPublisher<[Element], Never> in
+                if let self = self, !query.isEmpty {
+                    return DispatchQueue.global()
+                        .deferred { self.search(query) }
+                        .eraseToAnyPublisher()
+                } else {
+                    return Just(defaultList).eraseToAnyPublisher()
+                }
             }
+            .switchToLatest()
             .receive(on: RunLoop.main)
-            .assign(to: &$result)
+            .assign(to: &$results)
     }
-}
-
-
-protocol Database {
-    associatedtype Item: CustomStringConvertible
-        
-    var all: [Item] { get }
-    
-    var limit: Int { get }
 }
 
 extension DispatchQueue {
     /// Asynchronously executes `block` and wraps it in a `Deferred` Publisher
-    func deferred<T>(execute work: @escaping () -> T) -> AnyPublisher<T, Never> {
+    func deferred<T>(execute work: @escaping () -> T) -> Deferred<Future<T, Never>> {
         Deferred {
             Future { [unowned self] promise in
                 async {
@@ -56,6 +61,5 @@ extension DispatchQueue {
                 }
             }
         }
-        .eraseToAnyPublisher()
     }
 }

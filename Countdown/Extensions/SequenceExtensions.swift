@@ -20,3 +20,9 @@ extension Sequence where Element: Equatable {
         lhs.contains(rhs)
     }
 }
+
+extension Array: ExpressibleByDictionaryLiteral where Element == URLQueryItem {
+    public init(dictionaryLiteral elements: (String, String)...) {
+        self = elements.map(URLQueryItem.init)
+    }
+}

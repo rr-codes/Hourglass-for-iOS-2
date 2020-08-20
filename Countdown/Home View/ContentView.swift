@@ -45,8 +45,7 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
                     imageColor: event.image.overallColor,
                     date: event.end,
                     emoji: event.emoji,
-                    name: event.name,
-                    timer: .shared
+                    name: event.name
                 )
                 .background(Color.background)
                 .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
@@ -88,19 +87,28 @@ struct EventMenuItems: View {
     }
 }
 
+enum Modal: Identifiable {
+    case settings, addEvent
+
+    var id: Self {
+        self
+    }
+}
+
 struct HomeView: View {
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     
+    @EnvironmentObject var timer: ObservableTimer
+        
     @AppStorage("pinnedEvent", store: UserDefaults.appGroup) var pinnedEventID: String?
     
     let events: [Event]
     let eventManager: EventManager
     
     @State var selectedEvent: Event? = nil
-    
-    @Binding var modifiableEvent: Event?
-    @Binding var showModifyView: Bool
-    
+    @State var modal: Modal? = nil
+    @State var modifiableEvent: Event? = nil
+        
     var pinnedEvent: Event? {
         return events.first { $0.id.uuidString == pinnedEventID }
             ?? events.first { !$0.isOver }
@@ -135,8 +143,8 @@ struct HomeView: View {
         
         switch url.host {
         case URL.Hosts.addEvent:
-            self.showModifyView = true
-        
+            self.modal = .addEvent
+            
         case URL.Hosts.viewPinned:
             self.selectedEvent = pinnedEvent
             
@@ -147,21 +155,42 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("My Events").font(.title).bold()
-                Spacer()
-                Image(systemName: "plus.circle.fill")
-                    .imageScale(.large)
-                    .scaleEffect(1.2)
-                    .offset(x: -3, y: -0)
+            Header("My Events") {
+                Image(systemName: "ellipsis.circle.fill")
                     .onTapGesture {
-                        withAnimation {
-                            self.showModifyView = true
-                        }
+                        self.modal = .settings
+                    }
+                
+                Image(systemName: "plus.circle.fill")
+                    .onTapGesture {
+                        self.modal = .addEvent
                     }
             }
             .background(Color.background)
             .padding(.horizontal, 20)
+            .sheet(item: $modal) { modal in
+                switch modal {
+                case .addEvent:
+                    AddEventView(modifying: modifiableEvent) { (data) in
+                        if let data = data {
+                            if let modified = modifiableEvent {
+                                self.eventManager.removeEvent(from: context, event: modified)
+                            }
+                            
+                            self.eventManager.addEvent(to: context, event: data)
+                        }
+                        
+                        self.modifiableEvent = nil
+                        self.modal = nil
+                    }
+                    
+                case .settings:
+                    SettingsView {
+                        self.modal = nil
+                        WidgetCenter.shared.reloadAllTimelines()
+                    }
+                }
+            }
             
             if events.isEmpty {
                 Spacer()
@@ -169,7 +198,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         if let first = pinnedEvent {
-                            CardView(data: first, timer: .shared)
+                            CardView(data: first)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 10)
                                 .background(Color.background)
@@ -209,13 +238,14 @@ struct HomeView: View {
                     }
                     .onChange(of: modifiableEvent) { (event) in
                         if event != nil {
-                            self.showModifyView = true
+                            self.modal = .addEvent
                         }
                     }
                     .fullScreenCover(item: $selectedEvent) { event in
                         EventView(event: event) {
                             self.selectedEvent = nil
                         }
+                        .environmentObject(timer)
                     }
                 }
             }
@@ -239,19 +269,25 @@ struct ContentView: View {
         fetchedEvents.compactMap(Event.init)
     }
     
-    let timer: GlobalTimer
+    @StateObject var timer = Timer.publish(every: 1.0, on: .main, in: .common)
+        .autoconnect()
+        .observable(initialValue: Date())
+    
     let eventManager: EventManager
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
-            
+    
     @State var shouldEmitConfetti: Bool = false
     @State var confettiEmoji: String = "🎉"
     
-    @State var modifiableEvent: Event? = nil
-    @State var showModifyView: Bool = false
+    @State var showModal: Bool = false
+    
+    @State var now: Date = Date()
+    
+    func update(_ date: Date) {
+        if !showModal { now = date }
         
-    func update(_ param: Any) {
-        if let event = events.first(where: { -1...0 ~= $0.end.timeIntervalSince(timer.lastUpdated) }) {
+        if let event = events.first(where: { -1...0 ~= $0.end.timeIntervalSince(now) }) {
             self.confettiEmoji = event.emoji
             self.shouldEmitConfetti = true
         }
@@ -268,35 +304,11 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            HomeView(
-                events: events,
-                eventManager: eventManager,
-                modifiableEvent: $modifiableEvent,
-                showModifyView: $showModifyView
-            )
+            HomeView(events: events, eventManager: eventManager)
+                .environmentObject(timer)
                 .overlay(overlay)
-                .extraSheet(isPresented: $showModifyView) {
-                    AddEventView(modifying: modifiableEvent) { (data) in
-                        if let data = data {
-                            if let modified = modifiableEvent {
-                                self.eventManager.removeEvent(from: context, event: modified)
-                            }
-                            
-                            self.eventManager.addEvent(to: context, event: data)
-                        }
-                        
-                        self.modifiableEvent = nil
-                        self.showModifyView = false
-                    }
-                }
                 .confettiOverlay(confettiEmoji, emitWhen: $shouldEmitConfetti)
-                .onReceive(
-                    timer.$lastUpdated,
-                    perform: update
-                )
-                .onChange(of: showModifyView) { _ in
-                    timer.isActive.toggle()
-                }
+                .onReceive(timer.$output, perform: update)
         }
     }
 }
@@ -308,8 +320,7 @@ struct ContentView_Previews: PreviewProvider {
         
         MockData.all.forEach { manager.addEvent(to: store.context, event: $0) }
         
-        return ContentView(timer: .shared, eventManager: .shared)
-            .preferredColorScheme(.dark)
+        return ContentView(eventManager: .shared)
             .environment(\.managedObjectContext, store.context)
             .previewDevice("iPhone 11 Pro")
     }

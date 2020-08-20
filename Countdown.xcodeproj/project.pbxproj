@@ -20,22 +20,17 @@
 		071BBBF224D904C1008591A7 /* AppWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 071BBBE424D904C0008591A7 /* AppWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		071BBBF624D905A8008591A7 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
 		071BBBF724D9069F008591A7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
-		071BBBF924D9076D008591A7 /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
 		071BF2EB24DE4F1400338F38 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B3D4C24D94B4D00236129 /* URLExtensions.swift */; };
-		071BF2EC24DE4F2200338F38 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F762DE24DE4E0F001DBC18 /* ColorExtensions.swift */; };
-		071BF2ED24DE4F2300338F38 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F762DE24DE4E0F001DBC18 /* ColorExtensions.swift */; };
 		071BF2EE24DE504400338F38 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F762E024DE4E53001DBC18 /* ViewExtensions.swift */; };
 		071C05C324CEAC7F00E53EAC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C224CEAC7F00E53EAC /* NotificationManager.swift */; };
 		071C05C524CEB24400E53EAC /* Success-1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 071C05C424CEB24400E53EAC /* Success-1.caf */; };
 		071C05C724CEB29D00E53EAC /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
-		071C05CF24CEB3CC00E53EAC /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */; };
 		071C05D324CEB3CC00E53EAC /* EventProgressIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		071C05D924CEB44200E53EAC /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
 		071C05DB24CEB51A00E53EAC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
-		071C05DD24CEB57E00E53EAC /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
 		071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C224CEAC7F00E53EAC /* NotificationManager.swift */; };
 		072F26D624E1587F00CC032C /* DateComponentsFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F26D524E1587F00CC032C /* DateComponentsFormatterExtensions.swift */; };
 		072F26D924E1919600CC032C /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 072F26D824E1919600CC032C /* Sentry */; };
+		072F3F3724E9969F00E125A7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F3F3624E9969F00E125A7 /* SettingsView.swift */; };
 		0739861124E2F5E8006BEF6A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0739861024E2F5E8006BEF6A /* BundleExtensions.swift */; };
 		0739861224E2F5E8006BEF6A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0739861024E2F5E8006BEF6A /* BundleExtensions.swift */; };
 		0739861424E300FE006BEF6A /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0739861324E300FE006BEF6A /* SearchBar.swift */; };
@@ -48,13 +43,23 @@
 		0763A0F724E27BB4006E9E5B /* SequenceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */; };
 		07795A4924DAD8C700EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
 		07795A4A24DAD8CA00EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
-		07795A4B24DAD8CA00EB477A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
+		077C4A4E24E8423600ED64DD /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
 		0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		079C409324E37D6B00AEED80 /* FuzzySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079C409224E37D6B00AEED80 /* FuzzySearch.swift */; };
+		07AB5F8824E82BFE00F0B7E8 /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */; };
+		07AB5F8924E82BFE00F0B7E8 /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */; };
+		07AB5F8A24E82C3200F0B7E8 /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */; };
+		07AB5F8B24E82C3B00F0B7E8 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F762DE24DE4E0F001DBC18 /* ColorExtensions.swift */; };
+		07AB5F8D24E82C7400F0B7E8 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07795A4824DAD8C700EB477A /* Event.swift */; };
+		07AB5F8E24E82CA500F0B7E8 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F762DE24DE4E0F001DBC18 /* ColorExtensions.swift */; };
+		07AB5F9024E82F4D00F0B7E8 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
+		07AB5F9524E8306700F0B7E8 /* EventProgressIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F9424E8306700F0B7E8 /* EventProgressIntentHandler.swift */; };
 		07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		07AB883124CCF54100837FA8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883024CCF54100837FA8 /* AddEventView.swift */; };
 		07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB883324CD584400837FA8 /* ConfettiView.swift */; };
 		07BE6B6824CC028200C3F5F6 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */; };
+		07C0B83A24E8D04F00DEC882 /* MockImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7EB24CA04BB003C9421 /* MockImages.swift */; };
+		07C0B83C24E8D55A00DEC882 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 07C0B83B24E8D55A00DEC882 /* URLImage */; };
 		07DDD7E524C9E510003C9421 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E324C9E510003C9421 /* Model.xcdatamodeld */; };
 		07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */; };
 		07DDD7E924C9ECE9003C9421 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
@@ -63,6 +68,8 @@
 		07DF3B1B24D5097D001EFCB7 /* EmojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF3B1A24D5097D001EFCB7 /* EmojiModel.swift */; };
 		07DF3B2524D5162D001EFCB7 /* CountdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF3B2424D5162D001EFCB7 /* CountdownTests.swift */; };
 		07DF3B2E24D53BD5001EFCB7 /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 07DF3B2D24D53BD5001EFCB7 /* emoji.json */; };
+		07E1946324EC1D2E00B3B6B1 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E1946224EC1D2E00B3B6B1 /* Header.swift */; };
+		07E1946524EC250A00B3B6B1 /* CombineExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E1946424EC250A00B3B6B1 /* CombineExtensions.swift */; };
 		07E245D224D118EF00E45489 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D124D118EF00E45489 /* EventManager.swift */; };
 		07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E245D624D1429300E45489 /* UnsplashFetchers.swift */; };
 		07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDD7E824C9ECE9003C9421 /* CoreDataStore.swift */; };
@@ -142,10 +149,10 @@
 		071C05C424CEB24400E53EAC /* Success-1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Success-1.caf"; sourceTree = "<group>"; };
 		071C05C624CEB29D00E53EAC /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		071C05CC24CEB3CC00E53EAC /* EventProgressIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EventProgressIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		071C05D024CEB3CC00E53EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EventProgressIntent.entitlements; sourceTree = "<group>"; };
 		072F26D524E1587F00CC032C /* DateComponentsFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatterExtensions.swift; sourceTree = "<group>"; };
+		072F3F3624E9969F00E125A7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0739861024E2F5E8006BEF6A /* BundleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
 		0739861324E300FE006BEF6A /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSpotlightConfiguration.swift; sourceTree = "<group>"; };
@@ -155,6 +162,8 @@
 		0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExtensions.swift; sourceTree = "<group>"; };
 		07795A4824DAD8C700EB477A /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		079C409224E37D6B00AEED80 /* FuzzySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzySearch.swift; sourceTree = "<group>"; };
+		07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashImage.swift; sourceTree = "<group>"; };
+		07AB5F9424E8306700F0B7E8 /* EventProgressIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventProgressIntentHandler.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		07AB883024CCF54100837FA8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		07AB883324CD584400837FA8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
@@ -170,6 +179,8 @@
 		07DF3B2424D5162D001EFCB7 /* CountdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTests.swift; sourceTree = "<group>"; };
 		07DF3B2624D5162D001EFCB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07DF3B2D24D53BD5001EFCB7 /* emoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
+		07E1946224EC1D2E00B3B6B1 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		07E1946424EC250A00B3B6B1 /* CombineExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineExtensions.swift; sourceTree = "<group>"; };
 		07E245D124D118EF00E45489 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		07E245D624D1429300E45489 /* UnsplashFetchers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashFetchers.swift; sourceTree = "<group>"; };
 		07E4251824C9CA8F00C434C4 /* Countdown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Countdown.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				071BBBE924D904C0008591A7 /* SwiftUI.framework in Frameworks */,
+				07C0B83C24E8D55A00DEC882 /* URLImage in Frameworks */,
 				071BBBE724D904C0008591A7 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,7 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				071C05D824CEB3FC00E53EAC /* EventProgressIntent.entitlements */,
-				071C05CE24CEB3CC00E53EAC /* IntentHandler.swift */,
+				07AB5F9424E8306700F0B7E8 /* EventProgressIntentHandler.swift */,
 				071C05D024CEB3CC00E53EAC /* Info.plist */,
 			);
 			path = EventProgressIntent;
@@ -314,9 +326,11 @@
 				07AB883224CD436600837FA8 /* Add Event View */,
 				07F762DD24DE4DE1001DBC18 /* Extensions */,
 				0703CB4424CADA7E0089D7D2 /* EventView.swift */,
+				072F3F3624E9969F00E125A7 /* SettingsView.swift */,
 				07E4251F24C9CA9000C434C4 /* Assets.xcassets */,
 				07E4252424C9CA9000C434C4 /* Info.plist */,
 				07E4252124C9CA9000C434C4 /* Preview Content */,
+				07E1946224EC1D2E00B3B6B1 /* Header.swift */,
 			);
 			path = Countdown;
 			sourceTree = "<group>";
@@ -333,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */,
+				07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */,
 				07E245D624D1429300E45489 /* UnsplashFetchers.swift */,
 				07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */,
 				07FFC86524CC155400C672FB /* defaultImages.json */,
@@ -350,6 +365,7 @@
 				075B3D4C24D94B4D00236129 /* URLExtensions.swift */,
 				0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */,
 				072F26D524E1587F00CC032C /* DateComponentsFormatterExtensions.swift */,
+				07E1946424EC250A00B3B6B1 /* CombineExtensions.swift */,
 				07F762E024DE4E53001DBC18 /* ViewExtensions.swift */,
 			);
 			path = Extensions;
@@ -400,6 +416,9 @@
 			dependencies = (
 			);
 			name = AppWidgetExtension;
+			packageProductDependencies = (
+				07C0B83B24E8D55A00DEC882 /* URLImage */,
+			);
 			productName = AppWidgetExtension;
 			productReference = 071BBBE424D904C0008591A7 /* AppWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -584,11 +603,13 @@
 				0739861224E2F5E8006BEF6A /* BundleExtensions.swift in Sources */,
 				0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */,
 				071BBBEC24D904C0008591A7 /* AppWidget.swift in Sources */,
-				071BBBF924D9076D008591A7 /* UnsplashResult.swift in Sources */,
+				07AB5F9024E82F4D00F0B7E8 /* Intents.intentdefinition in Sources */,
 				07795A4A24DAD8CA00EB477A /* Event.swift in Sources */,
 				071BBBF724D9069F008591A7 /* Model.xcdatamodeld in Sources */,
 				0763A0F724E27BB4006E9E5B /* SequenceExtensions.swift in Sources */,
-				071BF2ED24DE4F2300338F38 /* ColorExtensions.swift in Sources */,
+				07AB5F8924E82BFE00F0B7E8 /* UnsplashImage.swift in Sources */,
+				07AB5F8E24E82CA500F0B7E8 /* ColorExtensions.swift in Sources */,
+				07C0B83A24E8D04F00DEC882 /* MockImages.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,16 +617,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				071C05D924CEB44200E53EAC /* Intents.intentdefinition in Sources */,
-				071C05DD24CEB57E00E53EAC /* UnsplashResult.swift in Sources */,
 				071C05DE24CEB58A00E53EAC /* NotificationManager.swift in Sources */,
-				07795A4B24DAD8CA00EB477A /* Event.swift in Sources */,
-				071C05CF24CEB3CC00E53EAC /* IntentHandler.swift in Sources */,
 				07E245D824D1430D00E45489 /* CoreDataStore.swift in Sources */,
+				07AB5F9524E8306700F0B7E8 /* EventProgressIntentHandler.swift in Sources */,
+				07AB5F8D24E82C7400F0B7E8 /* Event.swift in Sources */,
 				071BF2EB24DE4F1400338F38 /* URLExtensions.swift in Sources */,
+				07AB5F8B24E82C3B00F0B7E8 /* ColorExtensions.swift in Sources */,
 				0742550124CED6A1006F00E1 /* CoreSpotlightConfiguration.swift in Sources */,
 				071C05DB24CEB51A00E53EAC /* Model.xcdatamodeld in Sources */,
-				071BF2EC24DE4F2200338F38 /* ColorExtensions.swift in Sources */,
+				077C4A4E24E8423600ED64DD /* Intents.intentdefinition in Sources */,
+				07AB5F8A24E82C3200F0B7E8 /* UnsplashImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,14 +647,17 @@
 				075B3D4D24D94B4D00236129 /* URLExtensions.swift in Sources */,
 				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
 				0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */,
+				072F3F3724E9969F00E125A7 /* SettingsView.swift in Sources */,
 				0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */,
 				0739861424E300FE006BEF6A /* SearchBar.swift in Sources */,
 				0701B86D24E5683500D25F28 /* SearchProvider.swift in Sources */,
 				07E245D724D1429300E45489 /* UnsplashFetchers.swift in Sources */,
+				07E1946324EC1D2E00B3B6B1 /* Header.swift in Sources */,
 				07DF3B1B24D5097D001EFCB7 /* EmojiModel.swift in Sources */,
 				071C05C724CEB29D00E53EAC /* Intents.intentdefinition in Sources */,
 				079C409324E37D6B00AEED80 /* FuzzySearch.swift in Sources */,
 				0742550024CECFCF006F00E1 /* CoreSpotlightConfiguration.swift in Sources */,
+				07E1946524EC250A00B3B6B1 /* CombineExtensions.swift in Sources */,
 				0703CB4524CADA7E0089D7D2 /* EventView.swift in Sources */,
 				0763A0F624E27BB4006E9E5B /* SequenceExtensions.swift in Sources */,
 				07E4251E24C9CA8F00C434C4 /* ContentView.swift in Sources */,
@@ -643,6 +667,7 @@
 				07E4251C24C9CA8F00C434C4 /* CountdownApp.swift in Sources */,
 				075A77B224DA5B0100687568 /* GlobalTimer.swift in Sources */,
 				07AB883424CD584400837FA8 /* ConfettiView.swift in Sources */,
+				07AB5F8824E82BFE00F0B7E8 /* UnsplashImage.swift in Sources */,
 				072F26D624E1587F00CC032C /* DateComponentsFormatterExtensions.swift in Sources */,
 				07DF3B1824D50964001EFCB7 /* EmojiPickerView.swift in Sources */,
 				07AB882F24CCEEF000837FA8 /* StringExtensions.swift in Sources */,
@@ -1060,6 +1085,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 072F26D724E1919600CC032C /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
+		};
+		07C0B83B24E8D55A00DEC882 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07F4EA1824CA159300CD1BA8 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
 		};
 		07F4EA1924CA159300CD1BA8 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;

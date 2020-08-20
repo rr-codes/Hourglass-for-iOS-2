@@ -8,8 +8,7 @@
 import Foundation
 import Combine
 
-struct Emoji: Codable, Identifiable, Hashable, CustomStringConvertible {
-    var description: String { name }
+struct Emoji: Codable, Identifiable, Hashable {
     var id: String { emoji }
     
     let name: String
@@ -37,15 +36,5 @@ class EmojiProvider: ObservableObject {
     init(from data: Data) throws {
         let decoded = try JSONDecoder().decode(EmojiDatabase.self, from: data)
         self.database = decoded
-    }
-}
-
-extension EmojiDatabase: Database {
-    var all: [Emoji] {
-        self.flatMap(\.all)
-    }
-    
-    var limit: Int {
-        return 20
     }
 }

@@ -120,10 +120,10 @@ struct DateView: View {
                 
                 DatePicker("Select a Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
                     .labelsHidden()
-                    .datePickerStyle(WheelDatePickerStyle())
+                    .datePickerStyle(GraphicalDatePickerStyle())
             }
-            .height(220)
-            .mask(RoundedRectangle(cornerRadius: 10).height(show ? 220 : 0))
+            .height(380)
+            .mask(RoundedRectangle(cornerRadius: 10).height(show ? 380 : 0))
         }
     }
 }
@@ -222,20 +222,13 @@ struct AddEventView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text(props != nil ? "Edit Event" : "Create Event").font(.title).bold()
-                Spacer()
+            Header(props != nil ? "Edit Event" : "Create Event") {
                 Image(systemName: "xmark.circle.fill")
-                    .imageScale(.large)
-                    .scaleEffect(1.2)
-                    .onTapGesture {
-                        onDismiss(nil)
-                    }
-                    .offset(x: 0, y: -1)
+                    .onTapGesture { onDismiss(nil) }
             }
             .background(Color.background)
-            .padding(.top, 20)
-            .padding(.bottom)
+            .padding(.vertical, 20)
+            .padding(.bottom, 10)
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
@@ -313,6 +306,5 @@ struct AddEventView: View {
 struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
         AddEventView { _ in }
-            .background(Color.background)
     }
 }
