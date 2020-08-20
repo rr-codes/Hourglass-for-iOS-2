@@ -22,7 +22,7 @@ public class UnsplashResultProvider: ObservableObject {
     
     init(
         using session: URLSession = .shared,
-        authToken clientID: String = Bundle.main.apiKey(named: "API_KEY"),
+        authToken clientID: String = Bundle.main.apiKey(named: "Unsplash-API-Key"),
         on runLoop: RunLoop = .main
     ) {
         self.urlSession = session

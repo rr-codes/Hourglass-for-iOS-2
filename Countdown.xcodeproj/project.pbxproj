@@ -319,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				071C05C424CEB24400E53EAC /* Success-1.caf */,
+				07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */,
 				07FFC86324CC055700C672FB /* Model */,
 				07DDD7EA24C9F17A003C9421 /* Countdown.entitlements */,
 				07E4251B24C9CA8F00C434C4 /* CountdownApp.swift */,
@@ -349,7 +350,6 @@
 				07DDD7E624C9E82D003C9421 /* UnsplashResult.swift */,
 				07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */,
 				07E245D624D1429300E45489 /* UnsplashFetchers.swift */,
-				07BE6B6724CC028200C3F5F6 /* ApiKeys.plist */,
 				07FFC86524CC155400C672FB /* defaultImages.json */,
 				07DDD7EB24CA04BB003C9421 /* MockImages.swift */,
 			);
