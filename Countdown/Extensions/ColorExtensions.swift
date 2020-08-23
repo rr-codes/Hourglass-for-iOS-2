@@ -15,25 +15,25 @@ extension Color {
     static let secondaryBackground: Self = .init(.secondarySystemBackground)
 }
 
-extension Color {
-    enum ParseError: Error {
-        case invalidHexCode
-    }
-    
-    public init(hex: String) throws {
-        let hexColor = String(hex.dropFirst())
-        let scanner = Scanner(string: hexColor)
+extension Int {
+    init?(hexString: String) {
+        let scanner = Scanner(string: hexString.replacingOccurrences(of: "#", with: ""))
         var hexNumber: UInt64 = 0
 
         if scanner.scanHexInt64(&hexNumber) {
-            let r = Double((hexNumber & 0xFF0000) >> 16) / 255.0
-            let g = Double((hexNumber & 0x00FF00) >> 8) / 255.0
-            let b = Double((hexNumber & 0x0000FF) >> 0) / 255.0
-
-            self.init(red: r, green: g, blue: b)
-            return
+            self.init(hexNumber)
+        } else {
+            return nil
         }
+    }
+}
 
-        throw ParseError.invalidHexCode
+extension Color {
+    init(_ code: Int) {
+        let r = Double((code & 0xFF0000) >> 16) / 255.0
+        let g = Double((code & 0x00FF00) >> 8) / 255.0
+        let b = Double((code & 0x0000FF) >> 0) / 255.0
+        
+        self.init(red: r, green: g, blue: b)
     }
 }

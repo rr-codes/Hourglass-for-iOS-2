@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17183" systemVersion="20A5343i" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17189" systemVersion="20A5354i" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Event" representedClassName="EventMO" syncable="YES" codeGenerationType="class">
         <attribute name="emoji" optional="YES" attributeType="String"/>
         <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="image" optional="YES" attributeType="Binary" valueTransformerName="UnsplashImageValueTransformer"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="resources" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ImageResource"/>
+    </entity>
+    <entity name="ImageResource" representedClassName="ImageResourceMO" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="rawColor" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="sources" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ImageSources"/>
+    </entity>
+    <entity name="ImageSources" representedClassName="ImageSourcesMO" syncable="YES" codeGenerationType="class">
+        <attribute name="full" optional="YES" attributeType="URI"/>
+        <attribute name="regular" optional="YES" attributeType="URI"/>
+        <attribute name="small" optional="YES" attributeType="URI"/>
+    </entity>
+    <entity name="LocalImageResource" representedClassName="LocalImageResourceMO" parentEntity="ImageResource" syncable="YES" codeGenerationType="class"/>
+    <entity name="RemoteImageResource" representedClassName="RemoteImageResourceMO" isAbstract="YES" parentEntity="ImageResource" syncable="YES" codeGenerationType="class"/>
+    <entity name="UnsplashImage" representedClassName="UnsplashImageMO" parentEntity="RemoteImageResource" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="authorProfile" optional="YES" attributeType="URI"/>
+        <attribute name="downloadEndpoint" optional="YES" attributeType="URI"/>
     </entity>
     <elements>
-        <element name="Event" positionX="-118.0486450195312" positionY="-175.9573364257812" width="128" height="119"/>
+        <element name="Event" positionX="-21.62396240234369" positionY="-181.1858520507812" width="122.6361694335937" height="118"/>
+        <element name="ImageResource" positionX="198.5307006835938" positionY="-116.181640625" width="128" height="73"/>
+        <element name="ImageSources" positionX="409.96533203125" positionY="-80.375732421875" width="128" height="88"/>
+        <element name="LocalImageResource" positionX="114.9601440429688" positionY="56.61175537109375" width="128" height="28"/>
+        <element name="RemoteImageResource" positionX="298.588623046875" positionY="56.0491943359375" width="128" height="43"/>
+        <element name="UnsplashImage" positionX="298.9208984375" positionY="129.6998291015625" width="128" height="88"/>
     </elements>
 </model>

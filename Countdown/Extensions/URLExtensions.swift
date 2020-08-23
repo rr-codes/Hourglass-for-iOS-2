@@ -26,3 +26,19 @@ public extension URL {
         return fileContainer.appendingPathComponent("\(databaseName).sqlite")
     }
 }
+
+extension FileManager {
+    func saveImage(at path: String, with contents: Data) throws -> URL {
+        let dir = urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first!
+            .appendingPathComponent("user_images", isDirectory: true)
+                    
+        try createDirectory(at: dir, withIntermediateDirectories: true, attributes: nil)
+        
+        let path = dir.appendingPathComponent(path)
+        
+        createFile(atPath: path.absoluteString, contents: contents, attributes: nil)
+        
+        return path
+    }
+}

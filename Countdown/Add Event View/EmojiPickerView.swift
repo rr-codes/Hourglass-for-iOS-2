@@ -143,7 +143,7 @@ struct EmojiOverlay: View {
                     .padding(.bottom, geometry.safeAreaInsets.bottom)
                 }
             }
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea(.all, edges: .all)
         }
     }
 }

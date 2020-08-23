@@ -11,17 +11,6 @@ import URLImage
 import CoreSpotlight
 import WidgetKit
 
-struct AsyncImage: View {
-    let color: Color
-    let url: URL
-    
-    var body: some View {
-        URLImage(url, incremental: true, placeholder: { _ in Rectangle().fill(color) }) { (proxy) in
-            proxy.image.resizable().aspectRatio(contentMode: .fill)
-        }
-    }
-}
-
 struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Event {
     let name: String
     let data: Data
@@ -29,7 +18,7 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
     let menuItems: (Event) -> EventMenuItems
     let onTap: (Event) -> Void
     
-    var defaultImage: UnsplashImage {
+    var defaultImage: RemoteImage {
         UnsplashResult.default.images.first!
     }
     
@@ -41,8 +30,8 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
         VStack(spacing: 0) {
             ForEach(data) { event in
                 ListCellView(
-                    imageURL: event.image.url(for: .small),
-                    imageColor: event.image.overallColor,
+                    imageURL: event.image.urls.small,
+                    imageColor: Color(hex: event.image.color),
                     date: event.end,
                     emoji: event.emoji,
                     name: event.name

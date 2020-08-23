@@ -82,7 +82,7 @@ struct EventView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                AsyncImage(color: event.image.overallColor, url: event.image.url(for: .regular))
+                RemoteImageView(url: event.image.urls.regular, color: Color(hex: event.image.color))
                     .width(geometry.size.width)
                     .overlay(gradientOverlay)
                     .edgesIgnoringSafeArea(.all)
@@ -115,25 +115,26 @@ struct EventView: View {
                     
                     
                     Spacer()
-                    
-                    HStack(spacing: 3) {
-                        Text("Photo by")
-                        
-                        Text(event.image.user.name)
-                            .underline()
-                            .link(destination: event.image.user.links["html"])
+                    if let user = event.image.user {
+                        HStack(spacing: 3) {
+                            Text("Photo by")
+                            
+                            Text(user.name)
+                                .underline()
+                                .link(destination: user.links.html)
 
-                        Text("on")
-                        
-                        Text("Unsplash")
-                            .underline()
-                            .link(destination: unsplashLink)
-                                                
-                        Spacer()
+                            Text("on")
+                            
+                            Text("Unsplash")
+                                .underline()
+                                .link(destination: unsplashLink)
+                                                    
+                            Spacer()
+                        }
+                        .font(.caption)
+                        .foregroundColor(Color.black.opacity(0.5))
+                        .padding(.leading, 20)
                     }
-                    .font(.caption)
-                    .foregroundColor(Color.black.opacity(0.5))
-                    .padding(.leading, 20)
                 }
             }
         }

@@ -103,11 +103,11 @@ private let anniversaryJSON = """
 struct MockImages {
     private static let decoder = JSONDecoder()
     
-    static let anniversary = try! decoder.decode(UnsplashImage.self, from: anniversaryJSON.data(using: .utf8)!)
-    static let birthday    = try! decoder.decode(UnsplashImage.self, from: birthdayJSON.data(using: .utf8)!)
-    static let christmas   = try! decoder.decode(UnsplashImage.self, from: christmasJSON.data(using: .utf8)!)
-    static let fireworks   = try! decoder.decode(UnsplashImage.self, from: fireworksJSON.data(using: .utf8)!)
-    static let greece      = try! decoder.decode(UnsplashImage.self, from: greeceJSON.data(using: .utf8)!)
+    static let anniversary = try! decoder.decode(RemoteImage.self, from: anniversaryJSON.data(using: .utf8)!)
+    static let birthday    = try! decoder.decode(RemoteImage.self, from: birthdayJSON.data(using: .utf8)!)
+    static let christmas   = try! decoder.decode(RemoteImage.self, from: christmasJSON.data(using: .utf8)!)
+    static let fireworks   = try! decoder.decode(RemoteImage.self, from: fireworksJSON.data(using: .utf8)!)
+    static let greece      = try! decoder.decode(RemoteImage.self, from: greeceJSON.data(using: .utf8)!)
 }
 
 struct MockData {

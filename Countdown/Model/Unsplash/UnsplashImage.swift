@@ -6,30 +6,44 @@
 //
 
 import Foundation
-import SwiftUI
 
-public struct UnsplashUser: Codable {
-    public let name: String
-    public let links: [String : URL]
+struct User: Codable {
+    struct Links: Codable {
+        let html: URL
+    }
+    
+    let links: Links
+    let name: String
 }
 
-public class UnsplashImage: NSObject, Identifiable, Codable {
-    enum Size: String {
-        case full, regular, small
-    }
+struct RemoteImage: Identifiable, Codable {
+    let id: String
+    let color: String?
+    let user: User?
     
-    private let urls: [String : URL]
-    private let color: String
+    let urls: URLs
+    let links: Links?
+    
+    init(from data: Data, using fileManager: FileManager) {
+        self.id = UUID().uuidString
+        self.user = nil
+        self.color = nil
+        
+        let url = try! fileManager.saveImage(at: id, with: data)
+        
+        self.urls = URLs(full: url, regular: url, small: url)
+        self.links = nil
+    }
+}
 
-    public let id: String
-    public var links: [String : URL]? = nil
-    public let user: UnsplashUser
-    
-    public var overallColor: Color {
-        try! Color(hex: color)
+extension RemoteImage {
+    struct Links: Codable {
+        let download_location: URL
     }
     
-    func url(for size: UnsplashImage.Size) -> URL {
-        self.urls[size.rawValue]!
+    struct URLs: Codable {
+        let full: URL
+        let regular: URL
+        let small: URL
     }
 }

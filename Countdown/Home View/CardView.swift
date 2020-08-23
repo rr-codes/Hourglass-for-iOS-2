@@ -24,10 +24,10 @@ struct CardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
-                AsyncImage(color: data.image.overallColor, url: data.image.url(for: .regular))
+                RemoteImageView(url: data.image.urls.regular, color: Color(hex: data.image.color))
                     .frame(height: 225)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                    .shadow(color: data.image.overallColor.opacity(0.1), radius: 2, x: 0, y: 2)
+                    .shadow(color: Color(hex: data.image.color).opacity(0.1), radius: 2, x: 0, y: 2)
                     .padding(.top)
                 
                 EmojiView(data.emoji, radius: 14.0).padding()

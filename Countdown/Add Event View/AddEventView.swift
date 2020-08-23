@@ -128,14 +128,13 @@ struct DateView: View {
     }
 }
 
-
 struct ImagePicker: View {
-    let allImages: [UnsplashImage]
-    @Binding var selectedImageID: UnsplashImage.ID?
+    let allImages: [RemoteImage]
+    @Binding var selectedImageID: RemoteImage.ID?
     
     private let rows = [GridItem](repeating: GridItem(.flexible(), spacing: 12), count: 2)
     
-    private func imageView(_ image: UnsplashImage) -> some View {
+    private func imageView(_ image: RemoteImage) -> some View {
         let overlay = RoundedRectangle(cornerRadius: 11)
             .foregroundColor(Color.foreground.opacity(0.3))
             .overlay(
@@ -144,7 +143,7 @@ struct ImagePicker: View {
                     .foregroundColor(.background)
             )
         
-        return AsyncImage(color: image.overallColor, url: image.url(for: .small))
+        return RemoteImageView(url: image.urls.small, color: Color(hex: image.color))
             .blur(radius: selectedImageID == image.id ? 2.0 : 0.0)
             .frame(width: 97, height: 97)
             .clipShape(
@@ -179,7 +178,7 @@ struct AddEventView: View {
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
-    @State private var imageID: UnsplashImage.ID?
+    @State private var imageID: RemoteImage.ID?
     
     @State private var showEmojiOverlay: Bool = false
     
@@ -188,8 +187,8 @@ struct AddEventView: View {
     let onDismiss: (Event?) -> Void
     let props: Event?
         
-    var allImages: [UnsplashImage] {
-        let array: [UnsplashImage]
+    var allImages: [RemoteImage] {
+        let array: [RemoteImage]
         let relatedImages = self.provider.result?.images ?? []
         
         if let pinnedImage = props?.image {
