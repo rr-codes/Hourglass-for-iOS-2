@@ -82,7 +82,7 @@ struct EventView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                RemoteImageView(url: event.image.urls.regular, color: Color(hex: event.image.color))
+                AsyncImageView(url: event.image.url(for: .regular), color: Color(code: event.image.color))
                     .width(geometry.size.width)
                     .overlay(gradientOverlay)
                     .edgesIgnoringSafeArea(.all)
@@ -121,7 +121,7 @@ struct EventView: View {
                             
                             Text(user.name)
                                 .underline()
-                                .link(destination: user.links.html)
+                                .link(destination: user.url)
 
                             Text("on")
                             

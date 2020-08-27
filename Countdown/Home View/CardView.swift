@@ -24,10 +24,10 @@ struct CardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
-                RemoteImageView(url: data.image.urls.regular, color: Color(hex: data.image.color))
+                AsyncImageView(url: data.image.url(for: .regular), color: Color(code: data.image.color))
                     .frame(height: 225)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                    .shadow(color: Color(hex: data.image.color).opacity(0.1), radius: 2, x: 0, y: 2)
+                    .shadow(color: Color(code: data.image.color).opacity(0.1), radius: 2, x: 0, y: 2)
                     .padding(.top)
                 
                 EmojiView(data.emoji, radius: 14.0).padding()
@@ -52,10 +52,11 @@ struct CardView_Previews: PreviewProvider {
     @Namespace static var namespace
     
     static let props = Event(
-        "My Birthday",
+        id: UUID(),
+        name: "My Birthday",
         end: Date().addingTimeInterval(86400),
-        image: MockImages.birthday,
-        emoji: "🎉"
+        emoji: "🎉",
+        image: MockImages.birthday
     )
     
     static var previews: some View {

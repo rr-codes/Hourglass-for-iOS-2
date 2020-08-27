@@ -29,7 +29,7 @@ struct ListCellView: View {
     var body: some View {
         HStack {
             ZStack(alignment: .bottomTrailing) {
-                RemoteImageView(url: imageURL, color: imageColor)
+                AsyncImageView(url: imageURL, color: imageColor)
                     .frame(width: size, height: size)
                     .clipShape(
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -66,7 +66,7 @@ struct ListCellView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             ListCellView(
-                imageURL: MockImages.birthday.urls.regular,
+                imageURL: MockImages.birthday.url(for: .regular),
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",
@@ -75,7 +75,7 @@ struct ListCellView_Previews: PreviewProvider {
             
             
             ListCellView(
-                imageURL: MockImages.birthday.urls.regular,
+                imageURL: MockImages.birthday.url(for: .regular),
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",

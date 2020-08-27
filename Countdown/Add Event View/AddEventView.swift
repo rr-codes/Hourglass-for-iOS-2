@@ -129,12 +129,12 @@ struct DateView: View {
 }
 
 struct ImagePicker: View {
-    let allImages: [RemoteImage]
-    @Binding var selectedImageID: RemoteImage.ID?
+    let allImages: [BackgroundImage]
+    @Binding var selectedImageID: BackgroundImage.ID?
     
     private let rows = [GridItem](repeating: GridItem(.flexible(), spacing: 12), count: 2)
     
-    private func imageView(_ image: RemoteImage) -> some View {
+    private func imageView(_ image: BackgroundImage) -> some View {
         let overlay = RoundedRectangle(cornerRadius: 11)
             .foregroundColor(Color.foreground.opacity(0.3))
             .overlay(
@@ -143,7 +143,7 @@ struct ImagePicker: View {
                     .foregroundColor(.background)
             )
         
-        return RemoteImageView(url: image.urls.small, color: Color(hex: image.color))
+        return AsyncImageView(url: image.url(for: .small), color: Color(code: image.color))
             .blur(radius: selectedImageID == image.id ? 2.0 : 0.0)
             .frame(width: 97, height: 97)
             .clipShape(
@@ -178,7 +178,7 @@ struct AddEventView: View {
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
-    @State private var imageID: RemoteImage.ID?
+    @State private var imageID: BackgroundImage.ID?
     
     @State private var showEmojiOverlay: Bool = false
     
@@ -187,9 +187,9 @@ struct AddEventView: View {
     let onDismiss: (Event?) -> Void
     let props: Event?
         
-    var allImages: [RemoteImage] {
-        let array: [RemoteImage]
-        let relatedImages = self.provider.result?.images ?? []
+    var allImages: [BackgroundImage] {
+        let array: [BackgroundImage]
+        let relatedImages = self.provider.result?.images.map(BackgroundImage.init) ?? []
         
         if let pinnedImage = props?.image {
             array = [pinnedImage] + relatedImages.filter { $0.id != pinnedImage.id }
@@ -197,7 +197,7 @@ struct AddEventView: View {
             array = relatedImages
         }
     
-        let images = (array + UnsplashResult.default.images)
+        let images = (array + UnsplashResult.default.images.map(BackgroundImage.init))
         return images
     }
     
@@ -259,7 +259,7 @@ struct AddEventView: View {
                             return
                         }
                         
-                        let data = Event(name, end: date, image: image, emoji: emoji)
+                        let data = Event(id: UUID(), name: name, end: date, emoji: emoji, image: image)
                         self.provider.sendDownloadRequest(for: image)
                         
                         self.onDismiss(data)

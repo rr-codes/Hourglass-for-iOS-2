@@ -103,47 +103,51 @@ private let anniversaryJSON = """
 struct MockImages {
     private static let decoder = JSONDecoder()
     
-    static let anniversary = try! decoder.decode(RemoteImage.self, from: anniversaryJSON.data(using: .utf8)!)
-    static let birthday    = try! decoder.decode(RemoteImage.self, from: birthdayJSON.data(using: .utf8)!)
-    static let christmas   = try! decoder.decode(RemoteImage.self, from: christmasJSON.data(using: .utf8)!)
-    static let fireworks   = try! decoder.decode(RemoteImage.self, from: fireworksJSON.data(using: .utf8)!)
-    static let greece      = try! decoder.decode(RemoteImage.self, from: greeceJSON.data(using: .utf8)!)
+    static let anniversary = BackgroundImage(remoteImage: try! decoder.decode(UnsplashImage.self, from: anniversaryJSON.data(using: .utf8)!))
+    static let birthday    = BackgroundImage(remoteImage: try! decoder.decode(UnsplashImage.self, from: birthdayJSON.data(using: .utf8)!))
+    static let christmas   = BackgroundImage(remoteImage: try! decoder.decode(UnsplashImage.self, from: christmasJSON.data(using: .utf8)!))
+    static let fireworks   = BackgroundImage(remoteImage: try! decoder.decode(UnsplashImage.self, from: fireworksJSON.data(using: .utf8)!))
+    static let greece      = BackgroundImage(remoteImage: try! decoder.decode(UnsplashImage.self, from: greeceJSON.data(using: .utf8)!))
 }
 
 struct MockData {
     static let greece = Event(
-        "Vacation in Greece",
+        id: UUID(),
+        name: "Vacation in Greece",
         end: Date(timeIntervalSinceNow: 86400 - 60),
-        image: MockImages.greece,
-        emoji: "🇬🇷"
+        emoji: "🇬🇷",
+        image: MockImages.greece
     )
     
     static let eventA = Event(
-        "My Birthday",
+        id: UUID(),
+        name: "My Birthday",
         end: Date(timeIntervalSinceNow: 86400 - 60),
-        image: MockImages.birthday,
-        emoji: "😍"
+        emoji: "😍",
+        image: MockImages.birthday
     )
 
     static let eventB = Event(
-        "New Year's Day",
+        id: UUID(),
+        name: "New Year's Day",
         end: Date(timeIntervalSinceNow: 86400 * 42),
-        image: MockImages.fireworks,
-        emoji: "🎉"
+        emoji: "🎉",
+        image: MockImages.fireworks
     )
 
     static let eventC = Event(
-        "Christmas",
+        id: UUID(),
+        name: "Christmas",
         end: Date(timeIntervalSinceNow: 86400 * 300),
-        image: MockImages.christmas,
-        emoji: "🎄"
+        emoji: "🎄", image: MockImages.christmas
     )
 
     static let eventD = Event(
-        "My Anniversary",
+        id: UUID(),
+        name: "My Anniversary",
         end: Date(timeIntervalSinceNow: -60 * 70),
-        image: MockImages.anniversary,
-        emoji: "💍"
+        emoji: "💍",
+        image: MockImages.anniversary
     )
     
     static let all: [Event] = [greece, eventA, eventB, eventC, eventD]

@@ -29,7 +29,7 @@ extension Int {
 }
 
 extension Color {
-    init(_ code: Int) {
+    init(code: Int) {
         let r = Double((code & 0xFF0000) >> 16) / 255.0
         let g = Double((code & 0x00FF00) >> 8) / 255.0
         let b = Double((code & 0x0000FF) >> 0) / 255.0

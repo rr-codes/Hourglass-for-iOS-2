@@ -10,8 +10,8 @@ import SwiftUI
 
 // MARK: Model
 
-public struct UnsplashResult: Codable {
-    let images: [RemoteImage]
+public struct UnsplashResult: Decodable {
+    let images: [UnsplashImage]
     
     enum CodingKeys: String, CodingKey {
         case images = "results"

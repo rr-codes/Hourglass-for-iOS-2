@@ -18,8 +18,8 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
     let menuItems: (Event) -> EventMenuItems
     let onTap: (Event) -> Void
     
-    var defaultImage: RemoteImage {
-        UnsplashResult.default.images.first!
+    var defaultImage: BackgroundImage {
+        BackgroundImage(remoteImage: UnsplashResult.default.images.first!)
     }
     
     var body: some View {
@@ -30,8 +30,8 @@ struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Ev
         VStack(spacing: 0) {
             ForEach(data) { event in
                 ListCellView(
-                    imageURL: event.image.urls.small,
-                    imageColor: Color(hex: event.image.color),
+                    imageURL: event.image.url(for: .small),
+                    imageColor: Color(code: event.image.color),
                     date: event.end,
                     emoji: event.emoji,
                     name: event.name

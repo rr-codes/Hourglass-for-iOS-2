@@ -35,8 +35,8 @@ public class UnsplashResultProvider: ObservableObject {
         request.setValue("Client-ID \(self.clientID)", forHTTPHeaderField: "Authorization")
     }
     
-    func sendDownloadRequest(for image: RemoteImage) {
-        guard let url = image.links?.download_location else {
+    func sendDownloadRequest(for image: BackgroundImage) {
+        guard let url = image.downloadEndpoint else {
             return
         }
         var request = URLRequest(url: url)

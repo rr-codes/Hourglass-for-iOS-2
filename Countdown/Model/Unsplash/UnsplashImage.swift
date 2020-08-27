@@ -7,43 +7,60 @@
 
 import Foundation
 
-struct User: Codable {
-    struct Links: Codable {
-        let html: URL
+struct UnsplashImage: Identifiable, Codable {
+    struct User: Codable {
+        let name: String
+        let links: [String : URL]
     }
     
-    let links: Links
-    let name: String
-}
-
-struct RemoteImage: Identifiable, Codable {
     let id: String
-    let color: String?
-    let user: User?
+    let color: String
+    let links: [String : URL]
+    let urls: [String : URL]
+    let user: User
+}
+
+struct BackgroundImage: Identifiable, Codable {
+    struct Author: Codable {
+        let name: String
+        let url: URL
+    }
     
-    let urls: URLs
-    let links: Links?
+    enum Size: String, CaseIterable {
+        case small, regular, full
+    }
     
-    init(from data: Data, using fileManager: FileManager) {
-        self.id = UUID().uuidString
-        self.user = nil
-        self.color = nil
-        
-        let url = try! fileManager.saveImage(at: id, with: data)
-        
-        self.urls = URLs(full: url, regular: url, small: url)
-        self.links = nil
+    private let urls: [String : URL]
+    
+    let id: String
+    
+    let downloadEndpoint: URL?
+    
+    let color: Int
+    
+    let user: Author?
+    
+    func url(for size: Size) -> URL {
+        urls[size.rawValue]!
     }
 }
 
-extension RemoteImage {
-    struct Links: Codable {
-        let download_location: URL
+extension BackgroundImage {
+    init(localImage data: Data) {
+        self.id = UUID().uuidString
+        self.downloadEndpoint = nil
+        self.color = 0xFFFFFF
+        self.user = nil
+        
+        let url = try! FileManager.default.saveImage(at: id, with: data)
+        self.urls = Dictionary(uniqueKeysWithValues: Size.allCases.map { ($0.rawValue, url) })
     }
     
-    struct URLs: Codable {
-        let full: URL
-        let regular: URL
-        let small: URL
+    init(remoteImage image: UnsplashImage) {
+        self.id = image.id
+        self.color = Int(hexString: image.color)!
+        self.downloadEndpoint = image.links["download_endpoint"]
+        self.urls = image.urls
+        self.user = Author(name: image.user.name, url: image.user.links["html"]!)
     }
 }
