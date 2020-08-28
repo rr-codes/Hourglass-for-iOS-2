@@ -46,6 +46,7 @@
 		077C4A4E24E8423600ED64DD /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 071C05C624CEB29D00E53EAC /* Intents.intentdefinition */; };
 		0798C78E24E09E74002D63D9 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB882E24CCEEF000837FA8 /* StringExtensions.swift */; };
 		079C409324E37D6B00AEED80 /* FuzzySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079C409224E37D6B00AEED80 /* FuzzySearch.swift */; };
+		07A56F8524F74596004505B6 /* LocalImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A56F8424F74596004505B6 /* LocalImageProvider.swift */; };
 		07AB5F8824E82BFE00F0B7E8 /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */; };
 		07AB5F8924E82BFE00F0B7E8 /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */; };
 		07AB5F8A24E82C3200F0B7E8 /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */; };
@@ -163,6 +164,7 @@
 		0763A0F524E27BB4006E9E5B /* SequenceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExtensions.swift; sourceTree = "<group>"; };
 		07795A4824DAD8C700EB477A /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		079C409224E37D6B00AEED80 /* FuzzySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzySearch.swift; sourceTree = "<group>"; };
+		07A56F8424F74596004505B6 /* LocalImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalImageProvider.swift; sourceTree = "<group>"; };
 		07AB5F8724E82BFE00F0B7E8 /* UnsplashImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashImage.swift; sourceTree = "<group>"; };
 		07AB5F9424E8306700F0B7E8 /* EventProgressIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventProgressIntentHandler.swift; sourceTree = "<group>"; };
 		07AB882E24CCEEF000837FA8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				07E245D124D118EF00E45489 /* EventManager.swift */,
 				074254FF24CECFCF006F00E1 /* CoreSpotlightConfiguration.swift */,
 				07795A4824DAD8C700EB477A /* Event.swift */,
+				07A56F8424F74596004505B6 /* LocalImageProvider.swift */,
 				075A77B124DA5B0100687568 /* GlobalTimer.swift */,
 			);
 			path = Model;
@@ -649,6 +652,7 @@
 				07F762DF24DE4E0F001DBC18 /* ColorExtensions.swift in Sources */,
 				075B3D4D24D94B4D00236129 /* URLExtensions.swift in Sources */,
 				07DDD7E724C9E82D003C9421 /* UnsplashResult.swift in Sources */,
+				07A56F8524F74596004505B6 /* LocalImageProvider.swift in Sources */,
 				0703CB3F24CA747F0089D7D2 /* CardView.swift in Sources */,
 				072F3F3724E9969F00E125A7 /* SettingsView.swift in Sources */,
 				0703CB3D24CA60E70089D7D2 /* EmojiView.swift in Sources */,

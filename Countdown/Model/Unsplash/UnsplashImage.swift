@@ -20,8 +20,8 @@ struct UnsplashImage: Identifiable, Codable {
     let user: User
 }
 
-struct BackgroundImage: Identifiable, Codable {
-    struct Author: Codable {
+struct BackgroundImage: Identifiable, Codable, Hashable {
+    struct Author: Codable, Hashable {
         let name: String
         let url: URL
     }
@@ -45,6 +45,12 @@ struct BackgroundImage: Identifiable, Codable {
     }
 }
 
+extension BackgroundImage: Equatable {
+    static func == (lhs: BackgroundImage, rhs: BackgroundImage) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
 extension BackgroundImage {
     init(localImage data: Data) {
         self.id = UUID().uuidString
@@ -53,6 +59,9 @@ extension BackgroundImage {
         self.user = nil
         
         let url = try! FileManager.default.saveImage(at: id, with: data)
+        
+        print(url.absoluteString)
+        
         self.urls = Dictionary(uniqueKeysWithValues: Size.allCases.map { ($0.rawValue, url) })
     }
     

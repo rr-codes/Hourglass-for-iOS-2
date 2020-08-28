@@ -8,26 +8,35 @@
 import Foundation
 import CoreData
 import WidgetKit
+import URLImage
 
 class EventManager {
     static let shared = EventManager(
         notificationManager: .shared,
         spotlightManager: .shared,
-        widgetCenter: .shared
+        widgetCenter: .shared,
+        fileManager: .default,
+        urlImageService: URLImageService.shared
     )
     
     private let notificationManager: NotificationManager
     private let spotlightManager: CSManager
     private let widgetCenter: WidgetCenter
+    private let fileManager: FileManager
+    private let urlImageService: URLImageServiceType
     
     init(
         notificationManager: NotificationManager,
         spotlightManager: CSManager,
-        widgetCenter: WidgetCenter
+        widgetCenter: WidgetCenter,
+        fileManager: FileManager,
+        urlImageService: URLImageServiceType
     ) {
         self.notificationManager = notificationManager
         self.spotlightManager = spotlightManager
         self.widgetCenter = widgetCenter
+        self.fileManager = fileManager
+        self.urlImageService = urlImageService
     }
     
     func reindex(_ event: Event) {
@@ -54,6 +63,16 @@ class EventManager {
         self.widgetCenter.reloadAllTimelines()
     }
     
+    private func removeFromCache(url: URL) {
+        do {
+            try fileManager.removeItem(at: url)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        urlImageService.removeCachedImage(with: url)
+    }
+    
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
         let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
         
@@ -76,5 +95,9 @@ class EventManager {
         try? context.save()
         
         self.widgetCenter.reloadAllTimelines()
+        
+        let img = event.image
+        let urls = [img.url(for: .small), img.url(for: .regular), img.url(for: .full)]
+        urls.forEach(removeFromCache)
     }
 }

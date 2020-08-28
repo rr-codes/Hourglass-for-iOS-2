@@ -130,7 +130,10 @@ struct DateView: View {
 
 struct ImagePicker: View {
     let allImages: [BackgroundImage]
-    @Binding var selectedImageID: BackgroundImage.ID?
+    @Binding var selectedImageID: BackgroundImage?
+    
+    @State private var showLocalImagePicker: Bool = false
+    @State private var localImageData: Data? = nil
     
     private let rows = [GridItem](repeating: GridItem(.flexible(), spacing: 12), count: 2)
     
@@ -144,19 +147,42 @@ struct ImagePicker: View {
             )
         
         return AsyncImageView(url: image.url(for: .small), color: Color(code: image.color))
-            .blur(radius: selectedImageID == image.id ? 2.0 : 0.0)
+            .blur(radius: selectedImageID == image ? 2.0 : 0.0)
             .frame(width: 97, height: 97)
             .clipShape(
                 RoundedRectangle(cornerRadius: 11)
             )
-            .applyIf(selectedImageID == image.id) {
+            .applyIf(selectedImageID == image) {
                 $0.overlay(overlay)
             }
-            .scaleEffect(selectedImageID == image.id ? 0.98 : 1.0)
+            .scaleEffect(selectedImageID == image ? 0.98 : 1.0)
             .onTapGesture {
                 withAnimation(.linear(duration: 0.1)) {
-                    self.selectedImageID = image.id
+                    self.selectedImageID = image
                 }
+            }
+    }
+    
+    var localImageButton: some View {
+        Rectangle()
+            .fill(Color.secondaryBackground)
+            .overlay(Image(systemName: "photo.on.rectangle.angled").font(.title3))
+            .clipShape(
+                RoundedRectangle(cornerRadius: 11)
+            )
+            .onTapGesture {
+                showLocalImagePicker = true
+            }
+            .sheet(isPresented: $showLocalImagePicker) {
+                LocalImagePicker(isPresented: $showLocalImagePicker, image: $localImageData)
+            }
+            .onChange(of: localImageData) { (newValue) in
+                guard let data = newValue else {
+                    return
+                }
+                
+                let image = BackgroundImage(localImage: data)
+                self.selectedImageID = image
             }
     }
     
@@ -167,6 +193,8 @@ struct ImagePicker: View {
         
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: rows, spacing: 12) {
+                self.localImageButton
+                
                 ForEach(allImages, content: imageView)
             }
         }
@@ -178,7 +206,7 @@ struct AddEventView: View {
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
-    @State private var imageID: BackgroundImage.ID?
+    @State private var imageID: BackgroundImage?
     
     @State private var showEmojiOverlay: Bool = false
     
@@ -192,13 +220,18 @@ struct AddEventView: View {
         let relatedImages = self.provider.result?.images.map(BackgroundImage.init) ?? []
         
         if let pinnedImage = props?.image {
-            array = [pinnedImage] + relatedImages.filter { $0.id != pinnedImage.id }
+            array = [pinnedImage] + relatedImages.filter { $0 != pinnedImage }
         } else {
             array = relatedImages
         }
     
-        let images = (array + UnsplashResult.default.images.map(BackgroundImage.init))
-        return images
+        let imagesWithoutLocal = array + UnsplashResult.default.images.map(BackgroundImage.init)
+        
+        if let image = imageID, !(imagesWithoutLocal ~= image) {
+            return ([image] + imagesWithoutLocal).unique()
+        }
+        
+        return imagesWithoutLocal.unique()
     }
     
     var isDisabled: Bool {
@@ -255,7 +288,7 @@ struct AddEventView: View {
                     Spacer().height(50)
                     
                     Button {
-                        guard let image = allImages.first(where: { $0.id == imageID }) else {
+                        guard let image = allImages.first(where: { $0 == imageID }) else {
                             return
                         }
                         
@@ -279,7 +312,7 @@ struct AddEventView: View {
             self.name = data.name
             self.emoji = data.emoji
             self.date = data.end
-            self.imageID = data.image.id
+            self.imageID = data.image
             
             if !name.isEmpty {
                 self.loadRelevantImages(for: name)
@@ -294,9 +327,9 @@ struct AddEventView: View {
         )
         .onReceive(provider.$result) { result in
             if let first = allImages.first {
-                self.imageID = first.id
+                self.imageID = first
             } else if let first = result?.images.first {
-                self.imageID = first.id
+                self.imageID = BackgroundImage(remoteImage: first)
             }
         }
     }
@@ -305,5 +338,13 @@ struct AddEventView: View {
 struct AddEventView_Previews: PreviewProvider {
     static var previews: some View {
         AddEventView { _ in }
+    }
+}
+
+extension Sequence where Element: Hashable {
+    /// Returns this sequence with only distinct elements, preserving the original order
+    func unique() -> [Element] {
+        var seen: Set<Element> = []
+        return filter { seen.insert($0).inserted }
     }
 }

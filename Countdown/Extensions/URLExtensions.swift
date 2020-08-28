@@ -32,13 +32,12 @@ extension FileManager {
         let dir = urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first!
             .appendingPathComponent("user_images", isDirectory: true)
-                    
-        try createDirectory(at: dir, withIntermediateDirectories: true, attributes: nil)
+                 
+        try! createDirectory(at: dir, withIntermediateDirectories: true, attributes: nil)
         
-        let path = dir.appendingPathComponent(path)
+        let fullPath = dir.appendingPathComponent("\(path).png")
         
-        createFile(atPath: path.absoluteString, contents: contents, attributes: nil)
-        
-        return path
+        try contents.write(to: fullPath, options: .atomic)
+        return fullPath
     }
 }
