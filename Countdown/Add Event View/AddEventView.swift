@@ -130,7 +130,7 @@ struct DateView: View {
 
 struct ImagePicker: View {
     let allImages: [BackgroundImage]
-    @Binding var selectedImageID: BackgroundImage?
+    @Binding var selectedImage: BackgroundImage?
     
     @State private var showLocalImagePicker: Bool = false
     @State private var localImageData: Data? = nil
@@ -147,18 +147,18 @@ struct ImagePicker: View {
             )
         
         return AsyncImageView(url: image.url(for: .small), color: Color(code: image.color))
-            .blur(radius: selectedImageID == image ? 2.0 : 0.0)
+            .blur(radius: selectedImage == image ? 2.0 : 0.0)
             .frame(width: 97, height: 97)
             .clipShape(
                 RoundedRectangle(cornerRadius: 11)
             )
-            .applyIf(selectedImageID == image) {
+            .applyIf(selectedImage == image) {
                 $0.overlay(overlay)
             }
-            .scaleEffect(selectedImageID == image ? 0.98 : 1.0)
+            .scaleEffect(selectedImage == image ? 0.98 : 1.0)
             .onTapGesture {
                 withAnimation(.linear(duration: 0.1)) {
-                    self.selectedImageID = image
+                    self.selectedImage = image
                 }
             }
     }
@@ -182,7 +182,7 @@ struct ImagePicker: View {
                 }
                 
                 let image = BackgroundImage(localImage: data)
-                self.selectedImageID = image
+                self.selectedImage = image
             }
     }
     
@@ -206,7 +206,7 @@ struct AddEventView: View {
     @State private var name: String = ""
     @State private var emoji: String = "🎉"
     @State private var date: Date = Date()
-    @State private var imageID: BackgroundImage?
+    @State private var image: BackgroundImage?
     
     @State private var showEmojiOverlay: Bool = false
     
@@ -214,24 +214,27 @@ struct AddEventView: View {
     
     let onDismiss: (Event?) -> Void
     let props: Event?
-        
-    var allImages: [BackgroundImage] {
-        let array: [BackgroundImage]
+    
+    func allImages() -> [BackgroundImage] {
         let relatedImages = self.provider.result?.images.map(BackgroundImage.init) ?? []
         
+        var images = relatedImages
+        
         if let pinnedImage = props?.image {
-            array = [pinnedImage] + relatedImages.filter { $0 != pinnedImage }
-        } else {
-            array = relatedImages
-        }
-    
-        let imagesWithoutLocal = array + UnsplashResult.default.images.map(BackgroundImage.init)
-        
-        if let image = imageID, !(imagesWithoutLocal ~= image) {
-            return ([image] + imagesWithoutLocal).unique()
+            if let index = images.firstIndex(of: pinnedImage) {
+                images.remove(at: index)
+            }
+            
+            images.prepend(pinnedImage)
         }
         
-        return imagesWithoutLocal.unique()
+        images += UnsplashResult.default.images.map(BackgroundImage.init)
+        
+        if let image = image, !images.contains(image) {
+            images.prepend(image)
+        }
+        
+        return images.unique()
     }
     
     var isDisabled: Bool {
@@ -283,12 +286,12 @@ struct AddEventView: View {
                     
                     Spacer().height(35)
                     
-                    ImagePicker(allImages: allImages, selectedImageID: $imageID)
+                    ImagePicker(allImages: allImages(), selectedImage: $image)
                     
                     Spacer().height(50)
                     
                     Button {
-                        guard let image = allImages.first(where: { $0 == imageID }) else {
+                        guard let image = image else {
                             return
                         }
                         
@@ -312,7 +315,7 @@ struct AddEventView: View {
             self.name = data.name
             self.emoji = data.emoji
             self.date = data.end
-            self.imageID = data.image
+            self.image = data.image
             
             if !name.isEmpty {
                 self.loadRelevantImages(for: name)
@@ -326,10 +329,10 @@ struct AddEventView: View {
             )
         )
         .onReceive(provider.$result) { result in
-            if let first = allImages.first {
-                self.imageID = first
+            if let first = allImages().first {
+                self.image = first
             } else if let first = result?.images.first {
-                self.imageID = BackgroundImage(remoteImage: first)
+                self.image = BackgroundImage(remoteImage: first)
             }
         }
     }
@@ -346,5 +349,11 @@ extension Sequence where Element: Hashable {
     func unique() -> [Element] {
         var seen: Set<Element> = []
         return filter { seen.insert($0).inserted }
+    }
+}
+
+extension RangeReplaceableCollection {
+    mutating func prepend(_ newElement: Element) {
+        insert(newElement, at: startIndex)
     }
 }
