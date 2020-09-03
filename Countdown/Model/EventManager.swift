@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import WidgetKit
 import URLImage
+import Sentry
 
 class EventManager {
     static let shared = EventManager(
@@ -44,6 +45,7 @@ class EventManager {
     }
     
     func addEvent(to context: NSManagedObjectContext, event: Event) {
+        SentrySDK.addBreadcrumb(crumb: .init(level: .debug, category: #function))
         let _ = EventMO(bridged: event, context: context)
         
         self.notificationManager.register(event) { (result) in
@@ -74,6 +76,7 @@ class EventManager {
     }
     
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
+        SentrySDK.addBreadcrumb(crumb: .init(level: .debug, category: #function))
         let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
         
         request.predicate = NSComparisonPredicate(

@@ -9,9 +9,7 @@ import WidgetKit
 import SwiftUI
 import CoreData
 
-struct Provider: TimelineProvider {
-    typealias Intent = WidgetColorSelectionIntent
-    
+struct Provider: TimelineProvider {    
     let context: NSManagedObjectContext?
     
     private func getPinnedEntry() -> SimpleEntry {

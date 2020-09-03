@@ -80,10 +80,12 @@ struct StylizedTextField: View {
 }
 
 struct DateView: View {
+    @State private var show: Bool = false
+
     @Binding var date: Date
     
-    @State private var show: Bool = false
-    
+    let onTimePickerTap: () -> Void
+            
     var formatter: DateFormatter {
         let df = DateFormatter()
         df.dateStyle = .long
@@ -109,7 +111,7 @@ struct DateView: View {
                     
                     withAnimation {
                         self.show.toggle()
-                    }
+                    }                    
                 }
         }
         
@@ -118,11 +120,25 @@ struct DateView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.tertiaryBackground)
                 
-                DatePicker("Select a Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                    .labelsHidden()
-                    .datePickerStyle(GraphicalDatePickerStyle())
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack {
+                        Text("Time")
+                            .bold()
+                            .padding(.leading, 8)
+                        
+                        DatePicker("Select a Time", selection: $date, displayedComponents: [.hourAndMinute])
+                            .labelsHidden()
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                            .onTapGesture(perform: onTimePickerTap)
+                    }
+                    .padding(.top, 2)
+                    .id("picker")
+                    
+                    DatePicker("Select a Date", selection: $date, displayedComponents: [.date])
+                        .labelsHidden()
+                        .datePickerStyle(GraphicalDatePickerStyle())
+                }
             }
-            .height(380)
             .mask(RoundedRectangle(cornerRadius: 10).height(show ? 380 : 0))
         }
     }
@@ -263,48 +279,53 @@ struct AddEventView: View {
             }
             .background(Color.background)
             .padding(.vertical, 20)
-            .padding(.bottom, 10)
+//            .padding(.bottom, 5)
             
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    StylizedTextField(
-                        text: $name,
-                        showEmojiPicker: $showEmojiOverlay,
-                        emoji: $emoji
-                    ) { startedEditing in
-                        if !startedEditing {
+                ScrollViewReader { (proxy: ScrollViewProxy) in
+                    VStack(alignment: .leading) {
+                        StylizedTextField(
+                            text: $name,
+                            showEmojiPicker: $showEmojiOverlay,
+                            emoji: $emoji
+                        ) { startedEditing in
+                            if !startedEditing {
+                                self.loadRelevantImages(for: name)
+                            }
+                        } onCommit: {
                             self.loadRelevantImages(for: name)
+                            UIApplication.shared.endEditing()
                         }
-                    } onCommit: {
-                        self.loadRelevantImages(for: name)
-                        UIApplication.shared.endEditing()
-                    }
+//                        .padding(.top, 5)
                     
-                    Spacer().height(35)
+                        Spacer().height(35)
                     
-                    DateView(date: $date)
-                    
-                    Spacer().height(35)
-                    
-                    ImagePicker(allImages: allImages(), selectedImage: $image)
-                    
-                    Spacer().height(50)
-                    
-                    Button {
-                        guard let image = image else {
-                            return
+                        DateView(date: $date) {
+                            proxy.scrollTo("picker", anchor: .top)
                         }
+                    
+                        Spacer().height(35)
+                    
+                        ImagePicker(allImages: allImages(), selectedImage: $image)
                         
-                        let data = Event(id: UUID(), name: name, end: date, emoji: emoji, image: image)
-                        self.provider.sendDownloadRequest(for: image)
-                        
-                        self.onDismiss(data)
-                    } label: {
-                        Text(props != nil ? "Apply Changes" : "Create Event")
+                        Spacer().height(50)
+                    
+                        Button {
+                            guard let image = image else {
+                                return
+                            }
+                            
+                            let data = Event(id: UUID(), name: name, end: date, emoji: emoji, image: image)
+                            self.provider.sendDownloadRequest(for: image)
+                            
+                            self.onDismiss(data)
+                        } label: {
+                            Text(props != nil ? "Apply Changes" : "Create Event")
+                        }
+                        .buttonStyle(CTAButtonStyle(color: .foreground))
+                        .opacity(isDisabled ? 0.5 : 1.0)
+                        .disabled(isDisabled)
                     }
-                    .buttonStyle(CTAButtonStyle(color: .foreground))
-                    .opacity(isDisabled ? 0.5 : 1.0)
-                    .disabled(isDisabled)
                 }
             }
         }
@@ -325,6 +346,7 @@ struct AddEventView: View {
             EmojiOverlay(
                 isPresented: $showEmojiOverlay,
                 emoji: $emoji,
+                queue: .main,
                 database: EmojiProvider.shared.database
             )
         )

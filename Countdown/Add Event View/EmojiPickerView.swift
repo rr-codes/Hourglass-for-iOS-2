@@ -12,7 +12,7 @@ fileprivate struct EmojiGroupView: View {
         Array(repeating: .init(.fixed(44)), count: rows)
     }
 
-    let group: [Emoji]
+    let group: [String]
     let rows: Int
     
     @Binding var selectedEmoji: String
@@ -20,19 +20,19 @@ fileprivate struct EmojiGroupView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: gridItems, spacing: 16) {
-                ForEach(group) { emoji in
-                    Text(emoji.emoji)
+                ForEach(group, id: \.self) { emoji in
+                    Text(emoji)
                         .font(.system(size: 30))
                         .onTapGesture {
-                            self.selectedEmoji = emoji.emoji
+                            self.selectedEmoji = emoji
                         }
                         .background(
                             Circle()
                                 .fill(Color.blue)
-                                .opacity(self.selectedEmoji == emoji.emoji ? 0.2 : 0)
+                                .opacity(self.selectedEmoji == emoji ? 0.2 : 0)
                                 .scaleEffect(1.3)
                         )
-                        .accessibility(label: Text(emoji.name))
+                        .accessibility(label: Text(emoji))
                 }
             }
             .padding(.horizontal, 20)
@@ -42,11 +42,8 @@ fileprivate struct EmojiGroupView: View {
 
 fileprivate struct EmojiPickerView: View {
     let database: EmojiDatabase
-    
-    @StateObject var searchProvider: SearchProvider<Emoji>
-    
+        
     @State private var selectedCategory: EmojiCategory
-    @State private var isSearching: Bool = false
     @State private var searchQuery: String = ""
     
     @Binding var selectedEmoji: String
@@ -55,35 +52,22 @@ fileprivate struct EmojiPickerView: View {
         self._selectedEmoji = selectedEmoji
         self.database = database
         
-        let candy = SearchProvider(database.flatMap(\.all), limit: 20, keyPath: \.name)
-        self._searchProvider = .init(wrappedValue: candy)
-        
         self._selectedCategory = .init(initialValue: database.first!)
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            SearchBar(text: $searchProvider.searchQuery, isEditing: $isSearching)
-                .padding(.top, 20)
-                .padding(.horizontal, 6)
-            
-            if isSearching {
-                EmojiGroupView(
-                    group: searchProvider.results,
-                    rows: 1,
-                    selectedEmoji: $selectedEmoji
-                )
-            } else if let category = selectedCategory {
+            if let category = selectedCategory {
                 Text(category.name)
                     .font(.caption)
                     .bold()
                     .textCase(.uppercase)
                     .foregroundColor(.init(UIColor.secondaryLabel))
                     .padding(.leading, 20)
-                    .padding(.top, 16)
+                    .padding(.top, 25)
                 
                 EmojiGroupView(
-                    group: category.all,
+                    group: category.elements,
                     rows: 5,
                     selectedEmoji: $selectedEmoji
                 )
@@ -113,6 +97,7 @@ struct EmojiOverlay: View {
     @Binding var isPresented: Bool
     @Binding var emoji: String
     
+    let queue: DispatchQueue
     let database: EmojiDatabase
     
     var body: some View {
@@ -135,6 +120,13 @@ struct EmojiOverlay: View {
                         $emoji,
                         database: database
                     )
+                    .onChange(of: emoji) { _ in
+                        self.queue.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation {
+                                isPresented = false
+                            }
+                        }
+                    }
                     .animation(Animation.spring().speed(2))
                     .transition(.move(edge: .bottom))
                     .padding(.horizontal, 14)
@@ -157,7 +149,12 @@ struct EmojiPickerViewPreviewHelper: View {
                 Toggle("Toggle", isOn: $show).offset(x: 0, y: -100)
             )
             .overlay(
-                EmojiOverlay(isPresented: $show, emoji: $emoji, database: EmojiProvider.shared.database)
+                EmojiOverlay(
+                    isPresented: $show,
+                    emoji: $emoji,
+                    queue: .main,
+                    database: EmojiProvider.shared.database
+                )
             )
     }
 }
@@ -165,6 +162,6 @@ struct EmojiPickerViewPreviewHelper: View {
 struct EmojiPickerView_Previews: PreviewProvider {
     static var previews: some View {
         EmojiPickerViewPreviewHelper()
-            .environmentObject(EmojiProvider.shared)
+            .preferredColorScheme(.dark)
     }
 }

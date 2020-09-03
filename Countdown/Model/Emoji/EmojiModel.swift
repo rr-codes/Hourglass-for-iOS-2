@@ -8,19 +8,12 @@
 import Foundation
 import Combine
 
-struct Emoji: Codable, Identifiable, Hashable {
-    var id: String { emoji }
-    
-    let name: String
-    var emoji: String
-}
-
 struct EmojiCategory: Codable, Identifiable, Hashable {
     var id: String { emoji }
     
-    let name: String
     let emoji: String
-    let all: [Emoji]
+    let name: String
+    let elements: [String]
 }
 
 typealias EmojiDatabase = [EmojiCategory]

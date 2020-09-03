@@ -157,6 +157,10 @@ struct HomeView: View {
             }
             .background(Color.background)
             .padding(.horizontal, 20)
+            .onChange(of: modal) { newValue in
+                if newValue != nil {
+                }
+            }
             .sheet(item: $modal) { modal in
                 switch modal {
                 case .addEvent:
