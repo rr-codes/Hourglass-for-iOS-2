@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-struct Event: Identifiable, Equatable {
-    let id: UUID
+public struct Event: Identifiable, Equatable, Codable {
+    public let id: UUID
     
     let name: String
     let start: Date
@@ -22,8 +22,31 @@ struct Event: Identifiable, Equatable {
         end < Date()
     }
     
-    static func == (lhs: Event, rhs: Event) -> Bool {
+    public static func == (lhs: Event, rhs: Event) -> Bool {
         lhs.id == rhs.id
+    }
+}
+
+extension Optional: RawRepresentable where Wrapped == Event {
+    public var rawValue: String {
+        guard let self = self,
+              let data = try? JSONEncoder().encode(self),
+              let result = String(data: data, encoding: .utf8)
+        else {
+            return ""
+        }
+        
+        return result
+    }
+    
+    public init?(rawValue: String) {
+        guard let data = rawValue.data(using: .utf8),
+              let value = try? JSONDecoder().decode(Event.self, from: data)
+        else {
+            return nil
+        }
+        
+        self = value
     }
 }
 

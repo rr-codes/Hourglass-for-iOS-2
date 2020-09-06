@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 public extension UserDefaults {
     static let appGroup: UserDefaults? = UserDefaults(suiteName: "group.countdown2")
@@ -41,7 +42,14 @@ struct PersistenceController {
             self.container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
         }
         
-        self.container.loadPersistentStores { (store, error) in
+        self.container.viewContext.automaticallyMergesChangesFromParent = true
+        
+        self.container.persistentStoreDescriptions[0].setOption(
+            true as NSNumber,
+            forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey
+        )
+        
+        self.container.loadPersistentStores { (_, error) in
             guard error == nil else {
                 print("error loading store: \(error.debugDescription)")
                 return

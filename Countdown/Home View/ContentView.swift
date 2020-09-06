@@ -90,7 +90,7 @@ struct HomeView: View {
     
     @EnvironmentObject var timer: ObservableTimer
         
-    @AppStorage("pinnedEvent", store: .appGroup) var pinnedEventID: String?
+    @AppStorage("hourglass-pinned", store: .appGroup) var pinnedEvent: Event? = nil
     @AppStorage("gradientIndex", store: .appGroup) var gradientIndex: Int?
     
     let events: [Event]
@@ -102,22 +102,26 @@ struct HomeView: View {
     @State var selectedEvent: Event? = nil
     @State var modal: Modal? = nil
     @State var modifiableEvent: Event? = nil
-        
-    var pinnedEvent: Event? {
-        return events.first { $0.id.uuidString == pinnedEventID }
-            ?? events.first { !$0.isOver }
-            ?? events.first
+    
+    func getPreferredEvent() -> Event? {
+        events.first { !$0.isOver } ?? events.first
     }
     
     func eventMenuItems(_ event: Event) -> EventMenuItems {
-        let id = event.id.uuidString
-        
-        return EventMenuItems(isPinned: id == pinnedEventID) {
+        EventMenuItems(isPinned: event == pinnedEvent) {
             self.modifiableEvent = event
         } onPin: { isPinned in
-            UserDefaults.appGroup!.set(isPinned ? "" : id, forKey: "pinnedEvent")
+            if isPinned {
+                self.pinnedEvent = getPreferredEvent()
+            } else {
+                self.pinnedEvent = event
+            }
             widgetCenter.reloadAllTimelines()
         } onDelete: {
+            if self.pinnedEvent == event {
+                self.pinnedEvent = getPreferredEvent()
+            }
+            
             self.eventManager.removeEvent(from: context, event: event)
         }
     }
@@ -147,6 +151,12 @@ struct HomeView: View {
         }
     }
     
+    func onSheetDismiss() {
+        if modal == nil {
+            self.modifiableEvent = nil
+        }
+    }
+    
     var body: some View {
         VStack {
             Header("My Events") {
@@ -162,20 +172,19 @@ struct HomeView: View {
             }
             .background(Color.background)
             .padding(.horizontal, 20)
-            .onChange(of: modal) { newValue in
-                if newValue != nil {
-                }
-            }
-            .sheet(item: $modal) { modal in
-                switch modal {
+            .sheet(item: $modal, onDismiss: onSheetDismiss) {
+                switch $0 {
                 case .addEvent:
                     AddEventView(modifying: modifiableEvent) { (data) in
                         if let data = data {
+                            // if we added or edited an event
                             if let modified = modifiableEvent {
-                                self.eventManager.removeEvent(from: context, event: modified)
+                                // if we edited an event
+                                self.eventManager.modifyEvent(id: modified.id, in: context, changeTo: data)
+                            } else {
+                                // if we added an event
+                                self.eventManager.addEvent(to: context, event: data)
                             }
-                            
-                            self.eventManager.addEvent(to: context, event: data)
                         }
                         
                         self.modifiableEvent = nil
@@ -242,6 +251,11 @@ struct HomeView: View {
                     .onChange(of: modifiableEvent) { (event) in
                         if event != nil {
                             self.modal = .addEvent
+                        }
+                    }
+                    .onAppear {
+                        if pinnedEvent == nil {
+                            pinnedEvent = getPreferredEvent()
                         }
                     }
                     .fullScreenCover(item: $selectedEvent) { event in

@@ -13,15 +13,9 @@ struct Provider: TimelineProvider {
     let context: NSManagedObjectContext?
     
     private func getPinnedEntry() -> SimpleEntry {
-        let fetchRequest = PersistenceController.allEventsFetchRequest()
-        let events = try? context?.fetch(fetchRequest).compactMap(Event.init)
+        let pinned = UserDefaults.appGroup?.string(forKey: "hourglass-pinned").flatMap { Optional<Event>(rawValue: $0) }?.map { $0 }
         
-        let pinnedEventID = UserDefaults.appGroup?.string(forKey: "pinnedEvent")
         let index = UserDefaults.appGroup?.integer(forKey: "gradientIndex") ?? 0
-
-        let pinned = events?.first { $0.id.uuidString == pinnedEventID }
-            ?? events?.first { !$0.isOver }
-            ?? events?.first
         
         guard let event = pinned else {
             return .init(date: Date(), props: nil, gradientIndex: index)
@@ -57,6 +51,8 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct EmptyWidgetView: View {
+    let emojiString = ["🥳", "🍭", "🎉"].joined(separator: "  ")
+
     let addEventURL: URL? = {
         var components = URLComponents()
         components.scheme = URL.appScheme
@@ -65,11 +61,17 @@ struct EmptyWidgetView: View {
     }()
     
     var body: some View {
-        Text("No Events")
-            .font(.footnote)
-            .bold()
-            .foregroundColor(.secondary)
-            .widgetURL(addEventURL)
+        VStack {
+            Text(emojiString).font(.title2)
+            
+            Spacer().height(16)
+            
+            Text("No Events")
+                .font(.footnote)
+                .bold()
+                .foregroundColor(.secondary)
+                .widgetURL(addEventURL)
+        }
     }
 }
 
@@ -184,6 +186,13 @@ struct AppWidget_Previews: PreviewProvider {
             AppWidgetEntryView(
                 date: Date(timeIntervalSinceNow: 1500),
                 props: props2,
+                gradientIndex: Int.random(in: 0...10)
+            )
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+            
+            WidgetView(
+                date: Date(timeIntervalSinceNow: 1500),
+                props: nil,
                 gradientIndex: Int.random(in: 0...10)
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))

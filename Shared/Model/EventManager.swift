@@ -75,6 +75,32 @@ class EventManager {
         urlImageService.removeCachedImage(with: url)
     }
     
+    func modifyEvent(id: UUID, in context: NSManagedObjectContext, changeTo event: Event) {
+        let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
+        
+        request.predicate = NSComparisonPredicate(
+            leftExpression: .init(forKeyPath: \EventMO.id),
+            rightExpression: .init(forConstantValue: id),
+            modifier: .direct,
+            type: .equalTo
+        )
+        
+        request.fetchLimit = 1
+        
+        guard let result = try? context.fetch(request).first else {
+            return
+        }
+        
+        result.name = event.name
+        result.emoji = event.emoji
+        result.end = event.end
+        result.image = try? JSONEncoder().encode(event.image)
+        
+        try? context.save()
+        
+        self.widgetCenter.reloadAllTimelines()
+    }
+    
     func removeEvent(from context: NSManagedObjectContext, event: Event) {
         SentrySDK.addBreadcrumb(crumb: .init(level: .debug, category: #function))
         let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
@@ -96,11 +122,11 @@ class EventManager {
         self.spotlightManager.deindex(id: event.id)
         
         try? context.save()
-        
-        self.widgetCenter.reloadAllTimelines()
-        
+                
         let img = event.image
         let urls = [img.url(for: .small), img.url(for: .regular), img.url(for: .full)]
         urls.forEach(removeFromCache)
+        
+        self.widgetCenter.reloadAllTimelines()
     }
 }
