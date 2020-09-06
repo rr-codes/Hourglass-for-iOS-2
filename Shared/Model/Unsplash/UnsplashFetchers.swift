@@ -19,15 +19,18 @@ public class UnsplashResultProvider: ObservableObject {
     private let clientID: String
     private let urlSession: URLSession
     private let runLoop: RunLoop
+    private let locale: Locale
     
     init(
         using session: URLSession = .shared,
         authToken clientID: String = Bundle.main.apiKey(named: "Unsplash-API-Key"),
-        on runLoop: RunLoop = .main
+        on runLoop: RunLoop = .main,
+        in locale: Locale = .current
     ) {
-        self.urlSession = session
         self.clientID = clientID
+        self.urlSession = session
         self.runLoop = runLoop
+        self.locale = locale
     }
     
     private func configureRequest(_ request: inout URLRequest) {
@@ -52,8 +55,13 @@ public class UnsplashResultProvider: ObservableObject {
         urlComponents.host = "api.unsplash.com"
         urlComponents.path = "/search/photos"
         urlComponents.queryItems = [
-            URLQueryItem(name: "query", value: query)
+            URLQueryItem(name: "query", value: query),
         ]
+        
+        if let languageCode = locale.languageCode {
+            let query = URLQueryItem(name: "lang", value: languageCode)
+            urlComponents.queryItems?.append(query)
+        }
         
         guard let url = urlComponents.url else {
             throw FetchError.invalidURL(urlComponents.description)

@@ -315,7 +315,7 @@ struct AddEventView: View {
                                 return
                             }
                             
-                            let data = Event(id: UUID(), name: name, end: date, emoji: emoji, image: image)
+                            let data = Event(id: UUID(), name: name, start: Date(), end: date, emoji: emoji, image: image)
                             self.provider.sendDownloadRequest(for: image)
                             
                             self.onDismiss(data)

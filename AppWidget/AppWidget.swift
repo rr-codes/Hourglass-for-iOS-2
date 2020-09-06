@@ -13,7 +13,7 @@ struct Provider: TimelineProvider {
     let context: NSManagedObjectContext?
     
     private func getPinnedEntry() -> SimpleEntry {
-        let fetchRequest = CoreDataStore.allEventsFetchRequest()
+        let fetchRequest = PersistenceController.allEventsFetchRequest()
         let events = try? context?.fetch(fetchRequest).compactMap(Event.init)
         
         let pinnedEventID = UserDefaults.appGroup?.string(forKey: "pinnedEvent")
@@ -152,12 +152,12 @@ struct WidgetView: View {
 
 @main
 struct AppWidget: Widget {
-    @StateObject private var store = CoreDataStore.shared
+    private let store = PersistenceController.shared
     
     private let kind: String = "AppWidget"
     
     public var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider(context: store.context)) { entry in
+        StaticConfiguration(kind: kind, provider: Provider(context: store.container.viewContext)) { entry in
             WidgetView(date: entry.date, props: entry.props, gradientIndex: entry.gradientIndex)
         }
         .configurationDisplayName("Pinned Event")

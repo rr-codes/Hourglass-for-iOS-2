@@ -66,7 +66,7 @@ struct ListCellView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             ListCellView(
-                imageURL: MockImages.birthday.url(for: .regular),
+                imageURL: birthdayImage.url(for: .regular),
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",
@@ -75,7 +75,7 @@ struct ListCellView_Previews: PreviewProvider {
             
             
             ListCellView(
-                imageURL: MockImages.birthday.url(for: .regular),
+                imageURL: birthdayImage.url(for: .regular),
                 imageColor: .orange,
                 date: .init(timeIntervalSinceNow: 86400 - 60),
                 emoji: "🎉",

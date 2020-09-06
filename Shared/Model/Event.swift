@@ -12,6 +12,7 @@ struct Event: Identifiable, Equatable {
     let id: UUID
     
     let name: String
+    let start: Date
     let end: Date
     let emoji: String
     
@@ -30,6 +31,7 @@ extension Event {
     init?(bridged: EventMO) {
         guard let id = bridged.id,
            let name = bridged.name,
+           let start = bridged.start,
            let end = bridged.end,
            let emoji = bridged.emoji,
            let image = bridged.image
@@ -43,6 +45,7 @@ extension Event {
         
         self.id = id
         self.name = name
+        self.start = start
         self.end = end
         self.emoji = emoji
         self.image = decodedImage
@@ -55,6 +58,7 @@ extension EventMO {
         
         self.id = bridged.id
         self.name = bridged.name
+        self.start = bridged.start
         self.end = bridged.end
         self.emoji = bridged.emoji
         self.image = try! JSONEncoder().encode(bridged.image)

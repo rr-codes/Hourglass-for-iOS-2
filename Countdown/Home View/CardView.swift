@@ -54,9 +54,10 @@ struct CardView_Previews: PreviewProvider {
     static let props = Event(
         id: UUID(),
         name: "My Birthday",
+        start: Date(),
         end: Date().addingTimeInterval(86400),
         emoji: "🎉",
-        image: MockImages.birthday
+        image: birthdayImage
     )
     
     static var previews: some View {

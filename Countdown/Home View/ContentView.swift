@@ -10,6 +10,7 @@ import CoreData
 import URLImage
 import CoreSpotlight
 import WidgetKit
+import WatchConnectivity
 
 struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Event {
     let name: String
@@ -89,10 +90,14 @@ struct HomeView: View {
     
     @EnvironmentObject var timer: ObservableTimer
         
-    @AppStorage("pinnedEvent", store: UserDefaults.appGroup) var pinnedEventID: String?
+    @AppStorage("pinnedEvent", store: .appGroup) var pinnedEventID: String?
+    @AppStorage("gradientIndex", store: .appGroup) var gradientIndex: Int?
     
     let events: [Event]
     let eventManager: EventManager
+    
+    let session: WCSession
+    let widgetCenter: WidgetCenter
     
     @State var selectedEvent: Event? = nil
     @State var modal: Modal? = nil
@@ -111,7 +116,7 @@ struct HomeView: View {
             self.modifiableEvent = event
         } onPin: { isPinned in
             UserDefaults.appGroup!.set(isPinned ? "" : id, forKey: "pinnedEvent")
-            WidgetCenter.shared.reloadAllTimelines()
+            widgetCenter.reloadAllTimelines()
         } onDelete: {
             self.eventManager.removeEvent(from: context, event: event)
         }
@@ -180,7 +185,12 @@ struct HomeView: View {
                 case .settings:
                     SettingsView {
                         self.modal = nil
-                        WidgetCenter.shared.reloadAllTimelines()
+                        widgetCenter.reloadAllTimelines()
+                        
+                        if session.isReachable && session.activationState == .activated {
+                            let message = ["gradientIndex" : gradientIndex ?? 0]
+                            self.session.transferCurrentComplicationUserInfo(message)
+                        }
                     }
                 }
             }
@@ -255,7 +265,7 @@ struct HomeView: View {
 
 struct ContentView: View {
     @FetchRequest(
-        fetchRequest: CoreDataStore.allEventsFetchRequest()
+        fetchRequest: PersistenceController.allEventsFetchRequest()
     ) var fetchedEvents: FetchedResults<EventMO>
     
     var events: [Event] {
@@ -297,7 +307,12 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            HomeView(events: events, eventManager: eventManager)
+            HomeView(
+                events: events,
+                eventManager: eventManager,
+                session: .default,
+                widgetCenter: .shared
+            )
                 .environmentObject(timer)
                 .overlay(overlay)
                 .confettiOverlay(confettiEmoji, emitWhen: $shouldEmitConfetti)
@@ -308,13 +323,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let store = CoreDataStore(.inMemory)
-        let manager = EventManager.shared
-        
-        MockData.all.forEach { manager.addEvent(to: store.context, event: $0) }
-        
+        let store = PersistenceController.preview
+                
         return ContentView(eventManager: .shared)
-            .environment(\.managedObjectContext, store.context)
-            .previewDevice("iPhone 11 Pro")
+            .environment(\.managedObjectContext, store.container.viewContext)
     }
 }

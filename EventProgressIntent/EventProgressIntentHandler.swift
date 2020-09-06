@@ -34,14 +34,14 @@ class EventProgressIntentHandler: NSObject, EventProgressIntentHandling {
             options: [.caseInsensitive, .diacriticInsensitive]
         )
         
-        let store = CoreDataStore.shared
+        let store = PersistenceController.shared
         
         let request: NSFetchRequest<EventMO> = EventMO.fetchRequest()
         request.predicate = predicate
         request.fetchLimit = 1
         
         do {
-            let event = try store.context.fetch(request).first
+            let event = try store.container.viewContext.fetch(request).first
             let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: Date(), to: event?.end ?? Date())
             completion(.success(date: components, name: name))
         } catch {
