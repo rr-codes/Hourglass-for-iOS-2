@@ -11,25 +11,21 @@ import SwiftUI
 
 public enum FetchError: Error {
     case invalidURL(String)
+    case dataTaskFailure
 }
 
-public class UnsplashResultProvider: ObservableObject {
-    @Published public var result: UnsplashResult? = nil
-    
+public class UnsplashResultProvider {
     private let clientID: String
     private let urlSession: URLSession
-    private let runLoop: RunLoop
     private let locale: Locale
     
     init(
         using session: URLSession = .shared,
         authToken clientID: String = Bundle.main.apiKey(named: "Unsplash-API-Key"),
-        on runLoop: RunLoop = .main,
         in locale: Locale = .current
     ) {
         self.clientID = clientID
         self.urlSession = session
-        self.runLoop = runLoop
         self.locale = locale
     }
     
@@ -48,14 +44,14 @@ public class UnsplashResultProvider: ObservableObject {
         self.urlSession.dataTask(with: request).resume()
     }
     
-    /// Fetches images from Unsplash using the specified `query` into an `UnsplashResult` and publishes the result to the `result` field
-    public func fetch(query: String) throws {
+    private func createURLComponents(query: String, numberOfResults: Int) -> URLComponents {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.unsplash.com"
         urlComponents.path = "/search/photos"
         urlComponents.queryItems = [
             URLQueryItem(name: "query", value: query),
+            URLQueryItem(name: "per_page", value: "\(numberOfResults)")
         ]
         
         if let languageCode = locale.languageCode {
@@ -63,18 +59,32 @@ public class UnsplashResultProvider: ObservableObject {
             urlComponents.queryItems?.append(query)
         }
         
+        return urlComponents
+    }
+    
+    /// Fetches images from Unsplash using the specified `query` into an `UnsplashResult` and publishes the result to the `result` field
+    public func fetch(query: String, numberOfResults: Int, _ completion: @escaping (Result<UnsplashResult, Error>) -> Void) {
+        let urlComponents = createURLComponents(query: query, numberOfResults: numberOfResults)
+        
         guard let url = urlComponents.url else {
-            throw FetchError.invalidURL(urlComponents.description)
+            completion(.failure(FetchError.invalidURL(urlComponents.description)))
+            return
         }
         
         var request = URLRequest(url: url)
         self.configureRequest(&request)
         
-        self.urlSession.dataTaskPublisher(for: request)
-            .map(\.data)
-            .decode(type: UnsplashResult?.self, decoder: JSONDecoder())
-            .replaceError(with: nil)
-            .receive(on: runLoop)
-            .assign(to: &$result)
+        self.urlSession.dataTask(with: request) { (data, _, error) in
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? FetchError.dataTaskFailure))
+                return
+            }
+            
+            let result = Result {
+                try JSONDecoder().decode(UnsplashResult.self, from: data)
+            }
+            
+            completion(result)
+        }.resume()
     }
 }

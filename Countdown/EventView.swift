@@ -7,32 +7,6 @@
 
 import SwiftUI
 
-struct MyToggleStyle: ToggleStyle {
-    let width: CGFloat = 50
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
-            configuration.label
-
-            ZStack(alignment: configuration.isOn ? .trailing : .leading) {
-                RoundedRectangle(cornerRadius: 4)
-                    .frame(width: width, height: width / 2)
-                    .foregroundColor(configuration.isOn ? .green : .red)
-                
-                RoundedRectangle(cornerRadius: 4)
-                    .frame(width: (width / 2) - 4, height: width / 2 - 6)
-                    .padding(4)
-                    .foregroundColor(.white)
-                    .onTapGesture {
-                        withAnimation {
-                            configuration.$isOn.wrappedValue.toggle()
-                        }
-                }
-            }
-        }
-    }
-}
-
 struct EventView: View {
     @EnvironmentObject var timer: ObservableTimer
 
@@ -82,7 +56,7 @@ struct EventView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                AsyncImageView(url: event.image.url(for: .regular), color: Color(code: event.image.color))
+                AsyncImageView(url: event.image.url(for: .full), color: Color(code: event.image.color))
                     .width(geometry.size.width)
                     .overlay(gradientOverlay)
                     .edgesIgnoringSafeArea(.all)

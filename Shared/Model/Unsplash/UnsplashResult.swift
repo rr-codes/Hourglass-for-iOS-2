@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: Model
 
-public struct UnsplashResult: Decodable {
+public struct UnsplashResult: Decodable, Equatable {
     let images: [UnsplashImage]
     
     enum CodingKeys: String, CodingKey {

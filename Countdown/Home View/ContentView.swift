@@ -7,10 +7,10 @@
 
 import SwiftUI
 import CoreData
-import URLImage
 import CoreSpotlight
 import WidgetKit
 import WatchConnectivity
+import OSLog
 
 struct EventSection<Data: RandomAccessCollection>: View where Data.Element == Event {
     let name: String
@@ -90,7 +90,7 @@ struct HomeView: View {
     
     @EnvironmentObject var timer: ObservableTimer
         
-    @AppStorage("hourglass-pinned", store: .appGroup) var pinnedEvent: Event? = nil
+    @AppStorage("hourglass-pinnedID", store: .appGroup) var pinnedEventID: Event.ID? = nil
     @AppStorage("gradientIndex", store: .appGroup) var gradientIndex: Int?
     
     let events: [Event]
@@ -104,34 +104,30 @@ struct HomeView: View {
     @State var modifiableEvent: Event? = nil
     
     func getPreferredEvent() -> Event? {
-        events.first { !$0.isOver } ?? events.first
+        return events.first { $0.id == pinnedEventID }
+            ?? events.first { !$0.isOver }
+            ?? events.first
     }
     
     func eventMenuItems(_ event: Event) -> EventMenuItems {
-        EventMenuItems(isPinned: event == pinnedEvent) {
+        EventMenuItems(isPinned: event.id == pinnedEventID) {
             self.modifiableEvent = event
         } onPin: { isPinned in
-            if isPinned {
-                self.pinnedEvent = getPreferredEvent()
-            } else {
-                self.pinnedEvent = event
-            }
+            self.pinnedEventID = isPinned ? nil : event.id
             widgetCenter.reloadAllTimelines()
         } onDelete: {
-            if self.pinnedEvent == event {
-                self.pinnedEvent = getPreferredEvent()
-            }
-            
             self.eventManager.removeEvent(from: context, event: event)
+            
+            self.widgetCenter.reloadAllTimelines()
         }
     }
     
     func shouldShowUpcomingEvents() -> Bool {
-        events ~= { !$0.isOver && $0 != pinnedEvent }
+        events ~= { !$0.isOver && $0 != getPreferredEvent() }
     }
     
     func shouldShowPastEvents() -> Bool {
-        events ~= { $0.isOver && $0 != pinnedEvent }
+        events ~= { $0.isOver && $0 != getPreferredEvent() }
     }
     
     func onOpenURL(_ url: URL) {
@@ -144,7 +140,7 @@ struct HomeView: View {
             self.modal = .addEvent
             
         case URL.Hosts.viewPinned:
-            self.selectedEvent = pinnedEvent
+            self.selectedEvent = getPreferredEvent()
             
         default:
             return
@@ -185,6 +181,8 @@ struct HomeView: View {
                                 // if we added an event
                                 self.eventManager.addEvent(to: context, event: data)
                             }
+                            
+                            self.widgetCenter.reloadAllTimelines()
                         }
                         
                         self.modifiableEvent = nil
@@ -209,7 +207,7 @@ struct HomeView: View {
             } else {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        if let first = pinnedEvent {
+                        if let first = getPreferredEvent() {
                             CardView(data: first)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 10)
@@ -226,7 +224,7 @@ struct HomeView: View {
                         if shouldShowUpcomingEvents() {
                             EventSection(
                                 name: "Upcoming",
-                                data: events.filter { !$0.isOver && $0 != pinnedEvent },
+                                data: events.filter { !$0.isOver && $0 != getPreferredEvent() },
                                 menuItems: eventMenuItems
                             ) { event in
                                 selectedEvent = event
@@ -236,7 +234,7 @@ struct HomeView: View {
                         if shouldShowPastEvents() {
                             EventSection(
                                 name: "Past",
-                                data: events.filter { $0.isOver && $0 != pinnedEvent },
+                                data: events.filter { $0.isOver && $0 != getPreferredEvent() },
                                 menuItems: eventMenuItems
                             ) { event in
                                 selectedEvent = event
@@ -251,11 +249,6 @@ struct HomeView: View {
                     .onChange(of: modifiableEvent) { (event) in
                         if event != nil {
                             self.modal = .addEvent
-                        }
-                    }
-                    .onAppear {
-                        if pinnedEvent == nil {
-                            pinnedEvent = getPreferredEvent()
                         }
                     }
                     .fullScreenCover(item: $selectedEvent) { event in
@@ -294,6 +287,8 @@ struct ContentView: View {
     
     @Environment(\.managedObjectContext) var context: NSManagedObjectContext
     
+    @Environment(\.imageCache) var imageCache: ImageCache
+    
     @State var shouldEmitConfetti: Bool = false
     @State var confettiEmoji: String = "🎉"
     
@@ -331,6 +326,11 @@ struct ContentView: View {
                 .overlay(overlay)
                 .confettiOverlay(confettiEmoji, emitWhen: $shouldEmitConfetti)
                 .onReceive(timer.$output, perform: update)
+        }
+        .onAppear {
+            self.events
+                .map { $0.image.url(for: .full) }
+                .forEach { imageCache.preload(imageURL: $0, using: .shared) }
         }
     }
 }

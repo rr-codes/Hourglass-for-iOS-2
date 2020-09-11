@@ -9,44 +9,64 @@ import WidgetKit
 import SwiftUI
 import CoreData
 
-struct Provider: TimelineProvider {    
+struct Provider: TimelineProvider {
     let context: NSManagedObjectContext?
     
-    private func getPinnedEntry() -> SimpleEntry {
-        let pinned = UserDefaults.appGroup?.string(forKey: "hourglass-pinned").flatMap { Optional<Event>(rawValue: $0) }?.map { $0 }
-        
-        let index = UserDefaults.appGroup?.integer(forKey: "gradientIndex") ?? 0
+    @AppStorage("hourglass-pinnedID", store: .appGroup) var id: UUID? = nil
+    @AppStorage("gradientIndex", store: .appGroup) var index: Int?
+    
+    private func getPinnedEntry(for date: Date) -> SimpleEntry {
+        let fetchRequest = PersistenceController.allEventsFetchRequest()
+        let events = try! context?.fetch(fetchRequest).compactMap(Event.init)
+
+        let pinned = events?.first { $0.id == id }
+            ?? events?.first { !$0.isOver }
+            ?? events?.first
         
         guard let event = pinned else {
-            return .init(date: Date(), props: nil, gradientIndex: index)
+            return .init(date: date, props: nil, gradientIndex: index ?? 0)
         }
         
-        let tuple = (event.id, event.name, event.emoji)
-        return .init(date: event.end, props: tuple, gradientIndex: index)
+        let tuple = (event.id, event.name, event.emoji, event.end)
+        return .init(date: date, props: tuple, gradientIndex: index ?? 0)
     }
     
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
             date: Date(),
-            props: (id: UUID(), name: "---------", emoji: "-"),
+            props: (id: UUID(), name: "---------", emoji: "-", endDate: Date()),
             gradientIndex: 0
         )
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        completion(getPinnedEntry())
+        completion(getPinnedEntry(for: Date()))
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let entry = getPinnedEntry()
-        let timeline = Timeline(entries: [entry], policy: .after(entry.date))
+        let now = Date()
+        let currentEntry = getPinnedEntry(for: now)
+        let endDate = currentEntry.props?.endDate ?? Date()
+        
+        if endDate < now.addingTimeInterval(60 * 60 * 24 * 7) {
+            let timeline = Timeline(entries: [currentEntry], policy: .after(endDate))
+            completion(timeline)
+            return
+        }
+        
+        let entries = (0..<24).map { (i) -> SimpleEntry in
+            let date = Calendar.current.date(byAdding: .hour, value: i, to: Date())!
+            return getPinnedEntry(for: date)
+        }
+        
+        let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let props: (id: UUID, name: String, emoji: String)?
+    let props: (id: UUID, name: String, emoji: String, endDate: Date)?
     let gradientIndex: Int
 }
 
@@ -77,8 +97,16 @@ struct EmptyWidgetView: View {
 
 struct AppWidgetEntryView : View {
     let date: Date
-    let props: (id: UUID, name: String, emoji: String)
+    let props: (id: UUID, name: String, emoji: String, endDate: Date)
     let gradientIndex: Int
+    
+    let formatter: DateComponentsFormatter = {
+        let dcf = DateComponentsFormatter()
+        dcf.maximumUnitCount = 2
+        dcf.allowedUnits = [.day, .hour]
+        dcf.unitsStyle = .short
+        return dcf
+    }()
     
     let viewEventURL: URL? = {
         var components = URLComponents()
@@ -88,9 +116,16 @@ struct AppWidgetEntryView : View {
     }()
     
     var text: Text {
-        date < Date()
-            ? Text("Complete!")
-            : Text(date, style: .relative)
+        switch props.endDate {
+        case ...date:
+            return Text("Complete!")
+            
+        case ...date.addingTimeInterval(60 * 60 * 24 * 7):
+            return Text(props.endDate, style: .relative)
+            
+        default:
+            return Text(formatter.string(from: date, to: props.endDate)!)
+        }
     }
 
     var body: some View {
@@ -140,7 +175,7 @@ struct AppWidgetEntryView : View {
 
 struct WidgetView: View {
     let date: Date
-    let props: (id: UUID, name: String, emoji: String)?
+    let props: (id: UUID, name: String, emoji: String, endDate: Date)?
     let gradientIndex: Int
 
     var body: some View {
@@ -169,29 +204,29 @@ struct AppWidget: Widget {
 }
 
 struct AppWidget_Previews: PreviewProvider {
-    static let props = (id: UUID(), name: "My Birthday", emoji: "🇬🇷")
-    static let props2 = (id: UUID(), name: "My Birthday", emoji: "😍")
+    static let props = (id: UUID(), name: "My Birthday", emoji: "🇬🇷", endDate: Date(timeIntervalSinceNow: 86400*14+10000))
+    static let props2 = (id: UUID(), name: "My Birthday", emoji: "😍", endDate: Date(timeIntervalSinceNow: 1500))
     
     @State static var image: Image? = nil
     
     static var previews: some View {
         Group {
             AppWidgetEntryView(
-                date: Date(timeIntervalSinceNow: 1500),
+                date: Date(),
                 props: props,
                 gradientIndex: Int.random(in: 0...10)
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             
             AppWidgetEntryView(
-                date: Date(timeIntervalSinceNow: 1500),
+                date: Date(),
                 props: props2,
                 gradientIndex: Int.random(in: 0...10)
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             
             WidgetView(
-                date: Date(timeIntervalSinceNow: 1500),
+                date: Date(),
                 props: nil,
                 gradientIndex: Int.random(in: 0...10)
             )

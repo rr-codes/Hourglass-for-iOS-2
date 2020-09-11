@@ -27,26 +27,13 @@ public struct Event: Identifiable, Equatable, Codable {
     }
 }
 
-extension Optional: RawRepresentable where Wrapped == Event {
+extension Optional: RawRepresentable where Wrapped == UUID {
     public var rawValue: String {
-        guard let self = self,
-              let data = try? JSONEncoder().encode(self),
-              let result = String(data: data, encoding: .utf8)
-        else {
-            return ""
-        }
-        
-        return result
+        self?.uuidString ?? ""
     }
     
     public init?(rawValue: String) {
-        guard let data = rawValue.data(using: .utf8),
-              let value = try? JSONDecoder().decode(Event.self, from: data)
-        else {
-            return nil
-        }
-        
-        self = value
+        self = UUID(uuidString: rawValue)
     }
 }
 

@@ -40,13 +40,19 @@ struct PersistenceController {
         
         if inMemory {
             self.container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
+        } else if let storeURL = URL.storeURL(for: "group.countdown2", databaseName: "Model") {
+            let storeDescription = NSPersistentStoreDescription(url: storeURL)
+            self.container.persistentStoreDescriptions = [storeDescription]
         }
-        
-        self.container.viewContext.automaticallyMergesChangesFromParent = true
         
         self.container.persistentStoreDescriptions[0].setOption(
             true as NSNumber,
             forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey
+        )
+        
+        self.container.persistentStoreDescriptions[0].setOption(
+            true as NSNumber,
+            forKey: NSPersistentHistoryTrackingKey
         )
         
         self.container.loadPersistentStores { (_, error) in
@@ -55,6 +61,8 @@ struct PersistenceController {
                 return
             }
         }
+        
+        self.container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     func save() {

@@ -6,18 +6,18 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct AsyncImageView: View {
+    @Environment(\.imageCache) var imageCache
+    
     let url: URL
     var color: Color = .white
     
     var body: some View {
-        URLImage(url, incremental: true, placeholder: { _ in Rectangle().fill(color) }) { (proxy) in
-            proxy.image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+        RemoteImage(url, cache: imageCache, placeholder: { color }) {
+            $0.resizable()
         }
+        .aspectRatio(contentMode: .fill)
     }
 }
 

@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct UnsplashImage: Identifiable, Codable {
+struct UnsplashImage: Identifiable, Codable, Equatable {
+    static func == (lhs: UnsplashImage, rhs: UnsplashImage) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     struct User: Codable {
         let name: String
         let links: [String : URL]
@@ -28,9 +32,7 @@ extension BackgroundImage {
         self.user = nil
         
         let url = try! FileManager.default.saveImage(at: id, with: data)
-        
-        print(url.absoluteString)
-        
+                
         self.urls = Dictionary(uniqueKeysWithValues: Size.allCases.map { ($0.rawValue, url) })
     }
     

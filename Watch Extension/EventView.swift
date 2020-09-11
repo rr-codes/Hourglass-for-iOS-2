@@ -6,20 +6,6 @@
 //
 
 import SwiftUI
-import URLImage
-
-struct AsyncImageView: View {
-    let url: URL
-    var color: Color = .white
-    
-    var body: some View {
-        URLImage(url, incremental: true, placeholder: { _ in Rectangle().fill(color) }) { (proxy) in
-            proxy.image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        }
-    }
-}
 
 struct EventView: View {
     @EnvironmentObject var timer: ObservableTimer

@@ -225,14 +225,15 @@ struct AddEventView: View {
     @State private var image: BackgroundImage?
     
     @State private var showEmojiOverlay: Bool = false
+    @State private var unsplashResult = UnsplashResult(images: [])
     
-    @StateObject var provider = UnsplashResultProvider()
+    let provider = UnsplashResultProvider()
     
     let onDismiss: (Event?) -> Void
     let props: Event?
     
     func allImages() -> [BackgroundImage] {
-        let relatedImages = self.provider.result?.images.map(BackgroundImage.init) ?? []
+        let relatedImages = unsplashResult.images.map(BackgroundImage.init)
         
         var images = relatedImages
         
@@ -268,7 +269,15 @@ struct AddEventView: View {
             processed = query
         }
                 
-        try? self.provider.fetch(query: processed)
+        self.provider.fetch(query: processed, numberOfResults: 20) { (result) in
+            switch result {
+            case .success(let unsplashResult):
+                self.unsplashResult = unsplashResult
+                
+            case .failure(let error):
+                print("\(error)")
+            }
+        }
     }
     
     var body: some View {
@@ -350,10 +359,10 @@ struct AddEventView: View {
                 database: EmojiProvider.shared.database
             )
         )
-        .onReceive(provider.$result) { result in
+        .onChange(of: unsplashResult) { result in
             if let first = allImages().first {
                 self.image = first
-            } else if let first = result?.images.first {
+            } else if let first = result.images.first {
                 self.image = BackgroundImage(remoteImage: first)
             }
         }
